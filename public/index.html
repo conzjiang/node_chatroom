@@ -2,8 +2,30 @@
 <html>
   <head>
     <script src="../javascripts/jquery.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+    <script src="../javascripts/chat.js"></script>
+    <script src="../javascripts/chat_ui.js"></script>
+    <style>
+    .chat-box {
+      width: 400px;
+      height: 400px;
+      border: 1px solid #000;
+    }
+    </style>
   </head>
   <body>
-    <h1>hi</h1>
+    <h1>chatroom</h1>
+
+    <section class="chat-box"></section>
+    <form id="chat-form">
+      <textarea name="message"></textarea>
+      <button>Send message</button>
+    </form>
+
+    <script>
+    $(document).ready(function () {
+      new NodeFun.ChatUI();
+    });
+    </script>
   </body>
 </html>
