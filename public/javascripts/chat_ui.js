@@ -37,9 +37,15 @@
     this.socket.on("nicknameAdded", function (data) {
       $("p#nickname").html("logged in as " + data.nickname);
     });
+
+    this.socket.on("errorMessage", function (data) {
+      $("p#error").html(data.message);
+    });
   };
 
   ChatUI.prototype._handleMessage = function () {
+    $("p#error").empty();
+
     var message = $(event.currentTarget).find("textarea").val();
     var messageText = this._escape(message);
 
