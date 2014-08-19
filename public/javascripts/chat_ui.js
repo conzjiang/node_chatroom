@@ -13,6 +13,13 @@
 
     var ui = this;
 
+    $("#chat-form").on("keydown", function (event) {
+      if (event.which === 13) {
+        event.preventDefault();
+        ui._handleMessage();
+      }
+    });
+
     $("#chat-form").on("submit", function () {
       event.preventDefault();
       ui._handleMessage();
