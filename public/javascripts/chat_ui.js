@@ -15,13 +15,21 @@
       $(".chat-box").append("<p>" + data.text + "</p>");
     });
 
+    this.socket.on("newGuest", function (data) {
+      $(".chat-box").append("<p><em>" + data.nickname + " has joined the room</em></p>");
+    });
+
     $("#chat-form").on("submit", function () {
       event.preventDefault();
       ui._handleMessage();
     });
 
     this.socket.on("sendMessage", function (data) {
-      $(".chat-box").append("<p>" + data.text + "</p>");
+      $(".chat-box").append("<p><strong>" + data.nickname + ":</strong> " + data.text + "</p>");
+    });
+
+    this.socket.on("nicknameAdded", function (data) {
+      $("p#nickname").html("logged in as " + data.nickname);
     });
   };
 
