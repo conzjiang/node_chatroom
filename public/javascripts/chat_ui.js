@@ -62,11 +62,11 @@
     var message = $(event.currentTarget).find("textarea").val();
     var messageText = this._escape(message);
 
-    if (messageText.indexOf("/nick") === -1) {
-      this.chat.sendMessage(messageText);
+    if (messageText.indexOf("/nick") === 0) {
+      this.socket.emit("nicknameChange", { nickname: messageText.split("/nick ")[1] });
     }
     else {
-      this.socket.emit("nicknameChange", { nickname: messageText.split("/nick ")[1] });
+      this.chat.sendMessage(messageText);
     }
 
     $(event.currentTarget).find("textarea").val("");
@@ -116,6 +116,7 @@
 
     this.socket.on("isTyping", function (data) {
       $(".chat-box").append("<p id='typing'><em>" + data.nickname + " is typing</em></p>");
+      $(".chat-box").scrollTop($(".chat-box").height());
     });
 
     this.socket.on("stoppedTyping", function () {
