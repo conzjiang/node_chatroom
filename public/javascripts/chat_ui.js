@@ -97,7 +97,10 @@
     $("#chat-form").on("keypress", function () {
       ui._stoppedTyping = false;
 
-      if (!ui._isTyping) {
+      if ($(event.currentTarget).find("textarea").val()[0] === "/") {
+        ui.socket.emit("stopTyping");
+      }
+      else if (!ui._isTyping) {
         ui.socket.emit("typing");
         ui._isTyping = true;
 
