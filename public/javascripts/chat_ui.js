@@ -43,7 +43,13 @@
     var message = $(event.currentTarget).find("textarea").val();
     var messageText = this._escape(message);
 
-    this.chat.sendMessage(messageText);
+    if (messageText.indexOf("/nick") === -1) {
+      this.chat.sendMessage(messageText);
+    }
+    else {
+      this.socket.emit("nicknameChange", { nickname: messageText.split("/nick ")[1] });
+    }
+
     $(event.currentTarget).find("textarea").val("");
   };
 
