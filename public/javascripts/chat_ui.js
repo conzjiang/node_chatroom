@@ -10,6 +10,7 @@
 
   ChatUI.prototype.bindEvents = function () {
     this.displayMessages();
+    this.checkTyping();
 
     var ui = this;
 
@@ -39,6 +40,9 @@
     });
 
     this.socket.on("sendMessage", function (data) {
+      $("#typing").remove();
+      ui._isTyping = false;
+
       $(".chat-box").append("<p><strong>" + data.nickname + ":</strong> " + data.text + "</p>");
       $(".chat-box").scrollTop($(".chat-box").height());
     });
@@ -83,5 +87,39 @@
     }
 
     return msg ? msg : message;
+  };
+
+  ChatUI.prototype.checkTyping = function () {
+    var ui = this;
+    this._isTyping = false;
+    this._stoppedTyping = true;
+
+    $("#chat-form").on("keypress", function () {
+      ui._stoppedTyping = false;
+
+      if (!ui._isTyping) {
+        ui.socket.emit("typing");
+        ui._isTyping = true;
+
+        setTimeout(function () {
+          if (ui._stoppedTyping) {
+            ui._isTyping = false;
+            ui.socket.emit("stopTyping");
+          }
+        }, 3000);
+      }
+    });
+
+    $("#chat-form").on("keyup", function () {
+      ui._stoppedTyping = true;
+    });
+
+    this.socket.on("isTyping", function (data) {
+      $(".chat-box").append("<p id='typing'><em>" + data.nickname + " is typing</em></p>");
+    });
+
+    this.socket.on("stoppedTyping", function () {
+      $("#typing").remove();
+    });
   };
 })(this);
