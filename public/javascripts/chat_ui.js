@@ -35,10 +35,12 @@
 
     this.socket.on("newGuest", function (data) {
       $(".chat-box").append("<p><em>" + data.nickname + " has joined the room</em></p>");
+      $(".chat-box").scrollTop($(".chat-box").height());
     });
 
     this.socket.on("sendMessage", function (data) {
       $(".chat-box").append("<p><strong>" + data.nickname + ":</strong> " + data.text + "</p>");
+      $(".chat-box").scrollTop($(".chat-box").height());
     });
 
     this.socket.on("nicknameAdded", function (data) {
@@ -73,6 +75,10 @@
       msg = $(message).text();
     }
     catch(e) {
+      msg = message;
+    }
+
+    if (msg.length > message.length) {
       msg = message;
     }
 
