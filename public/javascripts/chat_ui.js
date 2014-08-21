@@ -36,6 +36,7 @@
 
     this.socket.on("newGuest", function (data) {
       $(".chat-box").append("<p><em>" + data.nickname + " has joined the room</em></p>");
+      $(".chatters > ul").append("<li>" + data.nickname + "</li>");
       $(".chat-box").scrollTop($(".chat-box").height());
     });
 
@@ -49,6 +50,7 @@
 
     this.socket.on("nicknameAdded", function (data) {
       $("p#nickname").html("logged in as " + data.nickname);
+      ui.displayNicknames(data.nicknames);
     });
 
     this.socket.on("errorMessage", function (data) {
@@ -125,5 +127,14 @@
     this.socket.on("stoppedTyping", function () {
       $("#typing").remove();
     });
+  };
+
+  ChatUI.prototype.displayNicknames = function (nicknames) {
+    var $container = $(".chatters > ul");
+    $container.empty();
+
+    for (var id in nicknames) {
+      $container.append("<li>" + nicknames[id] + "</li>");
+    }
   };
 })(this);

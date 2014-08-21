@@ -12,19 +12,34 @@
       border: 1px solid #000;
       overflow: scroll;
     }
+
+    section {
+      float: left;
+      margin: 10px;
+    }
+
+    .chatters > ul {
+      border: 1px solid #000;
+    }
     </style>
   </head>
   <body>
     <h1>chatroom</h1>
 
-    <section class="chat-box"></section>
-    <form id="chat-form">
-      <p>"/nick your_nickname" to change your nickname</p>
-      <textarea name="message"></textarea>
-      <p id="nickname"></p>
-      <p id="error"></p>
-      <button>Send message</button>
-    </form>
+    <section class="chat">
+      <article class="chat-box"></article>
+      <form id="chat-form">
+        <p>"/nick your_nickname" to change your nickname</p>
+        <textarea name="message"></textarea>
+        <p id="nickname"></p>
+        <p id="error"></p>
+        <button>Send message</button>
+      </form>
+    </section>
+
+    <section class="chatters">
+      <ul></ul>
+    </section>
 
     <script>
     $(document).ready(function () {
