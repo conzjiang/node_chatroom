@@ -26,6 +26,7 @@
       ui._handleMessage();
     });
 
+    // PRIVATE CHATS
     $(".chatters > ul").on("dblclick", "li", function () {
       if (!$(event.target).hasClass("in-chat")) {
         $(event.target).addClass("in-chat");
@@ -36,6 +37,10 @@
 
         $(".private-chats").append(content);
       }
+    });
+
+    $(".private-chats").on("click", ".x", function () {
+      $(this).closest("li").remove();
     });
   };
 

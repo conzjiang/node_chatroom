@@ -42,6 +42,14 @@
       position: absolute;
       bottom: 0;
     }
+
+    .private-chats > li > .x {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 20px;
+      cursor: pointer;
+    }
     </style>
   </head>
   <body>
@@ -68,10 +76,13 @@
       <li>
         <h3><%= nickname %></h3>
         <div class="convo"></div>
+
         <form class="private">
           <textarea></textarea>
           <button>Send</button>
         </form>
+
+        <strong class="x">&times;</strong>
       </li>
     </script>
 
