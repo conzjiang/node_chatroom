@@ -48,6 +48,14 @@
       var id = $(this).closest("li").attr("data-id");
       ui._handleMessage({ id: id });
     });
+
+    $(".private-chats").on("keydown", "form", function () {
+      if (event.which === 13) {
+        event.preventDefault();
+        var id = $(this).closest("li").attr("data-id");
+        ui._handleMessage({ id: id });
+      }
+    });
   };
 
   ChatUI.prototype.newPrivateChat = function (id, chatter) {
@@ -78,6 +86,16 @@
 
       $(".chat-box").append("<p><strong>" + data.nickname + ":</strong> " + data.text + "</p>");
       $(".chat-box").scrollTop($(".chat-box").height());
+    });
+
+    this.socket.on("sendPrivateMessage", function (data) {
+      if (!data.self && ui.privateChats.indexOf(data.senderId) === -1) {
+        ui.newPrivateChat(data.chatId, data.senderNickname);
+      }
+
+      var $convoBox = $(".private-chats > li[data-id='" + data.chatId + "']").find(".convo");
+      $convoBox.append("<p><strong>" + data.senderNickname + ":</strong> " + data.text + "</p>");
+      $convoBox.scrollTop($convoBox.height());
     });
 
     this.socket.on("nicknameAdded", function (data) {
