@@ -4,6 +4,7 @@
   var ChatUI = NodeFun.ChatUI = function () {
     this.chat = new NodeFun.Chat(io());
     this.socket = this.chat.socket;
+    this.privateChats = [];
 
     this.bindEvents();
   }
@@ -28,19 +29,25 @@
 
     // PRIVATE CHATS
     $(".chatters > ul").on("dblclick", "li", function () {
-      if (!$(event.target).hasClass("in-chat")) {
-        $(event.target).addClass("in-chat");
+      var id = $(this).attr("data-id");
+
+      if (ui.privateChats.indexOf(id) === -1) {
+        ui.privateChats.push(id);
         var chatter = $(event.target).text();
 
         var template = _.template($("#private-chat").html());
-        var content = template({ nickname: chatter });
+        var content = template({ id: id, nickname: chatter });
 
         $(".private-chats").append(content);
       }
     });
 
     $(".private-chats").on("click", ".x", function () {
-      $(this).closest("li").remove();
+      var $li = $(this).closest("li");
+      $li.remove();
+
+      var index = ui.privateChats.indexOf($li.attr("data-id"));
+      ui.privateChats.splice(index, 1);
     });
   };
 
@@ -152,7 +159,7 @@
     $container.empty();
 
     for (var id in nicknames) {
-      $container.append("<li>" + nicknames[id] + "</li>");
+      $container.append("<li data-id='" + id + "'>" + nicknames[id] + "</li>");
     }
   };
 })(this);
