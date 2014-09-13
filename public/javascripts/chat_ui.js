@@ -53,6 +53,10 @@
       ui.displayNicknames(data.nicknames);
     });
 
+    this.socket.on("displayNicks", function (data) {
+      ui.displayNicknames(data.nicknames);
+    });
+
     this.socket.on("errorMessage", function (data) {
       $("p#error").html(data.message);
     });
