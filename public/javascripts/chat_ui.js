@@ -25,6 +25,18 @@
       event.preventDefault();
       ui._handleMessage();
     });
+
+    $(".chatters > ul").on("dblclick", "li", function () {
+      if (!$(event.target).hasClass("in-chat")) {
+        $(event.target).addClass("in-chat");
+        var chatter = $(event.target).text();
+
+        var template = _.template($("#private-chat").html());
+        var content = template({ nickname: chatter });
+
+        $(".private-chats").append(content);
+      }
+    });
   };
 
   ChatUI.prototype.displayMessages = function () {

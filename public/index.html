@@ -2,6 +2,7 @@
 <html>
   <head>
     <script src="../javascripts/jquery.js"></script>
+    <script src="../javascripts/underscore.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
     <script src="../javascripts/chat.js"></script>
     <script src="../javascripts/chat_ui.js"></script>
@@ -13,13 +14,33 @@
       overflow: scroll;
     }
 
-    section {
+    section, .private-chats {
       float: left;
       margin: 10px;
     }
 
     .chatters > ul {
       border: 1px solid #000;
+    }
+
+    .private-chats > li {
+      position: relative;
+      float: left;
+      width: 200px;
+      height: 250px;
+      margin: 10px;
+      border: 1px solid #000;
+    }
+
+    .private-chats > li > .convo {
+      height: 120px;
+      padding: 5px;
+      overflow: scroll;
+    }
+
+    .private-chats > li > form {
+      position: absolute;
+      bottom: 0;
     }
     </style>
   </head>
@@ -40,6 +61,19 @@
     <section class="chatters">
       <ul></ul>
     </section>
+
+    <ul class="private-chats"></ul>
+
+    <script type="text/template" id="private-chat">
+      <li>
+        <h3><%= nickname %></h3>
+        <div class="convo"></div>
+        <form class="private">
+          <textarea></textarea>
+          <button>Send</button>
+        </form>
+      </li>
+    </script>
 
     <script>
     $(document).ready(function () {
