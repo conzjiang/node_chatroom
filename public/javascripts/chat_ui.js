@@ -86,20 +86,10 @@
   };
 
   ChatUI.prototype._escape = function (message) {
-    var msg;
+    var msg = message.replace(/</g, "&lt;");
+    msg = msg.replace(/>/g, "&gt;");
 
-    try {
-      msg = $(message).text();
-    }
-    catch(e) {
-      msg = message;
-    }
-
-    if (msg.length > message.length) {
-      msg = message;
-    }
-
-    return msg ? msg : message;
+    return msg;
   };
 
   ChatUI.prototype.checkTyping = function () {
