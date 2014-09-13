@@ -57,6 +57,10 @@
       ui.displayNicknames(data.nicknames);
     });
 
+    this.socket.on("guestLeft", function (data) {
+      $(".chat-box").append("<p><em>" + data.nickname + " has left the room</em></p>");
+    });
+
     this.socket.on("errorMessage", function (data) {
       $("p#error").html(data.message);
     });
