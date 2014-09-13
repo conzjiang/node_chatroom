@@ -70,16 +70,19 @@
     $("p#error").empty();
 
     var message = $(event.currentTarget).find("textarea").val();
-    var messageText = this._escape(message);
 
-    if (messageText.indexOf("/nick") === 0) {
-      this.socket.emit("nicknameChange", { nickname: messageText.split("/nick ")[1] });
-    }
-    else {
-      this.chat.sendMessage(messageText);
-    }
+    if (message) {
+      var messageText = this._escape(message);
 
-    $(event.currentTarget).find("textarea").val("");
+      if (messageText.indexOf("/nick") === 0) {
+        this.socket.emit("nicknameChange", { nickname: messageText.split("/nick ")[1] });
+      }
+      else {
+        this.chat.sendMessage(messageText);
+      }
+
+      $(event.currentTarget).find("textarea").val("");
+    }
   };
 
   ChatUI.prototype._escape = function (message) {
