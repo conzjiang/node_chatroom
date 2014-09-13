@@ -30,16 +30,9 @@
     // PRIVATE CHATS
     $(".chatters > ul").on("dblclick", "li", function () {
       var id = $(this).attr("data-id");
+      var chatter = $(event.target).text();
 
-      if (ui.privateChats.indexOf(id) === -1) {
-        ui.privateChats.push(id);
-        var chatter = $(event.target).text();
-
-        var template = _.template($("#private-chat").html());
-        var content = template({ id: id, nickname: chatter });
-
-        $(".private-chats").append(content);
-      }
+      if (ui.privateChats.indexOf(id) === -1) ui.newPrivateChat(id, chatter);
     });
 
     $(".private-chats").on("click", ".x", function () {
@@ -49,6 +42,21 @@
       var index = ui.privateChats.indexOf($li.attr("data-id"));
       ui.privateChats.splice(index, 1);
     });
+
+    $(".private-chats").on("submit", "form", function () {
+      event.preventDefault();
+      var id = $(this).closest("li").attr("data-id");
+      ui._handleMessage({ id: id });
+    });
+  };
+
+  ChatUI.prototype.newPrivateChat = function (id, chatter) {
+    this.privateChats.push(id);
+
+    var template = _.template($("#private-chat").html());
+    var content = template({ id: id, nickname: chatter });
+
+    $(".private-chats").append(content);
   };
 
   ChatUI.prototype.displayMessages = function () {
@@ -90,7 +98,7 @@
     });
   };
 
-  ChatUI.prototype._handleMessage = function () {
+  ChatUI.prototype._handleMessage = function (private) {
     $("p#error").empty();
 
     var message = $(event.currentTarget).find("textarea").val();
@@ -102,7 +110,7 @@
         this.socket.emit("nicknameChange", { nickname: messageText.split("/nick ")[1] });
       }
       else {
-        this.chat.sendMessage(messageText);
+        this.chat.sendMessage(messageText, private);
       }
 
       $(event.currentTarget).find("textarea").val("");

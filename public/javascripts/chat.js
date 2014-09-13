@@ -5,7 +5,11 @@
     this.socket = socket;
   };
 
-  Chat.prototype.sendMessage = function (message) {
-    this.socket.emit("message", { text: message });
+  Chat.prototype.sendMessage = function (message, private) {
+    if (private) {
+      this.socket.emit("privateMessage", { id: private.id, text: message });
+    } else {
+      this.socket.emit("message", { text: message });
+    }
   };
 })(this);
