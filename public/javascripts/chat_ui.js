@@ -125,9 +125,10 @@
       var messageText = this._escape(message);
 
       if (messageText.indexOf("/nick") === 0) {
-        this.socket.emit("nicknameChange", { nickname: messageText.split("/nick ")[1] });
-      }
-      else {
+        this.socket.emit("nicknameChange", {
+          nickname: messageText.split("/nick ")[1]
+        });
+      } else {
         this.chat.sendMessage(messageText, private);
       }
 
@@ -187,5 +188,10 @@
     for (var id in nicknames) {
       $container.append("<li data-id='" + id + "'>" + nicknames[id] + "</li>");
     }
+
+    $(".private-chats > li").each(function () {
+      var id = $(this).attr("data-id");
+      $(this).find("h3").html(nicknames[id]);
+    });
   };
 })(this);
