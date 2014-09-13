@@ -89,7 +89,7 @@
     });
 
     this.socket.on("sendPrivateMessage", function (data) {
-      if (!data.self && ui.privateChats.indexOf(data.senderId) === -1) {
+      if (!data.self && ui.privateChats.indexOf(data.chatId) === -1) {
         ui.newPrivateChat(data.chatId, data.senderNickname);
       }
 
