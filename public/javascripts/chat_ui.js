@@ -108,6 +108,15 @@
 
     this.socket.on("guestLeft", function (data) {
       $(".chat-box").append("<p><em>" + data.nickname + " has left the room</em></p>");
+
+      var privateIndex = ui.privateChats.indexOf(data.id);
+
+      if (privateIndex !== -1) {
+        $(".private-chats > li[data-id=" + data.id + "]").remove();
+        ui.privateChats.splice(privateIndex, 1);
+      }
+
+      $(".chatters li[data-id=" + data.id + "]").remove();
     });
 
     this.socket.on("errorMessage", function (data) {
