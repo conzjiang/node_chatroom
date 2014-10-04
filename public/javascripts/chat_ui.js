@@ -5,7 +5,6 @@
     this.chat = new NodeFun.Chat(io());
     this.socket = this.chat.socket;
     this.privateChats = [];
-
     this.bindEvents();
   }
 
