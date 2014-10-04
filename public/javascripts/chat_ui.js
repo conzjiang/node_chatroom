@@ -69,10 +69,6 @@
   ChatUI.prototype.displayMessages = function () {
     var ui = this;
 
-    this.socket.on("welcome", function (data) {
-      $(".chat-box").append("<p>" + data.text + "</p>");
-    });
-
     this.socket.on("newGuest", function (data) {
       $(".chat-box").append("<p><em>" + data.nickname + " has joined the room</em></p>");
       $(".chatters > ul").append("<li>" + data.nickname + "</li>");
@@ -161,8 +157,7 @@
 
       if ($(event.currentTarget).find("textarea").val()[0] === "/") {
         ui.socket.emit("stopTyping");
-      }
-      else if (!ui._isTyping) {
+      } else if (!ui._isTyping) {
         ui.socket.emit("typing");
         ui._isTyping = true;
 

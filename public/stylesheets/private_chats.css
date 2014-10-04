@@ -1,0 +1,45 @@
+/* PRIVATE CHAT BOX */
+ul.private-chats {
+  float: left;
+  margin: 10px;
+}
+
+.private-chats > li {
+  position: relative;
+  float: left;
+  width: 200px;
+  height: 250px;
+  margin: 10px;
+  border: 1px solid #000;
+}
+
+.private-chats > li > h3 {
+
+}
+
+.private-chats > li > article.convo {
+  height: 120px;
+  padding: 5px;
+  overflow: scroll;
+}
+
+.private-chats > li > form.private {
+  position: absolute;
+  bottom: 0;
+}
+
+form.private > textarea {
+
+}
+
+form.private > button {
+
+}
+
+.private-chats > li > strong.x {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  cursor: pointer;
+}
