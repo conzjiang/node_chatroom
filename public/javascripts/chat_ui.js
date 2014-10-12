@@ -4,6 +4,7 @@
   var ChatUI = NodeFun.ChatUI = function () {
     this.chat = new NodeFun.Chat(io());
     this.socket = this.chat.socket;
+    this.nickname;
     this.privateChats = [];
     this.bindEvents();
   }
@@ -68,6 +69,11 @@
 
   ChatUI.prototype.displayMessages = function () {
     var ui = this;
+
+    this.socket.on("connected", function (data) {
+      ui.nickname = data.nickname;
+      $("h1.nickname").html(ui.nickname);
+    });
 
     this.socket.on("newGuest", function (data) {
       $(".chat-box").append("<p><em>" + data.nickname + " has joined the room</em></p>");
