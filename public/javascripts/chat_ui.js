@@ -116,8 +116,18 @@
       var privateIndex = ui.privateChats.indexOf(data.id);
 
       if (privateIndex !== -1) {
-        $(".all-chats > li[data-id=" + data.id + "]").remove();
-        ui.privateChats.splice(privateIndex, 1);
+        var $privateChat = $(".all-chats > li[data-id=" + data.id + "]")
+        $privateChat.html("<p class='guest-left'>" + data.nickname + " has left the building</p>");
+
+        setTimeout(function () {
+          $privateChat.remove();
+          ui.privateChats.splice(privateIndex, 1);
+          ui.$chatCarousel.updateItems();
+
+          if (ui.$chatCarousel.activeIdx === privateIndex + 1) {
+            ui.$chatCarousel.scrollTo(privateIndex);
+          }
+        }, 2000);
       }
 
       $(".chatters > li[data-id=" + data.id + "]").remove();

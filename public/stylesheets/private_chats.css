@@ -6,9 +6,16 @@ ul.all-chats > li > h3 {
   background: lavender;
 }
 
+ul.all-chats > li > p.guest-left {
+  font-size: 24px;
+  line-height: 1.2;
+  text-align: center;
+}
+
 article.convo {
   height: 223px;
-  padding: 5px;
+  padding: 5px 10px;
+  background: pink;
   overflow: scroll;
 }
 

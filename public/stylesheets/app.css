@@ -77,9 +77,8 @@ ul.all-chats > li {
   float: left;
   margin: 0 50px;
   margin-top: 75px;
-  width: 200px;
+  width: 300px;
   height: 250px;
-  background: pink;
   opacity: 0.5;
   overflow: hidden;
 }

@@ -29,9 +29,9 @@ $.Carousel.prototype.slide = function (dir) {
     (this.activeIdx + dir + this.$items.length) % this.$items.length;
   var $nextItem = this.$items.eq(this.activeIdx);
 
-  var leftPos = 300;
+  var leftPos = 350;
   if ($currentItem.hasClass("main-chat") || $nextItem.hasClass("main-chat")) {
-    leftPos = 550;
+    leftPos = 600;
   }
 
   this.$el.animate({
@@ -58,8 +58,8 @@ $.Carousel.prototype.updateItems = function () {
 
 $.Carousel.prototype.scrollTo = function (index) {
   var $currentItem = this.$items.eq(this.activeIdx);
-  var scrollPos = Math.abs(index - this.activeIdx) * 300;
-  if (this.activeIdx === 0) scrollPos += 250;
+  var scrollPos = Math.abs(index - this.activeIdx) * 350;
+  if (this.activeIdx === 0 || index === 0) scrollPos += 250;
 
   var operator = index - this.activeIdx < 0 ? "+" : "-";
   this.$el.animate({ left: operator + "=" + scrollPos + "px" });
