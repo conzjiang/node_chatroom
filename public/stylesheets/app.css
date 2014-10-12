@@ -82,13 +82,14 @@ ul.all-chats > li {
   height: 250px;
   background: pink;
   opacity: 0.5;
-  transition: height 500ms;
+  overflow: hidden;
 }
 
 ul.all-chats > li.active {
   margin-top: 50px;
   height: 300px;
   opacity: 1;
+  transition: height 1s;
 }
 
 ul.all-chats > li.main-chat {
@@ -103,23 +104,20 @@ ul.all-chats p {
 }
 
 article.chat-box {
-  height: 320px;
+  height: 324px;
   padding: 20px;
   background: lightblue;
   overflow: scroll;
 }
 
-form#chat-form {
-
-}
-
-form#chat-form > textarea {
+form > textarea {
   width: 100%;
-  height: 60px;
+  height: 36px;
   padding: 10px;
   background: #eee;
   box-sizing: border-box;
 }
+
 
 p#nickname {
 
@@ -147,14 +145,19 @@ ul.buttons > li {
   color: #fff;
   background: lightgreen;
   border-radius: 25px;
+  cursor: pointer;
 }
 
 ul.buttons > li.left {
-  padding-right: 7px;
+  padding-left: 7px;
 }
 
 ul.buttons > li.right {
-  padding-left: 7px;
+  padding-right: 7px;
+}
+
+ul.buttons > li:hover {
+  background: rgb(0, 255, 0);
 }
 
 /* LIST OF CHATTERS */

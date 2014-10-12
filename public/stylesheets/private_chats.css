@@ -1,45 +1,29 @@
 /* PRIVATE CHAT BOX */
-ul.private-chats {
-  float: left;
-  margin: 10px;
+ul.all-chats > li > h3 {
+  display: block;
+  padding: 5px 10px;
+  font-size: 18px;
+  background: lavender;
 }
 
-.private-chats > li {
-  position: relative;
-  float: left;
-  width: 200px;
-  height: 250px;
-  margin: 10px;
-  border: 1px solid #000;
-}
-
-.private-chats > li > h3 {
-
-}
-
-.private-chats > li > article.convo {
-  height: 120px;
+article.convo {
+  height: 223px;
   padding: 5px;
   overflow: scroll;
 }
 
-.private-chats > li > form.private {
+strong.x {
   position: absolute;
-  bottom: 0;
-}
-
-form.private > textarea {
-
-}
-
-form.private > button {
-
-}
-
-.private-chats > li > strong.x {
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 20px;
+  top: 4px;
+  right: 4px;
+  padding: 0 2px;
+  padding-right: 1px;
+  color: #fff;
+  background: none;
+  border-radius: 15px;
   cursor: pointer;
+}
+
+strong.x:hover {
+  background: #D3008F;
 }
