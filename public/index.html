@@ -6,28 +6,34 @@
     <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
     <script src="javascripts/chat.js"></script>
     <script src="javascripts/chat_ui.js"></script>
+
+    <link rel="stylesheet" href="font-awesome-4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/app.css">
     <link rel="stylesheet" href="stylesheets/private_chats.css">
   </head>
   <body>
-    <h1>chatroom</h1>
+    <h1 class="nickname"></h1>
 
-    <section class="chat">
-      <article class="chat-box"></article>
-      <form id="chat-form">
-        <p>"/nick your_nickname" to change your nickname</p>
-        <textarea name="message"></textarea>
-        <p id="nickname"></p>
-        <p id="error"></p>
-        <button>Send message</button>
-      </form>
-    </section>
+    <ul class="all-chats group">
+      <li class="main-chat active">
+        <article class="chat-box"></article>
+        <form id="chat-form">
+          <textarea name="message"></textarea>
+        </form>
+      </li>
+    </ul>
 
-    <section class="chatters">
+    <ul class="buttons group">
+      <li class="right"><i class="fa fa-arrow-left"></i></li>
+      <li class="left"><i class="fa fa-arrow-right"></i></li>
+    </ul>
+
+    <p id="error"></p>
+    <p>"/nick your_nickname" to change your nickname</p>
+
+    <!-- <section class="chatters">
       <ul></ul>
-    </section>
-
-    <ul class="private-chats"></ul>
+    </section> -->
 
     <script type="text/template" id="private-chat">
       <li data-id="<%= id %>">
@@ -46,7 +52,14 @@
     <script>
     $(document).ready(function () {
       new NodeFun.ChatUI();
+
+      for (var i = 0; i < 2; i++) {
+        var template = _.template($("#private-chat").html());
+        var content = template({ id: i, nickname: "guest" + i });
+        $("ul.all-chats").append(content);
+      }
     });
     </script>
+    <script src="javascripts/carousel.js"></script>
   </body>
 </html>
