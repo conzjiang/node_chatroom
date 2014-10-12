@@ -6,8 +6,10 @@
     this.socket = this.chat.socket;
     this.nickname;
     this.privateChats = [];
+
     this.bindEvents();
-  }
+    $(".all-chats").carousel();
+  };
 
   ChatUI.prototype.bindEvents = function () {
     this.displayMessages();

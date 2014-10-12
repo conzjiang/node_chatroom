@@ -27,7 +27,7 @@
 
     <ul class="buttons group">
       <li class="right inactive"><i class="fa fa-arrow-left"></i></li>
-      <li class="left"><i class="fa fa-arrow-right"></i></li>
+      <li class="left inactive"><i class="fa fa-arrow-right"></i></li>
     </ul>
 
     <p id="error"></p>
@@ -49,12 +49,6 @@
     <script>
     $(document).ready(function () {
       new NodeFun.ChatUI();
-
-      for (var i = 0; i < 2; i++) {
-        var template = _.template($("#private-chat").html());
-        var content = template({ id: i, nickname: "guest" + i });
-        $("ul.all-chats").append(content);
-      }
     });
     </script>
     <script src="javascripts/carousel.js"></script>

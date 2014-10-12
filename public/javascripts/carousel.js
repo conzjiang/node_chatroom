@@ -55,7 +55,3 @@ $.fn.carousel = function () {
     new $.Carousel($(this));
   });
 };
-
-$(function () {
-  $(".all-chats").carousel();
-});

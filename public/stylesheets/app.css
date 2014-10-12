@@ -150,11 +150,11 @@ ul.chatters > li {
   padding: 2px 0;
   background: none;
   cursor: pointer;
-  transition: background 1s;
 }
 
 ul.chatters > li:hover {
   background: lightgreen;
+  transition: none;
 }
 
 ul.chatters > li.self {
@@ -163,8 +163,26 @@ ul.chatters > li.self {
   cursor: default;
 }
 
+@-webkit-keyframes change-feedback {
+  0% {
+    background: rgb(180, 180, 252);
+  }
+
+  50% {
+    background: rgb(216, 216, 255);
+  }
+
+  75% {
+    background: lavender;
+  }
+
+  100% {
+    background: #eee;
+  }
+}
+
 ul.chatters > li.changed {
-  background: lavender;
+  -webkit-animation: change-feedback 1s infinite;
 }
 
 /* BUTTONS */
