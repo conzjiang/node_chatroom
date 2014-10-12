@@ -65,12 +65,11 @@ ul {
 /* CHAT CAROUSEL */
 ul.all-chats {
   position: relative;
-  left: 0;
   width: 100%;
   left: 50%;
   margin: 50px 0;
   margin-left: -250px;
-  transition: left 500ms;
+  transition: left 1s;
 }
 
 ul.all-chats > li {
@@ -92,22 +91,9 @@ ul.all-chats > li.active {
   transition: height 1s;
 }
 
-ul.all-chats > li.main-chat {
-  margin-top: 0;
-  width: 400px;
-  height: 400px;
-  overflow: hidden;
-}
-
 ul.all-chats p {
-  margin: 5px 0;
-}
-
-article.chat-box {
-  height: 324px;
-  padding: 20px;
-  background: lightblue;
-  overflow: scroll;
+  margin: 10px 0;
+  line-height: 1.5;
 }
 
 form > textarea {
@@ -127,8 +113,58 @@ p#error {
 
 }
 
-form#chat-form > button {
+/* MAIN CHAT */
+ul.all-chats > li.main-chat {
+  margin-top: 0;
+  width: 550px;
+  height: 400px;
+  background: none;
+  overflow: hidden;
+}
 
+article.chat-box {
+  width: 360px;
+  height: 324px;
+  padding: 20px;
+  background: lightblue;
+  overflow: scroll;
+}
+
+ul.all-chats > li.main-chat textarea {
+  width: 400px;
+}
+
+/* LIST OF CHATTERS */
+ul.chatters {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  width: 130px;
+  max-height: 350px;
+  padding: 10px;
+  background: #eee;
+}
+
+ul.chatters > li {
+  margin: 5px 0;
+  padding: 2px 0;
+  background: none;
+  cursor: pointer;
+  transition: background 1s;
+}
+
+ul.chatters > li:hover {
+  background: lightgreen;
+}
+
+ul.chatters > li.self {
+  font-weight: 700;
+  background: none;
+  cursor: default;
+}
+
+ul.chatters > li.changed {
+  background: lavender;
 }
 
 /* BUTTONS */
@@ -163,14 +199,4 @@ ul.buttons > li:hover {
 ul.buttons > li.inactive {
   background: #ccc;
   cursor: default;
-}
-
-/* LIST OF CHATTERS */
-section.chatters {
-  float: left;
-  margin: 10px;
-}
-
-section.chatters > ul {
-  border: 1px solid #000;
 }

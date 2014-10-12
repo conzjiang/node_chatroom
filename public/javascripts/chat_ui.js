@@ -22,31 +22,20 @@
       }
     });
 
-    $("#chat-form").on("submit", function () {
-      event.preventDefault();
-      ui._handleMessage();
-    });
-
     // PRIVATE CHATS
-    $(".chatters > ul").on("dblclick", "li", function () {
+    $(".chatters").on("dblclick", "li", function () {
       var id = $(this).attr("data-id");
       var chatter = $(event.target).text();
 
       if (ui.privateChats.indexOf(id) === -1) ui.newPrivateChat(id, chatter);
     });
 
-    $(".private-chats").on("click", ".x", function () {
-      var $li = $(this).closest("li");
-      $li.remove();
+    $(".all-chats").on("click", ".x", function () {
+      var $chat = $(this).closest("li");
+      $chat.remove();
 
-      var index = ui.privateChats.indexOf($li.attr("data-id"));
+      var index = ui.privateChats.indexOf($chat.attr("data-id"));
       ui.privateChats.splice(index, 1);
-    });
-
-    $(".private-chats").on("submit", "form", function () {
-      event.preventDefault();
-      var id = $(this).closest("li").attr("data-id");
-      ui._handleMessage({ id: id });
     });
 
     $(".private-chats").on("keydown", "form", function () {
@@ -64,7 +53,7 @@
     var template = _.template($("#private-chat").html());
     var content = template({ id: id, nickname: chatter });
 
-    $(".private-chats").append(content);
+    $(".all-chats").append(content);
   };
 
   ChatUI.prototype.displayMessages = function () {
@@ -77,7 +66,7 @@
 
     this.socket.on("newGuest", function (data) {
       $(".chat-box").append("<p><em>" + data.nickname + " has joined the room</em></p>");
-      $(".chatters > ul").append("<li>" + data.nickname + "</li>");
+      $(".chatters").append("<li data-id=" + data.id + ">" + data.nickname + "</li>");
       $(".chat-box").scrollTop($(".chat-box").height());
     });
 
@@ -94,18 +83,25 @@
         ui.newPrivateChat(data.chatId, data.senderNickname);
       }
 
-      var $convoBox = $(".private-chats > li[data-id='" + data.chatId + "']").find(".convo");
+      var $convoBox = $(".all-chats > li[data-id='" + data.chatId + "']").find(".convo");
       $convoBox.append("<p><strong>" + data.senderNickname + ":</strong> " + data.text + "</p>");
       $convoBox.scrollTop($convoBox.height());
     });
 
     this.socket.on("nicknameAdded", function (data) {
-      $("p#nickname").html("logged in as " + data.nickname);
+      $("h1.nickname").html(data.nickname);
       ui.displayNicknames(data.nicknames);
     });
 
     this.socket.on("displayNicks", function (data) {
       ui.displayNicknames(data.nicknames);
+
+      var $chatter = $(".chatters > li[data-id=" + data.changedId + "]");
+      $chatter.addClass("changed");
+
+      setTimeout(function () {
+        $chatter.removeClass("changed");
+      }, 1000);
     });
 
     this.socket.on("guestLeft", function (data) {
@@ -114,11 +110,11 @@
       var privateIndex = ui.privateChats.indexOf(data.id);
 
       if (privateIndex !== -1) {
-        $(".private-chats > li[data-id=" + data.id + "]").remove();
+        $(".all-chats > li[data-id=" + data.id + "]").remove();
         ui.privateChats.splice(privateIndex, 1);
       }
 
-      $(".chatters li[data-id=" + data.id + "]").remove();
+      $(".chatters > li[data-id=" + data.id + "]").remove();
     });
 
     this.socket.on("errorMessage", function (data) {
@@ -135,9 +131,13 @@
       var messageText = this._escape(message);
 
       if (messageText.indexOf("/nick") === 0) {
+        var newNickname = messageText.split("/nick ")[1];
+
         this.socket.emit("nicknameChange", {
-          nickname: messageText.split("/nick ")[1]
+          nickname: newNickname
         });
+
+        this.nickname = newNickname;
       } else {
         this.chat.sendMessage(messageText, private);
       }
@@ -191,16 +191,20 @@
   };
 
   ChatUI.prototype.displayNicknames = function (nicknames) {
-    var $container = $(".chatters > ul");
+    var $container = $(".chatters");
     $container.empty();
 
     for (var id in nicknames) {
       $container.append("<li data-id='" + id + "'>" + nicknames[id] + "</li>");
+
+      if (nicknames[id] === this.nickname) {
+        $container.children().last().addClass("self");
+      }
     }
 
-    $(".private-chats > li").each(function () {
+    $(".all-chats").children().each(function () {
       var id = $(this).attr("data-id");
-      $(this).find("h3").html(nicknames[id]);
+      if (id) { $(this).find("h3").html(nicknames[id]); }
     });
   };
 })(this);

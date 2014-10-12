@@ -20,6 +20,8 @@
         <form id="chat-form">
           <textarea name="message"></textarea>
         </form>
+
+        <ul class="chatters"></ul>
       </li>
     </ul>
 
@@ -30,10 +32,6 @@
 
     <p id="error"></p>
     <p>"/nick your_nickname" to change your nickname</p>
-
-    <!-- <section class="chatters">
-      <ul></ul>
-    </section> -->
 
     <script type="text/template" id="private-chat">
       <li data-id="<%= id %>">
