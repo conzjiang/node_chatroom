@@ -32,10 +32,10 @@ article.convo {
 
 strong.x {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  padding: 0 2px;
-  padding-right: 1px;
+  top: 5px;
+  right: 5px;
+  padding: 0 3px;
+  font-size: 20px;
   color: #fff;
   background: none;
   border-radius: 15px;
@@ -43,5 +43,5 @@ strong.x {
 }
 
 strong.x:hover {
-  background: #D3008F;
+  background: rgb(164, 164, 209);
 }

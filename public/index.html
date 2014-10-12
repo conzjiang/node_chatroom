@@ -40,7 +40,9 @@
 
     <script type="text/template" id="private-chat">
       <li data-id="<%= id %>">
-        <h3>.<strong><%= nickname %></strong></h3>
+        <h3>.
+          <strong class="nickname" data-id="<%= id %>"><%= nickname %></strong>
+        </h3>
         <article class="convo"></article>
 
         <form class="private">
