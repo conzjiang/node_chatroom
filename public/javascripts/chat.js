@@ -12,4 +12,8 @@
       this.socket.emit("message", { text: message });
     }
   };
+
+  Chat.prototype.changeNickname = function (newNickname) {
+    this.socket.emit("nicknameChange", { nickname: newNickname });
+  };
 })(this);

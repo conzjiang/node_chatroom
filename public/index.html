@@ -13,7 +13,14 @@
     <link rel="stylesheet" href="stylesheets/private_chats.css">
   </head>
   <body>
-    <h1 class="nickname"></h1>
+    <header>
+      <h1 class="nickname"></h1>
+      <form class="change-nickname">
+        <input type="text">
+      </form>
+      <p class="error"></p>
+      <div id="modal"></div>
+    </header>
 
     <ul class="all-chats group">
       <li class="main-chat active">
@@ -30,9 +37,6 @@
       <li class="right inactive"><i class="fa fa-arrow-left"></i></li>
       <li class="left inactive"><i class="fa fa-arrow-right"></i></li>
     </ul>
-
-    <p id="error"></p>
-    <p>"/nick your_nickname" to change your nickname</p>
 
     <script type="text/template" id="private-chat">
       <li data-id="<%= id %>">

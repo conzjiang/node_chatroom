@@ -6,6 +6,7 @@ html, body, h1, h3, section, ul, li, p {
   font: inherit;
 }
 
+input[type="text"],
 textarea {
   display: inline-block;
   -webkit-appearance: none;
@@ -42,12 +43,6 @@ body {
   overflow: hidden;
 }
 
-h1 {
-  margin: 20px 0;
-  font-size: 40px;
-  text-align: center;
-}
-
 ul {
   list-style: none;
 }
@@ -60,6 +55,74 @@ ul {
   content: "";
   display: block;
   clear: both;
+}
+
+/* HEADER */
+header {
+  margin: 20px 0;
+  font-size: 40px;
+  text-align: center;
+}
+
+header.edit {
+  margin-bottom: 19px;
+}
+
+h1 {
+  padding: 10px;
+  cursor: default;
+}
+
+header.edit > h1 {
+  display: none;
+}
+
+header input[type="text"] {
+  display: none;
+  width: 380px;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+  background: #fff;
+  border-bottom: 1px solid #888;
+}
+
+header.edit input[type="text"] {
+  display: block;
+  position: relative;
+  z-index: 100;
+}
+
+header > p.error {
+  display: none;
+}
+
+header.edit > p.error {
+  display: block;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  margin-left: -250px;
+  width: 500px;
+  font-size: 18px;
+  color: #DA0000;
+  z-index: 100;
+}
+
+div#modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(141, 186, 201, 0.7);
+  overflow: hidden;
+  z-index: 50;
+}
+
+header.edit > div#modal {
+  display: block;
 }
 
 /* CHAT CAROUSEL */
@@ -98,8 +161,13 @@ ul.all-chats > li.active {
 }
 
 ul.all-chats p {
-  margin: 10px 0;
+  margin: 5px 0;
   line-height: 1.5;
+}
+
+ul.all-chats p.notif {
+  font-style: italic;
+  font-size: 14px;
 }
 
 form > textarea {
@@ -108,10 +176,6 @@ form > textarea {
   padding: 10px;
   background: #eee;
   box-sizing: border-box;
-}
-
-p#error {
-
 }
 
 /* MAIN CHAT */
@@ -126,7 +190,7 @@ ul.all-chats > li.main-chat {
 article.chat-box {
   width: 360px;
   height: 324px;
-  padding: 20px;
+  padding: 10px 20px;
   background: lightblue;
   overflow: scroll;
 }
