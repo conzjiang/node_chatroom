@@ -29,8 +29,13 @@
     $(".chatters").on("click", "li", function () {
       var id = $(this).attr("data-id");
       var chatter = $(event.target).text();
+      var index = ui.privateChats.indexOf(id);
 
-      if (ui.privateChats.indexOf(id) === -1) ui.newPrivateChat(id, chatter);
+      if (index === -1) {
+        ui.newPrivateChat(id, chatter);
+      } else {
+        ui.$chatCarousel.scrollTo(index + 1);
+      }
     });
 
     $(".all-chats").on("click", ".x", function () {
@@ -53,7 +58,7 @@
 
     $(".all-chats").append(content);
     this.$chatCarousel.updateItems();
-    this.$chatCarousel.scrollToEnd();
+    this.$chatCarousel.scrollTo($(".all-chats").children().length - 1);
   };
 
   ChatUI.prototype.displayMessages = function () {

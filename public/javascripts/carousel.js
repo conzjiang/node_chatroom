@@ -56,20 +56,20 @@ $.Carousel.prototype.updateItems = function () {
   this.$items = this.$el.children();
 };
 
-$.Carousel.prototype.scrollToEnd = function () {
+$.Carousel.prototype.scrollTo = function (index) {
   var $currentItem = this.$items.eq(this.activeIdx);
-  var scrollPos = (this.$items.length - 1 - this.activeIdx) * 300;
+  var scrollPos = Math.abs(index - this.activeIdx) * 300;
   if (this.activeIdx === 0) scrollPos += 250;
 
-  this.$el.animate({ left: "-=" + scrollPos + "px" });
-  this.activeIdx = this.$items.length - 1;
+  var operator = index - this.activeIdx < 0 ? "+" : "-";
+  this.$el.animate({ left: operator + "=" + scrollPos + "px" });
+  this.activeIdx = index;
 
   var $newItem = this.$items.eq(this.activeIdx);
   $newItem.addClass("active");
   $currentItem.removeClass("active");
 
-  $(".right").removeClass("inactive");
-  $(".left").addClass("active");
+  setButtons(this);
 };
 
 $.fn.carousel = function () {
