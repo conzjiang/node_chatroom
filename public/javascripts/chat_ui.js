@@ -53,14 +53,16 @@
     $(".chatters").on("click", "li", function () {
       event.stopPropagation();
 
-      var id = $(this).attr("data-id");
-      var chatter = $(event.target).text();
-      var index = ui.privateChats.indexOf(id);
+      if (!$(this).hasClass("self")) {
+        var id = $(this).attr("data-id");
+        var chatter = $(event.target).text();
+        var index = ui.privateChats.indexOf(id);
 
-      if (index === -1) {
-        ui.newPrivateChat(id, chatter);
-      } else {
-        ui.$chatCarousel.scrollTo(index + 1);
+        if (index === -1) {
+          ui.newPrivateChat(id, chatter);
+        } else {
+          ui.$chatCarousel.scrollTo(index + 1);
+        }
       }
     });
 

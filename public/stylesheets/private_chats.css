@@ -1,9 +1,20 @@
 /* PRIVATE CHAT BOX */
 ul.all-chats > li > h3 {
+  position: relative;
   display: block;
   padding: 5px 10px;
   font-size: 18px;
+  color: lavender;
   background: lavender;
+}
+
+ul.all-chats > li > h3 > strong {
+  position: absolute;
+  bottom: -7px;
+  left: 10px;
+  font-weight: 300;
+  font-size: 32px;
+  color: #000;
 }
 
 ul.all-chats > li > p.guest-left {

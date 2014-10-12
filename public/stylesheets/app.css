@@ -190,7 +190,7 @@ ul.all-chats > li.main-chat {
 article.chat-box {
   width: 360px;
   height: 324px;
-  padding: 10px 20px;
+  padding: 15px 20px;
   background: lightblue;
   overflow: scroll;
 }
@@ -224,7 +224,7 @@ ul.all-chats > li.active > ul.chatters > li:hover {
 
 ul.chatters > li.self {
   font-weight: 700;
-  background: none;
+  background: none !important;
   cursor: default;
 }
 
