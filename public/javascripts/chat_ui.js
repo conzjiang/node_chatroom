@@ -37,12 +37,12 @@
     $(".all-chats").on("keydown", "form", function (e) {
       if (e.which === 13) {
         e.preventDefault();
-        var id = $(this).closest("li").attr("data-id");
+        var id = $(this).closest("li.chat").attr("data-id");
         ui._handleMessage($(e.target), { id: id });
       }
     });
 
-    $(".all-chats").on("click", "li", function () {
+    $(".all-chats").on("click", "li.chat", function () {
       if (!$(this).hasClass("active")) {
         var index = $(".all-chats").children().index($(this));
         ui.$chatCarousel.scrollTo(index);
@@ -50,12 +50,15 @@
     });
 
     // PRIVATE CHATS
-    $(".chatters").on("click", "li", function () {
-      event.stopPropagation();
+    $(".chatters").on("click", "li", function (e) {
+      var isSelf = $(this).hasClass("self");
+      var chatIsActive = $(this).closest("li.chat").hasClass("active");
 
-      if (!$(this).hasClass("self")) {
+      if (!isSelf && chatIsActive) {
+        e.stopPropagation();
+
         var id = $(this).attr("data-id");
-        var chatter = $(event.target).text();
+        var chatter = $(e.target).text();
         var index = ui.privateChats.indexOf(id);
 
         if (index === -1) {
@@ -69,7 +72,7 @@
     $(".all-chats").on("click", ".x", function () {
       event.stopPropagation();
 
-      var $chat = $(this).closest("li");
+      var $chat = $(this).closest("li.chat");
       $chat.remove();
 
       var index = ui.privateChats.indexOf($chat.attr("data-id"));
@@ -83,7 +86,7 @@
   ChatUI.prototype._handleNickname = function () {
     var newNickname = $("header").find("input").val();
 
-    if (this.nickname !== newNickname) {
+    if (newNickname && this.nickname !== newNickname) {
       this.chat.changeNickname(newNickname);
     } else {
       $("header").removeClass("edit");
@@ -105,14 +108,9 @@
   ChatUI.prototype.displayMessages = function () {
     var ui = this;
 
-    this.socket.on("connected", function (data) {
-      ui.nickname = data.nickname;
-      $("h1.nickname").html(ui.nickname);
-    });
-
     this.socket.on("newGuest", function (data) {
       $(".chat-box").append("<p class='notif'>" + data.nickname + " has joined the room</p>");
-      $(".chatters").append("<li class='nickname' data-id=" + data.id + ">" + data.nickname + "</li>");
+      $(".chatters").append("<li class='nickname' data-id='" + data.id + "'>" + data.nickname + "</li>");
       $(".chat-box").scrollToBottom();
     });
 
@@ -127,7 +125,7 @@
         ui.newPrivateChat(data.chatId, data.senderNickname);
       }
 
-      var $convoBox = $(".all-chats > li[data-id='" + data.chatId + "']").find(".convo");
+      var $convoBox = $("li.chat[data-id='" + data.chatId + "']").find(".convo");
       ui.appendMessage($convoBox, data);
     });
 
@@ -136,19 +134,15 @@
       $("h1.nickname").html(data.nickname);
       $("header input[type=text]").val(data.nickname);
       ui.nickname = data.nickname;
-
-      ui.displayNicknames(data.nicknames);
     });
 
     this.socket.on("displayNicks", function (data) {
       ui.displayNicknames(data.nicknames);
 
-      var $chatter = $(".chatters > li[data-id=" + data.changedId + "]");
-      $chatter.addClass("changed");
+      var $nicknames = $(".nickname[data-id='" + data.changedId + "']");
+      var nickname = data.nicknames[data.changedId];
 
-      setTimeout(function () {
-        $chatter.removeClass("changed");
-      }, 1000);
+      $nicknames.html(nickname);
     });
 
     this.socket.on("guestLeft", function (data) {
@@ -197,7 +191,7 @@
   };
 
   ChatUI.prototype.appendMessage = function ($chatbox, data) {
-    $chatbox.append("<p><strong class='nickname' data-id='" + data.chatId + "'>" + data.senderNickname + "</strong>: " + data.text + "</p>");
+    $chatbox.append("<p><strong class='nickname' data-id='" + data.senderId + "'>" + data.senderNickname + "</strong>: " + data.text + "</p>");
     $chatbox.scrollToBottom();
   };
 
@@ -244,17 +238,11 @@
 
     for (var id in nicknames) {
       var nickname = nicknames[id];
-
-      $container.append("<li class='nickname_" + nickname + "' data-id='" + id + "'>" + nickname + "</li>");
+      $container.append("<li class='nickname' data-id='" + id + "'>" + nickname + "</li>");
 
       if (nickname === this.nickname) {
         $container.children().last().addClass("self");
       }
     }
-
-    $(".all-chats").children().each(function () {
-      var id = $(this).attr("data-id");
-      if (id) { $(this).find("h3 > strong").html(nicknames[id]); }
-    });
   };
 })(this);

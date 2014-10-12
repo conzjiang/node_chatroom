@@ -23,7 +23,7 @@
     </header>
 
     <ul class="all-chats group">
-      <li class="main-chat active">
+      <li class="chat main-chat active">
         <article class="chat-box"></article>
         <form id="chat-form">
           <textarea name="message"></textarea>
@@ -39,7 +39,7 @@
     </ul>
 
     <script type="text/template" id="private-chat">
-      <li data-id="<%= id %>">
+      <li class="chat" data-id="<%= id %>">
         <h3>.
           <strong class="nickname" data-id="<%= id %>"><%= nickname %></strong>
         </h3>

@@ -31,7 +31,7 @@ $.Carousel.prototype.slide = function (dir) {
 
   var leftPos = 400;
   if ($currentItem.hasClass("main-chat") || $nextItem.hasClass("main-chat")) {
-    leftPos = 600;
+    leftPos += 200;
   }
 
   this.$el.animate({
