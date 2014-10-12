@@ -22,15 +22,24 @@
     var ui = this;
 
     $(".all-chats").on("keydown", "form", function (e) {
-      if (event.which === 13) {
-        event.preventDefault();
+      if (e.which === 13) {
+        e.preventDefault();
         var id = $(this).closest("li").attr("data-id");
         ui._handleMessage($(e.target), { id: id });
       }
     });
 
+    $(".all-chats").on("click", "li", function () {
+      if (!$(this).hasClass("active")) {
+        var index = $(".all-chats").children().index($(this));
+        ui.$chatCarousel.scrollTo(index);
+      }
+    });
+
     // PRIVATE CHATS
     $(".chatters").on("click", "li", function () {
+      event.stopPropagation();
+
       var id = $(this).attr("data-id");
       var chatter = $(event.target).text();
       var index = ui.privateChats.indexOf(id);
@@ -43,6 +52,8 @@
     });
 
     $(".all-chats").on("click", ".x", function () {
+      event.stopPropagation();
+
       var $chat = $(this).closest("li");
       $chat.remove();
 
@@ -55,6 +66,7 @@
   };
 
   ChatUI.prototype.newPrivateChat = function (id, chatter) {
+    $(".all-chats").css({ width: "+=500px" });
     this.privateChats.push(id);
 
     var template = _.template($("#private-chat").html());
