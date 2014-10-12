@@ -6,7 +6,7 @@
   };
 
   Chat.prototype.sendMessage = function (message, private) {
-    if (private) {
+    if (private.id) {
       this.socket.emit("privateMessage", { id: private.id, text: message });
     } else {
       this.socket.emit("message", { text: message });

@@ -1,6 +1,6 @@
 $.Carousel = function ($el) {
   this.$el = $el;
-  this.$items = this.$el.find("li");
+  this.$items = this.$el.children();
   this.activeIdx = 0;
 
   $(".left").on("click", this.slideLeft.bind(this));
@@ -14,7 +14,9 @@ var setButtons = function (carousel) {
 
   if (carousel.activeIdx === 0) {
     $(".right").addClass("inactive");
-  } else if (carousel.activeIdx === carousel.$items.length - 1) {
+  }
+
+  if (carousel.activeIdx === carousel.$items.length - 1) {
     $(".left").addClass("inactive");
   }
 };
@@ -50,8 +52,26 @@ $.Carousel.prototype.slideRight = function (e) {
   if (!$(e.currentTarget).hasClass("inactive")) { this.slide(-1); }
 };
 
+$.Carousel.prototype.updateItems = function () {
+  this.$items = this.$el.children();
+};
+
+$.Carousel.prototype.scrollToEnd = function () {
+  var $currentItem = this.$items.eq(this.activeIdx);
+  var scrollPos = (this.$items.length - 1 - this.activeIdx) * 300;
+  if (this.activeIdx === 0) scrollPos += 250;
+
+  this.$el.animate({ left: "-=" + scrollPos + "px" });
+  this.activeIdx = this.$items.length - 1;
+
+  var $newItem = this.$items.eq(this.activeIdx);
+  $newItem.addClass("active");
+  $currentItem.removeClass("active");
+
+  $(".right").removeClass("inactive");
+  $(".left").addClass("active");
+};
+
 $.fn.carousel = function () {
-  return this.each(function () {
-    new $.Carousel($(this));
-  });
+  return new $.Carousel($(this));
 };

@@ -6,9 +6,9 @@
     this.socket = this.chat.socket;
     this.nickname;
     this.privateChats = [];
+    this.$chatCarousel = $(".all-chats").carousel();
 
     this.bindEvents();
-    $(".all-chats").carousel();
   };
 
   ChatUI.prototype.bindEvents = function () {
@@ -17,15 +17,16 @@
 
     var ui = this;
 
-    $("#chat-form").on("keydown", function (event) {
+    $(".all-chats").on("keydown", "form", function (e) {
       if (event.which === 13) {
         event.preventDefault();
-        ui._handleMessage();
+        var id = $(this).closest("li").attr("data-id");
+        ui._handleMessage($(e.target), { id: id });
       }
     });
 
     // PRIVATE CHATS
-    $(".chatters").on("dblclick", "li", function () {
+    $(".chatters").on("click", "li", function () {
       var id = $(this).attr("data-id");
       var chatter = $(event.target).text();
 
@@ -38,14 +39,9 @@
 
       var index = ui.privateChats.indexOf($chat.attr("data-id"));
       ui.privateChats.splice(index, 1);
-    });
 
-    $(".private-chats").on("keydown", "form", function () {
-      if (event.which === 13) {
-        event.preventDefault();
-        var id = $(this).closest("li").attr("data-id");
-        ui._handleMessage({ id: id });
-      }
+      ui.$chatCarousel.updateItems();
+      ui.$chatCarousel.slideRight(event);
     });
   };
 
@@ -56,6 +52,8 @@
     var content = template({ id: id, nickname: chatter });
 
     $(".all-chats").append(content);
+    this.$chatCarousel.updateItems();
+    this.$chatCarousel.scrollToEnd();
   };
 
   ChatUI.prototype.displayMessages = function () {
@@ -81,6 +79,7 @@
     });
 
     this.socket.on("sendPrivateMessage", function (data) {
+
       if (!data.self && ui.privateChats.indexOf(data.chatId) === -1) {
         ui.newPrivateChat(data.chatId, data.senderNickname);
       }
@@ -124,10 +123,10 @@
     });
   };
 
-  ChatUI.prototype._handleMessage = function (private) {
+  ChatUI.prototype._handleMessage = function ($textarea, private) {
     $("p#error").empty();
 
-    var message = $(event.currentTarget).find("textarea").val();
+    var message = $textarea.val();
 
     if (message) {
       var messageText = this._escape(message);
@@ -144,7 +143,7 @@
         this.chat.sendMessage(messageText, private);
       }
 
-      $(event.currentTarget).find("textarea").val("");
+      $textarea.val("");
     }
   };
 
