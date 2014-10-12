@@ -11,6 +11,10 @@
     this.bindEvents();
   };
 
+  $.fn.scrollToBottom = function () {
+    $(this).scrollTop($(this).scrollTop() + $(this).height());
+  };
+
   ChatUI.prototype.bindEvents = function () {
     this.displayMessages();
     this.checkTyping();
@@ -72,7 +76,7 @@
     this.socket.on("newGuest", function (data) {
       $(".chat-box").append("<p><em>" + data.nickname + " has joined the room</em></p>");
       $(".chatters").append("<li data-id=" + data.id + ">" + data.nickname + "</li>");
-      $(".chat-box").scrollTop($(".chat-box").height());
+      $(".chat-box").scrollToBottom();
     });
 
     this.socket.on("sendMessage", function (data) {
@@ -80,7 +84,7 @@
       ui._isTyping = false;
 
       $(".chat-box").append("<p><strong>" + data.nickname + ":</strong> " + data.text + "</p>");
-      $(".chat-box").scrollTop($(".chat-box").height());
+      $(".chat-box").scrollToBottom();
     });
 
     this.socket.on("sendPrivateMessage", function (data) {
@@ -91,7 +95,7 @@
 
       var $convoBox = $(".all-chats > li[data-id='" + data.chatId + "']").find(".convo");
       $convoBox.append("<p><strong>" + data.senderNickname + ":</strong> " + data.text + "</p>");
-      $convoBox.scrollTop($convoBox.height());
+      $convoBox.scrollToBottom();
     });
 
     this.socket.on("nicknameAdded", function (data) {
@@ -198,7 +202,7 @@
 
     this.socket.on("isTyping", function (data) {
       $(".chat-box").append("<p id='typing'><em>" + data.nickname + " is typing</em></p>");
-      $(".chat-box").scrollTop($(".chat-box").height());
+      $(".chat-box").scrollToBottom();
     });
 
     this.socket.on("stoppedTyping", function () {
