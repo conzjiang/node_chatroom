@@ -160,6 +160,11 @@ ul.buttons > li:hover {
   background: rgb(0, 255, 0);
 }
 
+ul.buttons > li.inactive {
+  background: #ccc;
+  cursor: default;
+}
+
 /* LIST OF CHATTERS */
 section.chatters {
   float: left;

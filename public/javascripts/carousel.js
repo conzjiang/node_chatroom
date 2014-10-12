@@ -7,6 +7,18 @@ $.Carousel = function ($el) {
   $(".right").on("click", this.slideRight.bind(this));
 };
 
+var setButtons = function (carousel) {
+  $(".buttons").children().each(function () {
+    $(this).removeClass("inactive");
+  });
+
+  if (carousel.activeIdx === 0) {
+    $(".right").addClass("inactive");
+  } else if (carousel.activeIdx === carousel.$items.length - 1) {
+    $(".left").addClass("inactive");
+  }
+};
+
 $.Carousel.prototype.slide = function (dir) {
   var operator = dir === -1 ? "+" : "-";
 
@@ -26,14 +38,16 @@ $.Carousel.prototype.slide = function (dir) {
     $nextItem.addClass("active");
     $currentItem.removeClass("active");
   });
+
+  setButtons(this);
 };
 
 $.Carousel.prototype.slideLeft = function (e) {
-  this.slide(1);
+  if (!$(e.currentTarget).hasClass("inactive")) { this.slide(1); }
 };
 
 $.Carousel.prototype.slideRight = function (e) {
-  this.slide(-1);
+  if (!$(e.currentTarget).hasClass("inactive")) { this.slide(-1); }
 };
 
 $.fn.carousel = function () {
