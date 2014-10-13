@@ -1,5 +1,5 @@
 /* RESETS */
-html, body, h1, h3, section, ul, li, p {
+html, body, h1, h2, h3, section, ul, li, p {
   margin: 0;
   padding: 0;
   border: 0;
@@ -90,7 +90,7 @@ header.edit {
   margin-bottom: 19px;
 }
 
-h1 {
+header > h1 {
   padding: 10px;
   cursor: default;
 }
@@ -99,36 +99,48 @@ header.edit > h1 {
   display: none;
 }
 
-header input[type="text"] {
+header > form.change-nickname {
+  position: relative;
   display: none;
+}
+
+header.edit > form.change-nickname {
+  display: block;
+}
+
+header.connected > form.change-nickname {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-left: -200px;
+  z-index: 100;
+}
+
+form.change-nickname.ready {
+  position: relative;
+  top: 20px;
+  left: 0;
+  margin: 0;
+}
+
+header input[type="text"] {
   width: 380px;
   margin: auto;
   padding: 10px;
   text-align: center;
   background: #fff;
   border-bottom: 1px solid #888;
-}
-
-header.edit input[type="text"] {
-  display: block;
   position: relative;
-  z-index: 100;
 }
 
-header > p.error {
-  display: none;
-}
-
-header.edit > p.error {
-  display: block;
+header p.error {
   position: absolute;
-  top: 100px;
+  top: 80px;
   left: 50%;
   margin-left: -250px;
   width: 500px;
   font-size: 18px;
   color: #DA0000;
-  z-index: 100;
 }
 
 div#modal {
@@ -145,6 +157,10 @@ div#modal {
 
 header.edit > div#modal {
   display: block;
+}
+
+header.connected > div#modal {
+  background: rgb(141, 186, 201);
 }
 
 /* CHAT CAROUSEL */

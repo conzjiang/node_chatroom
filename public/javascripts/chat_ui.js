@@ -8,7 +8,65 @@
     this.privateChats = [];
     this.$chatCarousel = $(".all-chats").carousel();
 
-    this.bindEvents();
+    this.connect();
+  };
+
+  ChatUI.prototype.connect = function () {
+    var ui = this;
+
+    this.socket.on("connected", function (data) {
+      var $input = $("header input[type=text]");
+      $input.val(data.nickname);
+      $input.focus().select();
+    });
+
+    $("header.connected > form.change-nickname").on("submit", function (e) {
+      e.preventDefault();
+      var nickname = $(this).find("input").val();
+
+      if (nickname) {
+        ui.nickname = nickname;
+
+        ui.socket.emit("nicknameChange", {
+          nickname: nickname,
+          newGuest: true
+        });
+      }
+    });
+
+    this.socket.on("chatReady", function () {
+      ui.bindEvents();
+
+      var $form = $("header.connected > form.change-nickname");
+      $form.blur();
+      $form.find("h2").fadeOut(1000, $.fn.remove.bind($form.find("h2")));
+
+      $form.animate({ top: "-26px" }, 1000, function () {
+        // adjust position after h2 fades out
+        $form.css({ top: "20px" }).addClass("ready").off("submit");
+        $("h1.nickname").css({ display: "block" }).html(ui.nickname);
+
+        setTimeout(function () {
+          $("#modal").fadeOut(function () {
+            $("header").removeClass();
+
+            var els = [
+              $("#modal"),
+              $form.removeClass("ready"),
+              $("h1.nickname")
+            ];
+
+            _(els).each(function ($el) {
+              $el.removeAttr("style");
+            });
+          });
+        }, 500);
+      });
+    });
+
+    this.socket.on("errorMessage", function (data) {
+      $("p.error").html(data.message);
+    });
   };
 
   $.fn.scrollToBottom = function () {
@@ -166,10 +224,6 @@
       }
 
       $(".chatters > li[data-id=" + data.id + "]").remove();
-    });
-
-    this.socket.on("errorMessage", function (data) {
-      $("p.error").html(data.message);
     });
   };
 
