@@ -20,7 +20,7 @@
       $input.focus().select();
     });
 
-    $("header.connected > form.change-nickname").on("submit", function (e) {
+    $("form.change-nickname").on("submit.connected", function (e) {
       e.preventDefault();
       var nickname = $(this).find("input").val();
 
@@ -36,6 +36,7 @@
 
     this.socket.on("chatReady", function () {
       ui.bindEvents();
+      $("p.error").empty();
 
       var $form = $("header.connected > form.change-nickname");
       $form.blur();
@@ -43,7 +44,7 @@
 
       $form.animate({ top: "-26px" }, 1000, function () {
         // adjust position after h2 fades out
-        $form.css({ top: "20px" }).addClass("ready").off("submit");
+        $form.css({ top: "20px" }).addClass("ready").off("submit.connected");
         $("h1.nickname").css({ display: "block" }).html(ui.nickname);
 
         setTimeout(function () {
@@ -142,6 +143,7 @@
   };
 
   ChatUI.prototype._handleNickname = function () {
+    $("p.error").empty();
     var newNickname = $("header").find("input").val();
 
     if (newNickname && this.nickname !== newNickname) {

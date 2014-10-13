@@ -100,8 +100,9 @@ header.edit > h1 {
 }
 
 header > form.change-nickname {
-  position: relative;
   display: none;
+  position: relative;
+  z-index: 100;
 }
 
 header.edit > form.change-nickname {
@@ -113,7 +114,6 @@ header.connected > form.change-nickname {
   top: 30%;
   left: 50%;
   margin-left: -200px;
-  z-index: 100;
 }
 
 form.change-nickname.ready {
@@ -140,7 +140,11 @@ header p.error {
   margin-left: -250px;
   width: 500px;
   font-size: 18px;
-  color: #DA0000;
+  color: #990000;
+}
+
+header.connected p.error {
+  top: 126px;
 }
 
 div#modal {
