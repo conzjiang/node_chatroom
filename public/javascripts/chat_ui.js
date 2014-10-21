@@ -175,7 +175,6 @@
     });
 
     this.socket.on("sendMessage", function (data) {
-      $("#typing").remove();
       ui._isTyping = false;
       ui.appendMessage($(".chat-box"), data);
     });
@@ -186,6 +185,7 @@
       }
 
       var $convoBox = $("li.chat[data-id='" + data.chatId + "']").find(".convo");
+      $convoBox.find(".typing").remove();
       ui.appendMessage($convoBox, data);
     });
 
@@ -253,39 +253,49 @@
 
   ChatUI.prototype.checkTyping = function () {
     var ui = this;
-    this._isTyping = false;
-    this._stoppedTyping = true;
+    var interval;
+    this.lastKeypress = Date.now();
 
-    $("#chat-form").on("keypress", function () {
-      ui._stoppedTyping = false;
+    $(".all-chats").on("keypress", "form.private", function () {
+      var oneSecondAgo = Date.now() - 1000;
+      var id = $(this).closest("li").data("id");
 
-      if ($(event.currentTarget).find("textarea").val()[0] === "/") {
-        ui.socket.emit("stopTyping");
-      } else if (!ui._isTyping) {
-        ui.socket.emit("typing");
-        ui._isTyping = true;
+      if (ui.lastKeypress < oneSecondAgo) {
+        ui.lastKeypress = Date.now();
 
-        setTimeout(function () {
-          if (ui._stoppedTyping) {
-            ui._isTyping = false;
-            ui.socket.emit("stopTyping");
-          }
-        }, 3000);
+        if (!interval) {
+          ui.socket.emit("typing", { receiverId: id });
+
+          interval = setInterval(function () {
+            var oneSecondAgo = Date.now() - 1000;
+
+            if (ui.lastKeypress < oneSecondAgo) {
+              ui.socket.emit("stopTyping", { receiverId: id });
+              clearInterval(interval);
+              interval = null;
+            }
+          }, 1000);
+        }
       }
     });
 
-    $("#chat-form").on("keyup", function () {
-      ui._stoppedTyping = true;
-    });
-
     this.socket.on("isTyping", function (data) {
-      $(".chat-box").append("<p id='typing' class='notif'>" + data.nickname + " is typing</p>");
-      $(".chat-box").scrollToBottom();
+      var $chat = ui.$privateChat(data.id).find(".convo");
+
+      if ($chat.length > 0) {
+        $chat.append("<p class='typing notif'>" + data.nickname + " is typing</p>");
+        $chat.scrollToBottom();
+      }
     });
 
-    this.socket.on("stoppedTyping", function () {
-      $("#typing").remove();
+    this.socket.on("stoppedTyping", function (data) {
+      var $chat = ui.$privateChat(data.id);
+      if ($chat.length > 0) $chat.find(".typing").remove();
     });
+  };
+
+  ChatUI.prototype.$privateChat = function (id) {
+    return $(".all-chats > li[data-id=" + id + "]");
   };
 
   ChatUI.prototype.displayNicknames = function (nicknames) {
