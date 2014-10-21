@@ -199,10 +199,10 @@
     this.socket.on("displayNicks", function (data) {
       ui.displayNicknames(data.nicknames);
 
-      var $nicknames = $(".nickname[data-id='" + data.changedId + "']");
+      var $nickname = $(".nickname[data-id='" + data.changedId + "']");
       var nickname = data.nicknames[data.changedId];
 
-      $nicknames.html(nickname);
+      $nickname.html(nickname);
     });
 
     this.socket.on("guestLeft", function (data) {
@@ -257,24 +257,24 @@
     this.lastKeypress = Date.now();
 
     $(".all-chats").on("keypress", "form.private", function () {
-      var oneSecondAgo = Date.now() - 1000;
+      var twoSecondsAgo = Date.now() - 2000;
       var id = $(this).closest("li").data("id");
 
-      if (ui.lastKeypress < oneSecondAgo) {
+      if (ui.lastKeypress < twoSecondsAgo) {
         ui.lastKeypress = Date.now();
 
         if (!interval) {
           ui.socket.emit("typing", { receiverId: id });
 
           interval = setInterval(function () {
-            var oneSecondAgo = Date.now() - 1000;
+            var twoSecondsAgo = Date.now() - 2000;
 
-            if (ui.lastKeypress < oneSecondAgo) {
+            if (ui.lastKeypress < twoSecondsAgo) {
               ui.socket.emit("stopTyping", { receiverId: id });
               clearInterval(interval);
               interval = null;
             }
-          }, 1000);
+          }, 2000);
         }
       }
     });
