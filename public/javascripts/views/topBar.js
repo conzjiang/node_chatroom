@@ -15,7 +15,7 @@ NodeFun.Views.TopBar = Backbone.View.extend({
     var nickname = this.$el.find("input").val();
 
     if (nickname && this.socket.nickname !== nickname) {
-      this.socket.changeNickname(nickname);
+      this.socket.changeNickname(nickname.escape());
     } else if (!this.$el.hasClass("connected")) {
       this.$el.removeClass("edit");
     }

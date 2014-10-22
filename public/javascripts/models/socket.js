@@ -10,5 +10,13 @@ NodeFun.Models.Socket = Backbone.Model.extend({
   changeNickname: function (newNickname) {
     this.nickname = newNickname;
     this.socket.emit("nicknameChange", { nickname: newNickname });
+  },
+
+  sendMessage: function (message, receiverId) {
+    if (receiverId) {
+      this.emit("privateMessage", { id: receiverId, text: message });
+    } else {
+      this.emit("message", { text: message });
+    }
   }
 });

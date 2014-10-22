@@ -2,19 +2,21 @@
   var NodeFun = root.NodeFun = (root.NodeFun || {});
 
   var ChatUI = NodeFun.ChatUI = function () {
-    this.chat = new NodeFun.Chat(io());
-    this.socket = this.chat.socket;
-    this.nicknames = {};
-    this.privateChats = [];
+    NodeFun.initialize({ socket: io() });
+    this.socket = NodeFun.socket.socket;
     this.$chatCarousel = $(".all-chats").carousel();
 
-    NodeFun.initialize({ socket: this.socket });
+    this.nicknames = {};
+    this.privateChats = [];
+
     this.initializeViews();
     this.bindEvents();
   };
 
   ChatUI.prototype.initializeViews = function () {
     this.topBarView = new NodeFun.Views.TopBar({ el: $("header") });
+    this.allChatsView = new NodeFun.Views.AllChats({ el: $("ul.all-chats") });
+    this.mainChatView = new NodeFun.Views.MainChat({ el: $("li.main-chat") });
   };
 
   ChatUI.prototype.enterRoom = function () {
@@ -60,21 +62,10 @@
       $input.focus().select();
     });
 
-    this.socket.on("chatReady", function () {
-      // ui.bindEvents();
-      ui.enterRoom();
-    });
+    this.socket.on("chatReady", this.enterRoom.bind(this));
 
     this.socket.on("errorMessage", function (data) {
       $("p.error").html(data.message);
-    });
-
-    $(".all-chats").on("keydown", "form", function (e) {
-      if (e.which === 13) {
-        e.preventDefault();
-        var id = $(this).closest("li.chat").attr("data-id");
-        ui._handleMessage($(e.target), { id: id });
-      }
     });
 
     $(".all-chats").on("click", "li.chat", function () {
@@ -145,7 +136,6 @@
     });
 
     this.socket.on("sendMessage", function (data) {
-      ui._isTyping = false;
       ui.appendMessage($(".chat-box"), data);
     });
 
@@ -198,23 +188,6 @@
 
       $(".chatters > li[data-id=" + data.id + "]").removeAndUnbind();
     });
-  };
-
-  ChatUI.prototype._handleMessage = function ($textarea, private) {
-    var message = $textarea.val();
-
-    if (message) {
-      var messageText = this._escape(message);
-      this.chat.sendMessage(messageText, private);
-      $textarea.val("");
-    }
-  };
-
-  ChatUI.prototype._escape = function (message) {
-    var msg = message.replace(/</g, "&lt;");
-    msg = msg.replace(/>/g, "&gt;");
-
-    return msg;
   };
 
   ChatUI.prototype.appendMessage = function ($chatbox, data) {
@@ -286,6 +259,6 @@
   };
 
   ChatUI.prototype.isSelf = function (id) {
-    return this.nicknames[id] === this.nickname;
+    return this.nicknames[id] === NodeFun.socket.nickname;
   };
 })(window);
