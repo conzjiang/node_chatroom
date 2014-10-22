@@ -131,7 +131,7 @@
       event.stopPropagation();
 
       var $chat = $(this).closest("li.chat");
-      $chat.remove();
+      $chat.removeAndUnbind();
 
       var index = ui.privateChats.indexOf($chat.attr("data-id"));
       ui.privateChats.splice(index, 1);
@@ -162,6 +162,10 @@
     $(".all-chats").append(content);
     this.$chatCarousel.updateItems();
     this.$chatCarousel.scrollTo($(".all-chats").children().length - 1);
+
+    this.$privateChat(id).on("transitionend", function () {
+      $(this).find("textarea").focus();
+    });
   };
 
   ChatUI.prototype.displayMessages = function () {
@@ -219,7 +223,7 @@
         delete ui.nicknames[data.id];
 
         setTimeout(function () {
-          $privateChat.remove();
+          $privateChat.removeAndUnbind();
           ui.privateChats.splice(privateIndex, 1);
           ui.$chatCarousel.updateItems();
 
@@ -229,7 +233,7 @@
         }, 1500);
       }
 
-      $(".chatters > li[data-id=" + data.id + "]").remove();
+      $(".chatters > li[data-id=" + data.id + "]").removeAndUnbind();
     });
   };
 
@@ -316,6 +320,11 @@
         $container.children().last().addClass("self");
       }
     }
+  };
+
+  $.fn.removeAndUnbind = function () {
+    $(this).off();
+    $(this).remove();
   };
 
   ChatUI.prototype.isSelf = function (id) {
