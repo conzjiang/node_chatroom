@@ -10,30 +10,11 @@
 
     NodeFun.initialize({ socket: this.socket });
     this.initializeViews();
-    this.connect();
+    this.bindEvents();
   };
 
   ChatUI.prototype.initializeViews = function () {
     this.topBarView = new NodeFun.Views.TopBar({ el: $("header") });
-  };
-
-  ChatUI.prototype.connect = function () {
-    var ui = this;
-
-    this.socket.on("connected", function (data) {
-      var $input = $("header input[type=text]");
-      $input.val(data.nickname);
-      $input.focus().select();
-    });
-
-    this.socket.on("chatReady", function () {
-      // ui.bindEvents();
-      ui.enterRoom();
-    });
-
-    this.socket.on("errorMessage", function (data) {
-      $("p.error").html(data.message);
-    });
   };
 
   ChatUI.prototype.enterRoom = function () {
@@ -73,18 +54,20 @@
 
     var ui = this;
 
-    $("header").on("dblclick", "h1", function () {
-      var $header = $(event.currentTarget);
-      $header.addClass("edit");
-      $header.find("input").focus().select();
+    this.socket.on("connected", function (data) {
+      var $input = $("header input[type=text]");
+      $input.val(data.nickname);
+      $input.focus().select();
     });
 
-    $("form.change-nickname").on("submit", function () {
-      event.preventDefault();
-      ui._handleNickname();
+    this.socket.on("chatReady", function () {
+      // ui.bindEvents();
+      ui.enterRoom();
     });
 
-    $("div#modal").on("click", this._handleNickname.bind(this));
+    this.socket.on("errorMessage", function (data) {
+      $("p.error").html(data.message);
+    });
 
     $(".all-chats").on("keydown", "form", function (e) {
       if (e.which === 13) {
@@ -135,17 +118,6 @@
     });
   };
 
-  ChatUI.prototype._handleNickname = function () {
-    $("p.error").empty();
-    var newNickname = $("header").find("input").val();
-
-    if (newNickname && this.nickname !== newNickname) {
-      this.chat.changeNickname(newNickname);
-    } else {
-      $("header").removeClass("edit");
-    }
-  };
-
   ChatUI.prototype.newPrivateChat = function (id, chatter) {
     $(".all-chats").css({ width: "+=500px" });
     this.privateChats.push(id);
@@ -188,11 +160,8 @@
       ui.appendMessage($convoBox, data);
     });
 
-    this.socket.on("nicknameAdded", function (data) {
-      $("header").removeClass("edit");
-      $("h1.nickname").html(data.nickname);
-      $("header input[type=text]").val(data.nickname);
-      ui.nickname = data.nickname;
+    this.socket.on("nicknameAdded", function () {
+      NodeFun.socket.trigger("change");
     });
 
     this.socket.on("displayNicks", function (data) {
@@ -315,8 +284,6 @@
       }
     }
   };
-
-
 
   ChatUI.prototype.isSelf = function (id) {
     return this.nicknames[id] === this.nickname;
