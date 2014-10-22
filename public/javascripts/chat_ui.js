@@ -2,9 +2,8 @@
   var NodeFun = root.NodeFun = (root.NodeFun || {});
 
   var ChatUI = NodeFun.ChatUI = function () {
-    NodeFun.initialize({ socket: io() });
     this.socket = NodeFun.socket.socket;
-    this.$chatCarousel = $(".all-chats").carousel();
+    this.$chatCarousel = NodeFun.$chatCarousel;
 
     this.nicknames = {};
     this.privateChats = [];
@@ -51,10 +50,10 @@
   };
 
   ChatUI.prototype.bindEvents = function () {
+    var ui = this;
+
     this.displayMessages();
     this.checkTyping();
-
-    var ui = this;
 
     this.socket.on("connected", function (data) {
       var $input = $("header input[type=text]");
@@ -68,33 +67,7 @@
       $("p.error").html(data.message);
     });
 
-    $(".all-chats").on("click", "li.chat", function () {
-      if (!$(this).hasClass("active")) {
-        var index = $(".all-chats").children().index($(this));
-        ui.$chatCarousel.scrollTo(index);
-      }
-    });
-
     // PRIVATE CHATS
-    $(".chatters").on("click", "li", function (e) {
-      var isSelf = $(this).hasClass("self");
-      var chatIsActive = $(this).closest("li.chat").hasClass("active");
-
-      if (!isSelf && chatIsActive) {
-        e.stopPropagation();
-
-        var id = $(this).attr("data-id");
-        var chatter = $(e.target).text();
-        var index = ui.privateChats.indexOf(id);
-
-        if (index === -1) {
-          ui.newPrivateChat(id, chatter);
-        } else {
-          ui.$chatCarousel.scrollTo(index + 1);
-        }
-      }
-    });
-
     $(".all-chats").on("click", ".x", function () {
       event.stopPropagation();
 
@@ -110,16 +83,6 @@
   };
 
   ChatUI.prototype.newPrivateChat = function (id, chatter) {
-    $(".all-chats").css({ width: "+=500px" });
-    this.privateChats.push(id);
-
-    var template = _.template($("#private-chat").html());
-    var content = template({ id: id, nickname: chatter });
-
-    $(".all-chats").append(content);
-    this.$chatCarousel.updateItems();
-    this.$chatCarousel.scrollTo($(".all-chats").children().length - 1);
-
     this.$privateChat(id).on("transitionend", function () {
       $(this).find("textarea").focus();
     });
