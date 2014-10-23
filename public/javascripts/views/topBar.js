@@ -28,7 +28,7 @@ NodeFun.Views.TopBar = Backbone.View.extend({
   changeNickname: function () {
     this.$el.find("p.error").empty();
     this.$el.removeClass("edit");
-    this.$el.find("h1").html(this.socket.nickname);
-    this.$el.find("input[type=text]").val(this.socket.nickname);
+    this.$el.find("h1").html(NodeFun.socket.nickname);
+    this.$el.find("input[type=text]").val(NodeFun.socket.nickname);
   }
 });

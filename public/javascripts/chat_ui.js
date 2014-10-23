@@ -59,6 +59,8 @@
       var $input = $("header input[type=text]");
       $input.val(data.nickname);
       $input.focus().select();
+
+      NodeFun.socket.id = data.id;
     });
 
     this.socket.on("chatReady", this.enterRoom.bind(this));
@@ -99,13 +101,11 @@
     });
 
     this.socket.on("sendMessage", function (data) {
-      var messageData = {
+      NodeFun.socket.trigger("newMessage", {
         id: data.senderId,
         nickname: ui.nicknames[data.senderId],
         message: data.text
-      };
-
-      NodeFun.socket.trigger("newMessage", messageData);
+      });
     });
 
     this.socket.on("sendPrivateMessage", function (data) {
@@ -124,13 +124,15 @@
     });
 
     this.socket.on("displayNicks", function (data) {
+      var changedNickname = function () {
+        return $(this).data("id") === data.changedId;
+      };
+
+      var $nickname = $(".nickname").filter(changedNickname);
+      $nickname.html(NodeFun.socket.nickname);
+
       ui.nicknames = data.nicknames;
-      ui.displayNicknames();
-
-      var $nickname = $(".nickname[data-id='" + data.changedId + "']");
-      var nickname = data.nicknames[data.changedId];
-
-      $nickname.html(nickname);
+      NodeFun.socket.trigger("newNickname", ui.nicknames);
     });
 
     this.socket.on("guestLeft", function (data) {
@@ -211,23 +213,5 @@
 
   ChatUI.prototype.$privateChat = function (id) {
     return $(".all-chats > li[data-id=" + id + "]");
-  };
-
-  ChatUI.prototype.displayNicknames = function () {
-    var $container = $(".chatters");
-    $container.empty();
-
-    for (var id in this.nicknames) {
-      var nickname = this.nicknames[id];
-      $container.append("<li class='nickname' data-id='" + id + "'>" + nickname + "</li>");
-
-      if (this.isSelf(id)) {
-        $container.children().last().addClass("self");
-      }
-    }
-  };
-
-  ChatUI.prototype.isSelf = function (id) {
-    return this.nicknames[id] === NodeFun.socket.nickname;
   };
 })(window);
