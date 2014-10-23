@@ -99,7 +99,13 @@
     });
 
     this.socket.on("sendMessage", function (data) {
-      ui.appendMessage($(".chat-box"), data);
+      var messageData = {
+        id: data.senderId,
+        nickname: ui.nicknames[data.senderId],
+        message: data.text
+      };
+
+      NodeFun.socket.trigger("newMessage", messageData);
     });
 
     this.socket.on("sendPrivateMessage", function (data) {

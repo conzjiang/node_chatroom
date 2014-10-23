@@ -1,7 +1,6 @@
 NodeFun.Views.TopBar = Backbone.View.extend({
   initialize: function () {
-    this.socket = NodeFun.socket;
-    this.listenTo(this.socket, "change", this.changeNickname);
+    this.listenTo(NodeFun.socket, "change", this.changeNickname);
   },
 
   events: {
@@ -14,8 +13,8 @@ NodeFun.Views.TopBar = Backbone.View.extend({
     event.preventDefault();
     var nickname = this.$el.find("input").val().clean();
 
-    if (nickname && this.socket.nickname !== nickname) {
-      this.socket.changeNickname(nickname);
+    if (nickname && NodeFun.socket.nickname !== nickname) {
+      NodeFun.socket.changeNickname(nickname);
     } else if (!this.$el.hasClass("connected")) {
       this.$el.removeClass("edit");
     }

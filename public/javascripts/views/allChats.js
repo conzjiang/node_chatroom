@@ -1,6 +1,5 @@
 NodeFun.Views.AllChats = Backbone.View.extend({
   initialize: function () {
-    this.socket = NodeFun.socket;
     this.privateChatViews = [];
   },
 
@@ -11,10 +10,17 @@ NodeFun.Views.AllChats = Backbone.View.extend({
   },
 
   sendMessage: function (e) {
+    var $textarea = this.$el.find("textarea");
+
     if (e.which === 13) {
       e.preventDefault();
+      var message = $textarea.val().clean();
       var receiverId = $(e.currentTarget).closest("li.chat").data("id");
-      this._handleMessage($(e.target), receiverId);
+
+      if (message) {
+        NodeFun.socket.sendMessage(message, receiverId);
+        $textarea.val("");
+      }
     }
   },
 
@@ -49,15 +55,6 @@ NodeFun.Views.AllChats = Backbone.View.extend({
   remove: function () {
     _(this.privateChatViews).each(function (view) { view.remove(); });
     return Backbone.View.prototype.remove.apply(this);
-  },
-
-  _handleMessage: function ($textarea, receiverId) {
-    var message = $textarea.val().clean();
-
-    if (message) {
-      this.socket.sendMessage(message, receiverId);
-      $textarea.val("");
-    }
   },
 
   _indexOf: function (id) {
