@@ -1,42 +1,46 @@
 NodeFun.Views.AllChats = Backbone.View.extend({
   initialize: function () {
+    this.mainChatView = new NodeFun.Views.MainChat({
+      el: this.$el.find("li.main-chat")
+    });
+
     this.privateChatViews = [];
+    this.listenTo(NodeFun.socket, "newChat", this.createNewChat);
   },
 
   events: {
-    "keydown form": "sendMessage",
     "click li.nickname": "newPrivateChat",
     "click li.chat": "switchChat"
   },
 
-  sendMessage: function (e) {
-    var $textarea = this.$el.find("textarea");
+  createNewChat: function (id, nickname) {
+    this.$el.css({ width: "+=500px" });
 
-    if (e.which === 13) {
-      e.preventDefault();
-      var message = $textarea.val().clean();
-      var receiverId = $(e.currentTarget).closest("li.chat").data("id");
+    var view = new NodeFun.Views.PrivateChat({
+      chatId: id,
+      nickname: nickname
+    });
 
-      if (message) {
-        NodeFun.socket.sendMessage(message, receiverId);
-        $textarea.val("");
-      }
-    }
+    this.$el.append(view.render().$el);
+    this.privateChatViews.push(view);
+
+    NodeFun.$chatCarousel.updateItems();
+    NodeFun.$chatCarousel.scrollTo(this.$el.children().length - 1);
   },
 
   newPrivateChat: function (e) {
     var $clickedName = $(e.currentTarget);
     var isSelf = $clickedName.hasClass("self");
-    var chatIsActive = $clickedName.closest("li.chat").hasClass("active");
+    var mainChatIsActive = $clickedName.closest("li.chat").hasClass("active");
 
-    if (!isSelf && chatIsActive) {
+    if (!isSelf && mainChatIsActive) {
       e.stopPropagation(); // otherwise it also hits #switchChat
       var id = $clickedName.data("id");
       var chatter = $clickedName.text();
-      var index = this._indexOf(id);
+      var index = this.indexOf(id);
 
       if (index === -1) {
-        this._createNewChat(id, chatter);
+        this.createNewChat(id, chatter);
       } else {
         NodeFun.$chatCarousel.scrollTo(index + 1);
       }
@@ -52,16 +56,11 @@ NodeFun.Views.AllChats = Backbone.View.extend({
     }
   },
 
-  remove: function () {
-    _(this.privateChatViews).each(function (view) { view.remove(); });
-    return Backbone.View.prototype.remove.apply(this);
-  },
-
-  _indexOf: function (id) {
+  indexOf: function (id) {
     var index = -1;
 
     _(this.privateChatViews).each(function (view, i) {
-      if (view.id === id) {
+      if (view.chatId === id) {
         index = i;
         return false;
       }
@@ -70,18 +69,9 @@ NodeFun.Views.AllChats = Backbone.View.extend({
     return index;
   },
 
-  _createNewChat: function (id, nickname) {
-    this.$el.css({ width: "+=500px" });
-
-    var view = new NodeFun.Views.PrivateChat({
-      chatId: id,
-      nickname: nickname
-    });
-
-    this.$el.append(view.render().$el);
-    this.privateChatViews.push(view);
-
-    NodeFun.$chatCarousel.updateItems();
-    NodeFun.$chatCarousel.scrollTo(this.$el.children().length - 1);
+  remove: function () {
+    this.mainChatView.remove();
+    _(this.privateChatViews).each(function (view) { view.remove(); });
+    return Backbone.View.prototype.remove.apply(this);
   }
 });

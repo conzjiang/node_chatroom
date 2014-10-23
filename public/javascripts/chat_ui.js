@@ -5,17 +5,19 @@
     this.socket = NodeFun.socket.socket;
     this.$chatCarousel = NodeFun.$chatCarousel;
 
+    this.initializeViews();
+    this.$mainChat = this.mainChatView.$chat;
+
     this.nicknames = {};
     this.privateChats = [];
 
-    this.initializeViews();
     this.bindEvents();
   };
 
   ChatUI.prototype.initializeViews = function () {
     this.topBarView = new NodeFun.Views.TopBar({ el: $("header") });
     this.allChatsView = new NodeFun.Views.AllChats({ el: $("ul.all-chats") });
-    this.mainChatView = new NodeFun.Views.MainChat({ el: $("li.main-chat") });
+    this.mainChatView = this.allChatsView.mainChatView;
   };
 
   ChatUI.prototype.enterRoom = function () {
@@ -95,9 +97,8 @@
 
     this.socket.on("newGuest", function (data) {
       var guest = ui.nicknames[data.id] = data.nickname;
-      $(".chat-box").append("<p class='notif'>" + guest + " has joined the room</p>");
-      $(".chatters").append("<li class='nickname' data-id='" + data.id + "'>" + guest + "</li>");
-      $(".chat-box").scrollToBottom();
+      ui.$mainChat.append("<p class='notif'>" + guest + " has joined the room</p>");
+      ui.$mainChat.scrollToBottom();
     });
 
     this.socket.on("sendMessage", function (data) {
@@ -109,14 +110,19 @@
     });
 
     this.socket.on("sendPrivateMessage", function (data) {
-      if (!ui.isSelf(data.senderId) &&
-        ui.privateChats.indexOf(data.chatId) === -1) {
-        ui.newPrivateChat(data.chatId, ui.nicknames[data.senderId]);
+      var isSelf = ui.isSelf(data.senderId);
+      var newChat = ui.allChatsView.indexOf(data.chatId) === -1;
+      var nickname = ui.nicknames[data.senderId];
+
+      if (!isSelf && newChat) {
+        NodeFun.socket.trigger("newChat", data.senderId, nickname);
       }
 
-      var $convoBox = ui.$privateChat(data.chatId).find(".convo");
-      $convoBox.find(".typing").remove();
-      ui.appendMessage($convoBox, data);
+      NodeFun.socket.trigger(data.chatId, {
+        id: data.senderId,
+        nickname: nickname,
+        message: data.text
+      });
     });
 
     this.socket.on("nicknameAdded", function () {
@@ -213,5 +219,9 @@
 
   ChatUI.prototype.$privateChat = function (id) {
     return $(".all-chats > li[data-id=" + id + "]");
+  };
+
+  ChatUI.prototype.isSelf = function (id) {
+    return NodeFun.socket.id === id;
   };
 })(window);
