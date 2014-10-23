@@ -6,6 +6,7 @@ NodeFun.Views.AllChats = Backbone.View.extend({
 
     this.privateChatViews = [];
     this.listenTo(NodeFun.socket, "newChat", this.createNewChat);
+    this.listenTo(NodeFun.socket, "remove", this.removeChat);
   },
 
   events: {
@@ -26,6 +27,14 @@ NodeFun.Views.AllChats = Backbone.View.extend({
 
     NodeFun.$chatCarousel.updateItems();
     NodeFun.$chatCarousel.scrollTo(this.$el.children().length - 1);
+  },
+
+  removeChat: function (id) {
+    var chatIndex = this.indexOf(id);
+    this.privateChatViews.splice(chatIndex, 1);
+
+    NodeFun.$chatCarousel.updateItems();
+    NodeFun.$chatCarousel.slideRight(chatIndex);
   },
 
   newPrivateChat: function (e) {

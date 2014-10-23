@@ -5,7 +5,7 @@ NodeFun.Views.Chat = Backbone.View.extend({
 
   sendMessage: function (e) {
     var $textarea = this.$el.find("textarea");
-
+    debugger
     if (e.which === 13) {
       e.preventDefault();
       var message = $textarea.val().clean();

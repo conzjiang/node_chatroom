@@ -20,6 +20,27 @@
     this.mainChatView = this.allChatsView.mainChatView;
   };
 
+  ChatUI.prototype.bindEvents = function () {
+    var ui = this;
+
+    this.displayMessages();
+    this.checkTyping();
+
+    this.socket.on("connected", function (data) {
+      var $input = $("header input[type=text]");
+      $input.val(data.nickname);
+      $input.focus().select();
+
+      NodeFun.socket.id = data.id;
+    });
+
+    this.socket.on("chatReady", this.enterRoom.bind(this));
+
+    this.socket.on("errorMessage", function (data) {
+      $("p.error").html(data.message);
+    });
+  };
+
   ChatUI.prototype.enterRoom = function () {
     var nickname = NodeFun.socket.nickname;
     $("p.error").empty();
@@ -49,47 +70,6 @@
 
       _(els).each(function ($el) { $el.removeAttr("style"); });
     };
-  };
-
-  ChatUI.prototype.bindEvents = function () {
-    var ui = this;
-
-    this.displayMessages();
-    this.checkTyping();
-
-    this.socket.on("connected", function (data) {
-      var $input = $("header input[type=text]");
-      $input.val(data.nickname);
-      $input.focus().select();
-
-      NodeFun.socket.id = data.id;
-    });
-
-    this.socket.on("chatReady", this.enterRoom.bind(this));
-
-    this.socket.on("errorMessage", function (data) {
-      $("p.error").html(data.message);
-    });
-
-    // PRIVATE CHATS
-    $(".all-chats").on("click", ".x", function () {
-      event.stopPropagation();
-
-      var $chat = $(this).closest("li.chat");
-      $chat.removeAndUnbind();
-
-      var index = ui.privateChats.indexOf($chat.attr("data-id"));
-      ui.privateChats.splice(index, 1);
-
-      ui.$chatCarousel.updateItems();
-      ui.$chatCarousel.slideRight(event);
-    });
-  };
-
-  ChatUI.prototype.newPrivateChat = function (id, chatter) {
-    this.$privateChat(id).on("transitionend", function () {
-      $(this).find("textarea").focus();
-    });
   };
 
   ChatUI.prototype.displayMessages = function () {
