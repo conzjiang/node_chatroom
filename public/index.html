@@ -10,6 +10,7 @@
     <script src="javascripts/views/topBar.js"></script>
     <script src="javascripts/views/allChats.js"></script>
     <script src="javascripts/views/mainChat.js"></script>
+    <script src="javascripts/views/privateChat.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
     <script src="javascripts/carousel.js"></script>
     <script src="javascripts/chat_ui.js"></script>
@@ -46,18 +47,16 @@
     </ul>
 
     <script type="text/template" id="private-chat">
-      <li class="chat" data-id="<%= id %>">
-        <h3>.
-          <strong class="nickname" data-id="<%= id %>"><%= nickname %></strong>
-        </h3>
-        <article class="convo"></article>
+      <h3>.
+        <strong class="nickname" data-id="<%= id %>"><%= nickname %></strong>
+      </h3>
+      <article class="convo"></article>
 
-        <form class="private">
-          <textarea></textarea>
-        </form>
+      <form class="private">
+        <textarea></textarea>
+      </form>
 
-        <strong class="x"><i class="fa fa-times"></i></strong>
-      </li>
+      <strong class="x"><i class="fa fa-times"></i></strong>
     </script>
 
     <script>

@@ -7,9 +7,9 @@ $.fn.removeAndUnbind = function () {
   $(this).remove();
 };
 
-String.prototype.escape = function () {
+String.prototype.clean = function () {
   var escapedStr = this.replace(/</g, "&lt;");
   escapedStr = escapedStr.replace(/>/g, "&gt;");
 
-  return escapedStr;
+  return $.trim(escapedStr);
 };
