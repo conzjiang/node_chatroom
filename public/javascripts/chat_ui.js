@@ -4,13 +4,9 @@
   var ChatUI = NodeFun.ChatUI = function () {
     this.socket = NodeFun.socket.socket;
     this.$chatCarousel = NodeFun.$chatCarousel;
+    this.nicknames = {};
 
     this.initializeViews();
-    this.$mainChat = this.mainChatView.$chat;
-
-    this.nicknames = {};
-    this.privateChats = [];
-
     this.bindEvents();
   };
 
@@ -77,8 +73,7 @@
 
     this.socket.on("newGuest", function (data) {
       var guest = ui.nicknames[data.id] = data.nickname;
-      ui.$mainChat.append("<p class='notif'>" + guest + " has joined the room</p>");
-      ui.$mainChat.scrollToBottom();
+      NodeFun.socket.trigger("newGuest", guest);
     });
 
     this.socket.on("sendMessage", function (data) {
@@ -110,11 +105,7 @@
     });
 
     this.socket.on("displayNicks", function (data) {
-      var changedNickname = function () {
-        return $(this).data("id") === data.changedId;
-      };
-
-      var $nickname = $(".nickname").filter(changedNickname);
+      var $nickname = $(".nickname").findByDataId(data.changedId);
       $nickname.html(NodeFun.socket.nickname);
 
       ui.nicknames = data.nicknames;
@@ -123,27 +114,8 @@
 
     this.socket.on("guestLeft", function (data) {
       var nickname = ui.nicknames[data.id];
-      var privateIndex = ui.privateChats.indexOf(data.id);
-
-      $(".chat-box").append("<p class='notif'>" + nickname + " has left the room</p>");
-
-      if (privateIndex !== -1) {
-        var $privateChat = ui.$privateChat(data.id);
-        $privateChat.html("<p class='guest-left'>" + nickname + " has left the building</p>");
-        delete ui.nicknames[data.id];
-
-        setTimeout(function () {
-          $privateChat.removeAndUnbind();
-          ui.privateChats.splice(privateIndex, 1);
-          ui.$chatCarousel.updateItems();
-
-          if (ui.$chatCarousel.activeIdx === privateIndex + 1) {
-            ui.$chatCarousel.scrollTo(privateIndex);
-          }
-        }, 1500);
-      }
-
-      $(".chatters > li[data-id=" + data.id + "]").removeAndUnbind();
+      NodeFun.socket.trigger("guestLeft", { id: data.id, nickname: nickname });
+      delete ui.nicknames[data.id];
     });
   };
 

@@ -5,7 +5,7 @@ NodeFun.Views.Chat = Backbone.View.extend({
 
   sendMessage: function (e) {
     var $textarea = this.$el.find("textarea");
-    debugger
+
     if (e.which === 13) {
       e.preventDefault();
       var message = $textarea.val().clean();
@@ -31,8 +31,11 @@ NodeFun.Views.Chat = Backbone.View.extend({
 
   appendMessage: function (data) {
     var content = this.template(data);
-
     this.$chat.find(".typing").remove();
+    this.appendToChat(content);
+  },
+
+  appendToChat: function (content) {
     this.$chat.append(content);
     this.$chat.scrollToBottom();
   }

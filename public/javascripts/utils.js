@@ -2,9 +2,10 @@ $.fn.scrollToBottom = function () {
   $(this).scrollTop($(this).scrollTop() + $(this).height());
 };
 
-$.fn.removeAndUnbind = function () {
-  $(this).off();
-  $(this).remove();
+$.fn.findByDataId = function (id) {
+  return this.filter(function () {
+    return $(this).data("id") === id;
+  });
 };
 
 String.prototype.clean = function () {

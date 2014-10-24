@@ -7,6 +7,7 @@ NodeFun.Views.AllChats = Backbone.View.extend({
     this.privateChatViews = [];
     this.listenTo(NodeFun.socket, "newChat", this.createNewChat);
     this.listenTo(NodeFun.socket, "remove", this.removeChat);
+    this.listenTo(NodeFun.socket, "guestLeft", this.removeGuest);
   },
 
   events: {
@@ -29,12 +30,36 @@ NodeFun.Views.AllChats = Backbone.View.extend({
     NodeFun.$chatCarousel.scrollTo(this.$el.children().length - 1);
   },
 
-  removeChat: function (id) {
+  removeChat: function (id, active) {
     var chatIndex = this.indexOf(id);
+    var chatView = this.privateChatViews[chatIndex];
+
+    chatView.remove();
     this.privateChatViews.splice(chatIndex, 1);
 
     NodeFun.$chatCarousel.updateItems();
-    NodeFun.$chatCarousel.slideRight(chatIndex);
+    if (active) NodeFun.$chatCarousel.slideRight(chatIndex);
+  },
+
+  removeGuest: function (data) {
+    var privateIndex = this.indexOf(data.id);
+
+    this.mainChatView.appendToChat("<p class='notif'>" + data.nickname + " has left the room</p>");
+
+    if (privateIndex !== -1) {
+      var view = this;
+      var $privateChat = this.$el.children().eq(privateIndex + 1);
+      var removeChat = function () {
+        var active = false;
+        if (NodeFun.$chatCarousel.activeIdx === privateIndex + 1) active = true;
+        view.removeChat(data.id, active);
+      };
+
+      $privateChat.html("<p class='guest-left'>" + data.nickname + " has left the building</p>");
+      setTimeout(removeChat, 1500);
+    }
+
+    $(".chatters > li").findByDataId(data.id).remove();
   },
 
   newPrivateChat: function (e) {

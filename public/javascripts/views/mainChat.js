@@ -1,8 +1,13 @@
 NodeFun.Views.MainChat = NodeFun.Views.Chat.extend({
   initialize: function () {
     this.$chat = this.$el.find(".chat-box");
+    this.listenTo(NodeFun.socket, "newGuest", this.newGuest);
     this.listenTo(NodeFun.socket, "newMessage", this.appendMessage);
     this.listenTo(NodeFun.socket, "newNickname", this.displayNicknames);
+  },
+
+  newGuest: function (guest) {
+    this.appendToChat("<p class='notif'>" + guest + " has joined the room</p>");
   },
 
   displayNicknames: function (nicknames) {

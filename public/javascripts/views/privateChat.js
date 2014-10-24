@@ -24,8 +24,7 @@ NodeFun.Views.PrivateChat = NodeFun.Views.Chat.extend({
 
   closeChat: function (e) {
     e.stopPropagation();
-    this.remove();
-    NodeFun.socket.trigger("remove", this.chatId);
+    NodeFun.socket.trigger("remove", this.chatId, true);
   },
 
   render: function () {
