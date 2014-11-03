@@ -119,53 +119,19 @@
     });
   };
 
-  ChatUI.prototype.appendMessage = function ($chatbox, data) {
-    var id = data.senderId, nickname = this.nicknames[id];
-    $chatbox.append("<p><strong class='nickname' data-id='" + id + "'>" + nickname + "</strong>: " + data.text + "</p>");
-    $chatbox.scrollToBottom();
-  };
-
   ChatUI.prototype.checkTyping = function () {
     var ui = this;
-    var interval;
-    this.lastKeypress = Date.now();
-
-    $(".all-chats").on("keypress", "form.private", function () {
-      var twoSecondsAgo = Date.now() - 2000;
-      var id = $(this).closest("li").data("id");
-
-      if (ui.lastKeypress < twoSecondsAgo) {
-        ui.lastKeypress = Date.now();
-
-        if (!interval) {
-          ui.socket.emit("typing", { receiverId: id });
-
-          interval = setInterval(function () {
-            var twoSecondsAgo = Date.now() - 2000;
-
-            if (ui.lastKeypress < twoSecondsAgo) {
-              ui.socket.emit("stopTyping", { receiverId: id });
-              clearInterval(interval);
-              interval = null;
-            }
-          }, 2000);
-        }
-      }
-    });
 
     this.socket.on("isTyping", function (data) {
-      var $chat = ui.$privateChat(data.id).find(".convo");
       var nickname = ui.nicknames[data.id];
 
-      if ($chat.length > 0) {
-        $chat.append("<p class='typing notif'>" + nickname + " is typing</p>");
-        $chat.scrollToBottom();
-      }
+      NodeFun.socket.trigger(data.id + "typing", {
+        nickname: nickname
+      });
     });
 
     this.socket.on("stoppedTyping", function (data) {
-      var $chat = ui.$privateChat(data.id);
-      if ($chat.length > 0) $chat.find(".typing").remove();
+      NodeFun.socket.trigger(data.id + "doneTyping");
     });
   };
 
