@@ -5,7 +5,7 @@ NodeFun.Views.TopBar = Backbone.View.extend({
 
   events: {
     "submit form": "submitNickname",
-    "click div#modal": "submitNickname",
+    "click #header-modal": "submitNickname",
     "dblclick h1": "editNickname"
   },
 

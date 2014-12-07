@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="vendor/javascripts/socket.io.js"></script>
     <script src="vendor/javascripts/jquery.js"></script>
     <script src="vendor/javascripts/underscore.js"></script>
     <script src="vendor/javascripts/backbone.js"></script>
@@ -12,12 +13,13 @@
     <script src="javascripts/views/allChats.js"></script>
     <script src="javascripts/views/mainChat.js"></script>
     <script src="javascripts/views/privateChat.js"></script>
-    <script src="https://cdn.socket.io/socket.io-1.0.6.js"></script>
+    <script src="javascripts/views/help.js"></script>
     <script src="javascripts/carousel.js"></script>
     <script src="javascripts/chat_ui.js"></script>
 
     <link rel="stylesheet" href="font-awesome-4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/app.css">
+    <link rel="stylesheet" href="stylesheets/footer.css">
     <link rel="stylesheet" href="stylesheets/private_chats.css">
   </head>
   <body>
@@ -28,7 +30,7 @@
         <input type="text">
         <p class="error"></p>
       </form>
-      <div id="modal"></div>
+      <div id="header-modal" class="modal"></div>
     </header>
 
     <ul class="all-chats group">
@@ -42,10 +44,16 @@
       </li>
     </ul>
 
-    <ul class="buttons group">
-      <li class="right inactive"><i class="fa fa-arrow-left"></i></li>
-      <li class="left inactive"><i class="fa fa-arrow-right"></i></li>
-    </ul>
+    <footer>
+      <ul class="buttons group">
+        <li class="right inactive"><i class="fa fa-arrow-left"></i></li>
+        <li class="help"><i class="fa fa-cog"></i></li>
+        <li class="left inactive"><i class="fa fa-arrow-right"></i></li>
+      </ul>
+
+      <article class='help-info'></article>
+      <div id="help-modal" class="modal"></div>
+    </footer>
 
     <script type="text/template" id="private-chat">
       <h3>.

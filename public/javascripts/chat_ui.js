@@ -14,6 +14,7 @@
     this.topBarView = new NodeFun.Views.TopBar({ el: $("header") });
     this.allChatsView = new NodeFun.Views.AllChats({ el: $("ul.all-chats") });
     this.mainChatView = this.allChatsView.mainChatView;
+    this.footerView = new NodeFun.Views.Help({ el: $('footer') });
   };
 
   ChatUI.prototype.bindEvents = function () {
@@ -43,15 +44,18 @@
 
     var $form = $("form.change-nickname").blur();
     var $h2 = $form.find("h2");
+    var $modal = $('#header-modal');
+    var $nicknameHeader = $('h1.nickname');
+
     $h2.fadeOut(1000, $.fn.remove.bind($h2));
 
     $form.animate({ top: "-26px" }, 1000, function () {
       // adjust position after h2 fades out
       $form.css({ top: "20px" }).addClass("ready").off(".connected");
-      $("h1.nickname").css({ display: "block" }).html(nickname);
+      $nicknameHeader.css({ display: "block" }).html(nickname);
 
       setTimeout(function () {
-        $("#modal").fadeOut(removeInlineStyles);
+        $modal.fadeOut(removeInlineStyles);
       }, 500);
     });
 
@@ -59,9 +63,9 @@
       $("header").removeClass();
 
       var els = [
-        $("#modal"),
+        $modal,
         $form.removeClass("ready"),
-        $("h1.nickname")
+        $nicknameHeader
       ];
 
       _(els).each(function ($el) { $el.removeAttr("style"); });
