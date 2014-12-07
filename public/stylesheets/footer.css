@@ -47,10 +47,9 @@ footer > article.help-info {
   top: 0;
   transform: translateY(-50%);
   left: 50%;
-  margin-left: -170px;
-  width: 300px;
-  height: 400px;
-  padding: 10px 20px;
+  margin-left: -180px;
+  width: 260px;
+  padding: 30px 50px;
   background: #fff;
   z-index: 100;
   transition: top 0.7s;
@@ -73,4 +72,21 @@ footer.help > .fade-out {
 footer.help > article.fading-out,
 footer.help > div#help-modal.fading-out {
   opacity: 0;
+}
+
+/* MODAL CONTENT */
+article.help-info > h3 {
+  margin: 10px 0;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+article.help-info > ul {
+  margin: 10px 0;
+}
+
+article.help-info > ul > li {
+  margin: 15px 0;
+  line-height: 1.5;
+  font-size: 18px;
 }
