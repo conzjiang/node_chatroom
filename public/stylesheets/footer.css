@@ -45,7 +45,7 @@ footer > article.help-info {
   display: none;
   position: absolute;
   top: 0;
-  transform: translateY(-50%);
+  transform: translateY(-40%);
   left: 50%;
   margin-left: -180px;
   width: 260px;
@@ -56,7 +56,7 @@ footer > article.help-info {
 }
 
 footer > article.help-info.slide-in {
-  top: 50%;
+  top: 40%;
 }
 
 footer.help > div#help-modal,
