@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="public/vendor/javascripts/socket.io.js"></script>
+    <script src="public/vendor/javascripts/jquery.js"></script>
+    <script src="public/vendor/javascripts/underscore.js"></script>
+    <script src="public/vendor/javascripts/backbone.js"></script>
+    <script src="public/javascripts/utils.js"></script>
+    <script src="public/javascripts/nodeFun.js"></script>
+    <script src="public/javascripts/models/socket.js"></script>
+    <script src="public/javascripts/views/topBar.js"></script>
+    <script src="public/javascripts/views/chat.js"></script>
+    <script src="public/javascripts/views/allChats.js"></script>
+    <script src="public/javascripts/views/mainChat.js"></script>
+    <script src="public/javascripts/views/privateChat.js"></script>
+    <script src="public/javascripts/views/help.js"></script>
+    <script src="public/javascripts/carousel.js"></script>
+    <script src="public/javascripts/chat_ui.js"></script>
+
+    <link rel="stylesheet" href="font-awesome-4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="public/stylesheets/app.css">
+    <link rel="stylesheet" href="public/stylesheets/footer.css">
+    <link rel="stylesheet" href="public/stylesheets/private_chats.css">
+  </head>
+  <body>
+    <header class="edit connected">
+      <h1 class="nickname"></h1>
+      <form class="change-nickname">
+        <h2>You can call me</h2>
+        <input type="text">
+        <p class="error"></p>
+      </form>
+      <div id="header-modal" class="modal"></div>
+    </header>
+
+    <ul class="all-chats group">
+      <li class="chat main-chat active">
+        <article class="chat-box"></article>
+        <form id="chat-form">
+          <textarea name="message"></textarea>
+        </form>
+
+        <ul class="chatters"></ul>
+      </li>
+    </ul>
+
+    <footer>
+      <ul class="buttons group">
+        <li class="right inactive"><i class="fa fa-arrow-left"></i></li>
+        <li class="help"><i class="fa fa-cog"></i></li>
+        <li class="left inactive"><i class="fa fa-arrow-right"></i></li>
+      </ul>
+
+      <article class='help-info'>
+        <h3>for pizza & bunny</h3>
+        <ul>
+          <li>This is a chatroom.</li>
+          <li>Double click your name at the top to change it.</li>
+          <li>Click on someone's name in the sidebar to have a private chat.</li>
+          <li>Click the left and right buttons below to switch between chats.</li>
+        </ul>
+      </article>
+      <div id="help-modal" class="modal"></div>
+    </footer>
+
+    <script type="text/template" id="private-chat">
+      <h3>.
+        <strong class="nickname" data-id="<%= id %>"><%= nickname %></strong>
+      </h3>
+      <article class="convo"></article>
+
+      <form class="private">
+        <textarea></textarea>
+      </form>
+
+      <strong class="x"><i class="fa fa-times"></i></strong>
+    </script>
+
+    <script>
+    $(function () {
+      NodeFun.initialize({ socket: io() });
+    });
+    </script>
+  </body>
+</html>
