@@ -62,7 +62,7 @@ $.Carousel.prototype.scrollTo = function (index) {
   if (this.activeIdx === 0 || index === 0) scrollPos += 200;
 
   var operator = index - this.activeIdx < 0 ? "+" : "-";
-  this.$el.animate({ left: operator + "=" + scrollPos + "px" });
+  this.$el.animate({ "margin-left": operator + "=" + scrollPos + "px" });
   this.activeIdx = index;
 
   var $newItem = this.$items.eq(this.activeIdx);

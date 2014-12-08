@@ -180,7 +180,7 @@ ul.all-chats {
   left: 50%;
   margin: 20px 0;
   margin-left: -250px;
-  transition: left 1s;
+  transition: margin-left 1s;
 }
 
 ul.all-chats > li.chat {
