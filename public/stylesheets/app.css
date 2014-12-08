@@ -178,7 +178,7 @@ ul.all-chats {
   width: 100%;
   height: 400px;
   left: 50%;
-  margin: 50px 0;
+  margin: 20px 0;
   margin-left: -250px;
   transition: left 1s;
 }
