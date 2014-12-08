@@ -22,25 +22,22 @@ var setButtons = function (carousel) {
 };
 
 $.Carousel.prototype.slide = function (dir) {
-  var operator = dir === -1 ? "+" : "-";
-
+  var operator = dir < 0 ? "+" : "-";
   var $currentItem = this.$items.eq(this.activeIdx);
+  var leftPos, $nextItem;
+
   this.activeIdx =
     (this.activeIdx + dir + this.$items.length) % this.$items.length;
-  var $nextItem = this.$items.eq(this.activeIdx);
 
-  var leftPos = 400;
+  $nextItem = this.$items.eq(this.activeIdx);
+  leftPos = Math.abs(dir) * 400;
   if ($currentItem.hasClass("main-chat") || $nextItem.hasClass("main-chat")) {
     leftPos += 200;
   }
 
-  this.$el.animate({
-    left: operator + "=" + leftPos + "px"
-  }, 100, function () {
-    $nextItem.addClass("active");
-    $currentItem.removeClass("active");
-  });
-
+  this.$el.animate({ "margin-left": operator + "=" + leftPos + "px" });
+  $nextItem.addClass("active");
+  $currentItem.removeClass("active");
   setButtons(this);
 };
 
@@ -57,19 +54,7 @@ $.Carousel.prototype.updateItems = function () {
 };
 
 $.Carousel.prototype.scrollTo = function (index) {
-  var $currentItem = this.$items.eq(this.activeIdx);
-  var scrollPos = Math.abs(index - this.activeIdx) * 400;
-  if (this.activeIdx === 0 || index === 0) scrollPos += 200;
-
-  var operator = index - this.activeIdx < 0 ? "+" : "-";
-  this.$el.animate({ "margin-left": operator + "=" + scrollPos + "px" });
-  this.activeIdx = index;
-
-  var $newItem = this.$items.eq(this.activeIdx);
-  $newItem.addClass("active");
-  $currentItem.removeClass("active");
-
-  setButtons(this);
+  this.slide(index - this.activeIdx);
 };
 
 $.fn.carousel = function () {
