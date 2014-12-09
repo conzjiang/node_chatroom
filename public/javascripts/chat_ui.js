@@ -39,19 +39,17 @@
   };
 
   ChatUI.prototype.enterRoom = function () {
-    var nickname = NodeFun.socket.nickname;
-    $("p.error").empty();
-
     var $form = $("form.change-nickname").blur();
+    var nickname = $form.find("input").val().clean();
     var $h2 = $form.find("h2");
     var $modal = $('#header-modal');
     var $nicknameHeader = $('h1.nickname');
 
+    $("p.error").empty();
     $h2.fadeOut(1000, $.fn.remove.bind($h2));
-
     $form.animate({ top: "-26px" }, 1000, function () {
       // adjust position after h2 fades out
-      $form.css({ top: "20px" }).addClass("ready").off(".connected");
+      $form.css({ top: "20px" }).addClass("ready");
       $nicknameHeader.css({ display: "block" }).html(nickname);
 
       setTimeout(function () {
@@ -60,6 +58,7 @@
     });
 
     function removeInlineStyles() {
+      NodeFun.socket.set("nickname", nickname);
       $("header").removeClass();
 
       var els = [
@@ -104,13 +103,13 @@
       });
     });
 
-    this.socket.on("nicknameAdded", function () {
-      NodeFun.socket.trigger("change");
+    this.socket.on("nicknameAdded", function (data) {
+      NodeFun.socket.set("nickname", data.nickname);
     });
 
     this.socket.on("displayNicks", function (data) {
       var $nickname = $(".nickname").findByDataId(data.changedId);
-      $nickname.html(NodeFun.socket.nickname);
+      $nickname.html(NodeFun.socket.get("nickname"));
 
       ui.nicknames = data.nicknames;
       NodeFun.socket.trigger("newNickname", ui.nicknames);

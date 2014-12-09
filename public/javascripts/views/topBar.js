@@ -1,6 +1,6 @@
 NodeFun.Views.TopBar = Backbone.View.extend({
   initialize: function () {
-    this.listenTo(NodeFun.socket, "change", this.changeNickname);
+    this.listenTo(NodeFun.socket, "change:nickname", this.changeNickname);
   },
 
   events: {
@@ -9,11 +9,12 @@ NodeFun.Views.TopBar = Backbone.View.extend({
     "dblclick h1": "editNickname"
   },
 
-  submitNickname: function () {
+  submitNickname: function (event) {
     event.preventDefault();
-    var nickname = this.$el.find("input").val().clean();
+    var nickname = this.$("input").val().clean();
+    this.$("p.error").empty();
 
-    if (nickname && NodeFun.socket.nickname !== nickname) {
+    if (nickname && NodeFun.socket.get("nickname") !== nickname) {
       NodeFun.socket.changeNickname(nickname);
     } else if (!this.$el.hasClass("connected")) {
       this.$el.removeClass("edit");
@@ -22,13 +23,14 @@ NodeFun.Views.TopBar = Backbone.View.extend({
 
   editNickname: function () {
     this.$el.addClass("edit");
-    this.$el.find("input").focus().select();
+    this.$("input").val(NodeFun.socket.get("nickname"));
+    this.$("input").focus().select();
   },
 
   changeNickname: function () {
-    this.$el.find("p.error").empty();
+    console.log(NodeFun.socket.get("nickname"))
     this.$el.removeClass("edit");
-    this.$el.find("h1").html(NodeFun.socket.nickname);
-    this.$el.find("input[type=text]").val(NodeFun.socket.nickname);
+    this.$("h1").html(NodeFun.socket.escape("nickname"));
+    this.$("input[type=text]").val(NodeFun.socket.escape("nickname"));
   }
 });

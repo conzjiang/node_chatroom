@@ -20,6 +20,7 @@ NodeFun.Views.MainChat = NodeFun.Views.Chat.extend({
       var $nicknameTemplate = $("<li class='nickname'>");
       $nicknameTemplate.data("id", id);
       $nicknameTemplate.html(nickname);
+      $nicknameTemplate.append("<span class='notif'>");
       if (NodeFun.socket.id === id) $nicknameTemplate.addClass("self");
 
       $container.append($nicknameTemplate);

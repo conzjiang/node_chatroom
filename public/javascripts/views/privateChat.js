@@ -24,7 +24,7 @@ NodeFun.Views.PrivateChat = NodeFun.Views.Chat.extend({
   },
 
   focusTextarea: function () {
-    this.$el.find("textarea").focus();
+    this.$("textarea").focus();
   },
 
   closeChat: function (e) {
@@ -48,8 +48,7 @@ NodeFun.Views.PrivateChat = NodeFun.Views.Chat.extend({
     var privateChat = _.template($("#private-chat").html());
     var content = privateChat({ id: this.chatId, nickname: this.nickname });
     this.$el.append(content);
-
-    this.$chat = this.$el.find(".convo");
+    this.$chat = this.$(".convo");
 
     return this;
   }
