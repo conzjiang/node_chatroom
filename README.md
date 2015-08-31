@@ -7,3 +7,4 @@ The standard first Node.js project is a chatroom app, so I made a chatroom app i
 - Top bar to manage all chats?
 - Notifications when receiving a message out of focus
 - Focus on main chat textarea on initialization and when scrolling to it
+- Signify self messages differently from other messages
