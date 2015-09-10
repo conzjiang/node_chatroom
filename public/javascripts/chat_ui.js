@@ -25,7 +25,7 @@
 
     this.socket.on("connected", function (data) {
       var $input = $("header input[type=text]");
-      $input.val(data.nickname);
+      $input.val(data.tempNick);
       $input.focus().select();
 
       NodeFun.socket.id = data.id;
