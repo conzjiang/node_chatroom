@@ -97,12 +97,35 @@ header.edit {
 }
 
 header > h1 {
+  position: relative;
   padding: 10px;
   cursor: default;
 }
 
 header.edit > h1 {
   display: none;
+}
+
+.nota-bene {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 300;
+  background: lavender;
+}
+
+.nota-bene > .x {
+  margin-left: 3px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.nota-bene > .x:hover {
+  color: #000;
 }
 
 header > form.change-nickname {

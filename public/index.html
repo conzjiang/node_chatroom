@@ -78,6 +78,13 @@
       <strong class="x"><i class="fa fa-times"></i></strong>
     </script>
 
+    <script type="text/template" id="nota-bene">
+      <strong class="nota-bene">
+        <%= message %>
+        <i class="fa fa-times x"></i>
+      </strong>
+    </script>
+
     <script>
     $(function () {
       NodeFun.initialize({ socket: io() });
