@@ -15,11 +15,10 @@
     },
 
     componentDidMount: function () {
-      if (!this.props.hide) {
-        return;
-      }
-
-      this.refs.header.getDOMNode().on('transitionend', this.remove);
+      this.refs.header.getDOMNode().addEventListener(
+        'transitionend',
+        this.remove
+      );
     },
 
     render: function () {
@@ -35,6 +34,11 @@
     },
 
     remove: function () {
+      this.refs.header.getDOMNode().removeEventListener(
+        'transitionend',
+        this.remove
+      );
+
       this.setState({
         remove: true
       });
