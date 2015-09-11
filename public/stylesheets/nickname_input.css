@@ -64,6 +64,15 @@ form.change-nickname.ready {
   margin: 0;
 }
 
+header h2 {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+header h2.fade-out {
+  opacity: 0;
+}
+
 header input[type="text"] {
   width: 380px;
   margin: auto;

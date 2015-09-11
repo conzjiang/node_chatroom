@@ -12,6 +12,12 @@
 
     on: function (event, callback) {
       this.socket.on(event, callback);
+    },
+
+    changeNickname: function (nickname) {
+      this.emit('nicknameChange', {
+        nickname: nickname
+      });
     }
   });
 
