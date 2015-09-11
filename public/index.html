@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="https://fb.me/react-0.13.3.js"></script>
     <script src="vendor/javascripts/socket.io.js"></script>
     <script src="vendor/javascripts/jquery.js"></script>
     <script src="vendor/javascripts/underscore.js"></script>
     <script src="vendor/javascripts/backbone.js"></script>
     <script src="javascripts/utils.js"></script>
     <script src="javascripts/nodeFun.js"></script>
-    <script src="javascripts/models/socket.js"></script>
+    <script src="javascripts/socket.js"></script>
+    <script src="javascripts/components/nicknameInput.js"></script>
     <script src="javascripts/views/topBar.js"></script>
     <script src="javascripts/views/chat.js"></script>
     <script src="javascripts/views/allChats.js"></script>
@@ -19,21 +21,14 @@
 
     <link rel="stylesheet" href="font-awesome-4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/app.css">
+    <link rel="stylesheet" href="stylesheets/nickname_input.css">
     <link rel="stylesheet" href="stylesheets/footer.css">
     <link rel="stylesheet" href="stylesheets/private_chats.css">
 
     <title>for pizza & bunny</title>
   </head>
   <body>
-    <header class="edit connected">
-      <h1 class="nickname"></h1>
-      <form class="change-nickname">
-        <h2>You can call me</h2>
-        <input type="text">
-        <p class="error"></p>
-      </form>
-      <div id="header-modal" class="modal"></div>
-    </header>
+    <div id="header"></div>
 
     <ul class="all-chats group">
       <li class="chat main-chat active">
@@ -85,10 +80,6 @@
       </strong>
     </script>
 
-    <script>
-    $(function () {
-      NodeFun.initialize({ socket: io() });
-    });
-    </script>
+    <script src="javascripts/components/start.js"></script>
   </body>
 </html>

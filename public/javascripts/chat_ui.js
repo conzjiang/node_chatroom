@@ -2,12 +2,11 @@
   var NodeFun = root.NodeFun = (root.NodeFun || {});
 
   var ChatUI = NodeFun.ChatUI = function () {
-    this.socket = NodeFun.socket.socket;
     this.$chatCarousel = NodeFun.$chatCarousel;
     this.nicknames = {};
 
-    this.initializeViews();
-    this.bindEvents();
+    // this.initializeViews();
+    // this.bindEvents();
   };
 
   ChatUI.prototype.initializeViews = function () {
@@ -23,19 +22,19 @@
     this.displayMessages();
     this.checkTyping();
 
-    this.socket.on("connected", function (data) {
-      var $input = $("header input[type=text]");
-      $input.val(data.tempNick);
-      $input.focus().select();
+    // this.socket.on("connected", function (data) {
+//       var $input = $("header input[type=text]");
+//       $input.val(data.tempNick);
+//       $input.focus().select();
+//
+//       NodeFun.socket.id = data.id;
+//     });
 
-      NodeFun.socket.id = data.id;
-    });
-
-    this.socket.on("chatReady", this.enterRoom.bind(this));
-
-    this.socket.on("errorMessage", function (data) {
-      $("p.error").html(data.message);
-    });
+    // this.socket.on("chatReady", this.enterRoom.bind(this));
+//
+//     this.socket.on("errorMessage", function (data) {
+//       $("p.error").html(data.message);
+//     });
   };
 
   ChatUI.prototype.enterRoom = function () {

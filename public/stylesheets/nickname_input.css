@@ -1,0 +1,109 @@
+header {
+  margin: 20px 0;
+  font-size: 40px;
+  text-align: center;
+}
+
+header.edit {
+  margin-bottom: 19px;
+}
+
+header > h1 {
+  position: relative;
+  padding: 10px;
+  cursor: default;
+}
+
+header.edit > h1 {
+  display: none;
+}
+
+.nota-bene {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 300;
+  background: lavender;
+}
+
+.nota-bene > .x {
+  margin-left: 3px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.nota-bene > .x:hover {
+  color: #000;
+}
+
+header > form.change-nickname {
+  display: none;
+  position: relative;
+  z-index: 100;
+}
+
+header.edit > form.change-nickname {
+  display: block;
+}
+
+header.connected > form.change-nickname {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  margin-left: -200px;
+}
+
+form.change-nickname.ready {
+  position: relative;
+  top: 20px;
+  left: 0;
+  margin: 0;
+}
+
+header input[type="text"] {
+  width: 380px;
+  margin: auto;
+  padding: 10px;
+  text-align: center;
+  background: #fff;
+  border-bottom: 1px solid #888;
+  position: relative;
+}
+
+header p.error {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  margin-left: -250px;
+  width: 500px;
+  font-size: 18px;
+  color: #990000;
+}
+
+header.connected p.error {
+  top: 126px;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(141, 186, 201, 0.7);
+  overflow: hidden;
+  z-index: 50;
+}
+
+header.edit > div.modal {
+  display: block;
+}
+
+header.connected > div.modal {
+  background: rgb(141, 186, 201);
+}
