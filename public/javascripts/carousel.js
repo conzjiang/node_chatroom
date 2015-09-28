@@ -3,21 +3,23 @@ $.Carousel = function ($el) {
   this.$items = this.$el.children();
   this.activeIdx = 0;
 
-  $(".left").on("click", this.slideLeft.bind(this));
-  $(".right").on("click", this.slideRight.bind(this));
+  this.$buttons = $(this.$el.data("controls"));
+
+  this.$buttons.on("click", ".left", this.slideLeft.bind(this));
+  this.$buttons.on("click", ".right", this.slideRight.bind(this));
 };
 
 var setButtons = function (carousel) {
-  $(".buttons").children().each(function () {
+  this.$buttons.children().each(function () {
     $(this).removeClass("inactive");
   });
 
   if (carousel.activeIdx === 0) {
-    $(".right").addClass("inactive");
+    this.$buttons.find(".right").addClass("inactive");
   }
 
   if (carousel.activeIdx === carousel.$items.length - 1) {
-    $(".left").addClass("inactive");
+    this.$buttons.find(".left").addClass("inactive");
   }
 };
 
