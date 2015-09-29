@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="stylesheets/app.css">
     <link rel="stylesheet" href="stylesheets/modals.css">
     <link rel="stylesheet" href="stylesheets/main.css">
-    <link rel="stylesheet" href="stylesheets/private_chats.css">
+    <link rel="stylesheet" href="stylesheets/chats.css">
 
     <title>hello world!</title>
   </head>
@@ -44,11 +44,11 @@
         </div>
       </section>
 
-      <ul class="all-chats">
+      <ul class="all-chats group">
         <li class="main-chat active group">
           <form id="message-form">
-            <article class="main-chatroom"></article>
-            <textarea class="message-input"></textarea>
+            <article class="chatroom main-chatroom"></article>
+            <textarea class="message-input main-input"></textarea>
           </form>
 
           <ul class="chatters"></ul>
@@ -74,16 +74,16 @@
     </form>
 
     <script type="text/template" id="private-chat">
-      <h3>.
-        <strong class="nickname" data-id="<%= id %>"><%= nickname %></strong>
-      </h3>
-      <article class="convo"></article>
-
-      <form class="private">
-        <textarea></textarea>
-      </form>
-
-      <strong class="x"><i class="fa fa-times"></i></strong>
+      <li class="chat active">
+        <form id="message-form" class="private-chat">
+          <h2>
+            <%= nickname %>
+            <button type="button" class="x fa fa-times"></button>
+          </h2>
+          <article class="chatroom private-chatroom"></article>
+          <textarea class="message-input private-input"></textarea>
+        </form>
+      </li>
     </script>
 
     <script type="text/template" id="nota-bene">
