@@ -1,5 +1,5 @@
 /* RESETS */
-html, body, main, h1, h2, h3, section, ul, li, strong {
+html, body, main, h1, h2, h3, section, ul, li, strong, p {
   margin: 0;
   padding: 0;
   border: 0;
@@ -213,7 +213,7 @@ header.connected > div.modal {
 }
 
 /* CHAT CAROUSEL */
-ul.all-chats {
+/*ul.all-chats {
   position: absolute;
   left: 50%;
   margin-left: -250px;
@@ -260,10 +260,10 @@ form > textarea {
   padding: 10px;
   background: #eee;
   box-sizing: border-box;
-}
+}*/
 
 /* MAIN CHAT */
-ul.all-chats > li.main-chat {
+/*ul.all-chats > li.main-chat {
   margin-top: 0;
   width: 550px;
   height: 400px;
@@ -281,10 +281,10 @@ article.chat-box {
 
 ul.all-chats > li.main-chat textarea {
   width: 400px;
-}
+}*/
 
 /* LIST OF CHATTERS */
-ul.chatters {
+/*ul.chatters {
   position: absolute;
   top: 25px;
   right: 0;
@@ -310,4 +310,4 @@ ul.chatters > li.self {
   font-weight: 700;
   background: none !important;
   cursor: default;
-}
+}*/
