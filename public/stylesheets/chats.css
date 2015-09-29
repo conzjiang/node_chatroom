@@ -6,6 +6,25 @@
   z-index: 1;
 
   width: 50%;
+  transition: left 0.5s;
+}
+
+.all-chats > li {
+  float: left;
+}
+
+.all-chats > li:not(.main-chat) {
+  width: 360px;
+  margin: 0 15px;
+}
+
+.all-chats > li:not(.active) {
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.all-chats > li:not(.active):hover {
+  opacity: 0.7;
 }
 
 /* Chats */
@@ -73,10 +92,6 @@
 }
 
 /* Private chats */
-.all-chats > li:not(.main-chat) {
-  width: 360px;
-}
-
 .private-chat {
   width: 280px;
   margin: 50px auto;
