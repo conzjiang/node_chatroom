@@ -6,7 +6,7 @@
   z-index: 1;
 
   width: 50%;
-  transition: left 0.5s;
+  transition: left 1s;
 }
 
 .all-chats > li {
