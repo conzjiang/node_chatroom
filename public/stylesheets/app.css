@@ -196,13 +196,26 @@ header.connected > div.modal {
   background: rgb(141, 186, 201);
 }
 
-/* CHAT CAROUSEL */
-ul.all-chats {
+/* MAIN */
+.main {
   position: relative;
   width: 100%;
+  min-width: 1000px;
   height: 400px;
-  left: 50%;
   margin: 20px 0;
+}
+
+.main-header {
+  position: absolute;
+  left: 50px;
+  font-family: 'Petit Formal Script';
+  font-size: 50px;
+}
+
+/* CHAT CAROUSEL */
+ul.all-chats {
+  position: absolute;
+  left: 50%;
   margin-left: -250px;
   transition: margin-left 1s;
 }
