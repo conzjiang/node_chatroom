@@ -2,7 +2,7 @@ main {
   position: relative;
   width: 100%;
   min-width: 1000px;
-  margin: 100px auto;
+  margin: 50px auto;
 }
 
 /* Modal */
@@ -47,16 +47,39 @@ main {
 /* Main header */
 .main-header {
   position: relative;
-  left: 0;
+  top: 30px;
   z-index: 2;
 
   width: 50%;
-  margin: 50px 0;
+  font-family: 'Petit Formal Script';
   text-align: center;
+  font-size: 50px;
 }
 
 h2 > strong {
   font-family: sans-serif;
+}
+
+.button-wrapper {
+  margin: 30px 0;
+}
+
+.button-wrapper > button {
+  font-size: 50px;
+  opacity: 0.5;
+}
+
+.button-wrapper > button:not(.inactive):hover {
+  opacity: 1;
+}
+
+.help-button {
+  color: pink;
+}
+
+button.inactive {
+  color: #ccc;
+  cursor: default;
 }
 
 /* Chats */
@@ -112,4 +135,15 @@ h2 > strong {
 
 .chatters > li {
   margin: 5px 0;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.chatters > li:not(.me):hover {
+  background: lightgreen;
+}
+
+.chatters > li.me {
+  font-weight: 600;
+  cursor: default;
 }
