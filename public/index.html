@@ -20,55 +20,58 @@
     <link href='https://fonts.googleapis.com/css?family=Petit+Formal+Script' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="font-awesome-4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/app.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
     <link rel="stylesheet" href="stylesheets/footer.css">
     <link rel="stylesheet" href="stylesheets/private_chats.css">
 
     <title>hello world!</title>
   </head>
   <body>
-    <header class="edit connected">
-      <h1 class="nickname"></h1>
-      <form class="change-nickname">
-        <h2>You can call me</h2>
-        <input type="text">
-        <p class="error"></p>
-      </form>
-      <div id="header-modal" class="modal"></div>
-    </header>
+    <main>
+      <section class="main-header">
+        <h1>hello world!</h1>
 
-    <section class="main">
-      <h1 class="main-header">hello world!</h1>
+        <h2>
+          i'm
+          <strong id="nickname"></strong>
+        </h2>
 
-      <ul data-controls="#carousel-controls" class="all-chats group">
-        <li class="chat main-chat active">
-          <article class="chat-box"></article>
-          <form id="chat-form">
-            <textarea name="message"></textarea>
+        <div class="button-wrapper">
+          <button class="help-button"></button>
+
+          <button class="left inactive"></button>
+          <button class="right inactive"></button>
+        </div>
+      </section>
+
+      <ul class="all-chats">
+        <li class="main-chat active">
+          <article class="main-chatroom"></article>
+          <form id="message-form">
+            <textarea></textarea>
           </form>
 
           <ul class="chatters"></ul>
         </li>
       </ul>
-    </section>
+    </main>
 
-    <footer>
-      <ul id="carousel-controls" class="buttons group">
-        <li class="right inactive"><i class="fa fa-arrow-left"></i></li>
-        <li class="help"><i class="fa fa-cog"></i></li>
-        <li class="left inactive"><i class="fa fa-arrow-right"></i></li>
+    <div id="modal" class="modal-cover"></div>
+    <article class="help-info">
+      <h3>hello world!</h3>
+      <ul>
+        <li>This is a chatroom.</li>
+        <li>Click on your name on the left to change it.</li>
+        <li>Click on someone's name in the sidebar to have a private chat.</li>
+        <li>Click the left and right buttons to switch between chats.</li>
       </ul>
+    </article>
 
-      <article class='help-info'>
-        <h3>hello world!</h3>
-        <ul>
-          <li>This is a chatroom.</li>
-          <li>Double click your name at the top to change it.</li>
-          <li>Click on someone's name in the sidebar to have a private chat.</li>
-          <li>Click the left and right buttons below to switch between chats.</li>
-        </ul>
-      </article>
-      <div id="help-modal" class="modal"></div>
-    </footer>
+    <form id="nickname-form" class="nickname-form">
+      <h2>You can call me</h2>
+      <input type="text">
+      <strong class="errors"></strong>
+    </form>
 
     <script type="text/template" id="private-chat">
       <h3>.

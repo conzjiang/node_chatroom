@@ -1,0 +1,42 @@
+main {
+  width: 100%;
+  min-width: 1000px;
+  margin: auto;
+}
+
+.modal-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: lightblue;
+}
+
+.nickname-form {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  text-align: center;
+}
+
+.nickname-form > h2 {
+  font-size: 40px;
+}
+
+.nickname-form > input {
+  display: block;
+  width: 360px;
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 40px;
+  background: #fff;
+  border-bottom: 1px solid #000;
+}
+
+.nickname-form > .errors {
+  font-size: 18px;
+  color: #990000;
+}

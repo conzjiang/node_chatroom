@@ -1,5 +1,5 @@
 /* RESETS */
-html, body, h1, h2, h3, section, ul, li, p {
+html, body, main, h1, h2, h3, section, ul, li, strong {
   margin: 0;
   padding: 0;
   border: 0;
