@@ -4,6 +4,8 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
     this.$chatCarousel = options.$chatCarousel;
 
     this.initializeViews();
+
+    this.listenTo(this.socket, 'change:nickname', this.changeNickname);
   },
 
   initializeViews: function () {
@@ -11,6 +13,10 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
       el: '#nickname-form',
       socket: this.socket
     });
+  },
+
+  changeNickname: function () {
+    this.$('#nickname').text(this.socket.get('nickname'));
   }
 });
 
@@ -40,14 +46,6 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
 //
 //     this.displayMessages();
 //     this.checkTyping();
-//
-//     this.socket.on("connected", function (data) {
-//       var $input = $("header input[type=text]");
-//       $input.val(data.tempNick);
-//       $input.focus().select();
-//
-//       HelloWorldChat.socket.id = data.id;
-//     });
 //
 //     this.socket.on("chatReady", this.enterRoom.bind(this));
 //
