@@ -1,14 +1,14 @@
-HelloWorldChat.Views.NicknameForm = HelloWorldChat.View.extend({
+HelloWorldChat.Views.NicknameForm = HelloWorldChat.ModalView.extend({
   initialize: function () {
     this.listenForOnce('connected', this.fillInTempNick);
     this.listenForOnce('enterRoom', this.enterRoom);
     this.listenFor('error', this.renderError);
-    this.listenFor('success', this.success);
+    this.listenFor('success', this.close);
   },
 
   events: {
     'submit': 'submitNickname',
-    'blur input': 'submitNickname'
+    'click #modal': 'submitNickname'
   },
 
   fillInTempNick: function (tempNick) {
@@ -23,24 +23,26 @@ HelloWorldChat.Views.NicknameForm = HelloWorldChat.View.extend({
 
     if (!nickname || this._submitting) { return; }
 
-    this._submitting = true; // because submit also triggers blur
     this.socket.changeNickname(nickname);
   },
 
   renderError: function (error) {
-    this._submitting = false;
     this.$('.error').text(error);
   },
 
   enterRoom: function () {
-    this.$el.addClass('enter-room');
-    this.$('input').blur();
-    this._submitting = false; // because blur above triggers event
+    var that = this;
 
-    this.$el.one('transitionend', function () {
-      this._fadeOutInput();
-      this.trigger('enteredRoom');
-    }.bind(this));
+    this.$content.addClass('enter-room');
+    this.$('input').blur();
+
+    this.$content.one('transitionend', function () {
+      that._fadeOutInput();
+
+      that.fadeOutCover(function () {
+        that.$content.addClass('entered');
+      });
+    });
   },
 
   _fadeOutInput: function () {
@@ -48,18 +50,19 @@ HelloWorldChat.Views.NicknameForm = HelloWorldChat.View.extend({
 
     this.$('input').one('transitionend', function () {
       this.$('h2').remove();
-      this.$el.removeClass('enter-room').addClass('hide');
+      this.$content.removeClass('enter-room').addClass('hide');
       this.$('input').removeClass('fade-away');
     }.bind(this));
   },
 
   edit: function () {
-    this.$el.removeClass('hide');
+    this.openCover();
+    this.$content.removeClass('hide');
     this.$('input').focus().select();
   },
 
-  success: function () {
-    this._submitting = false;
-    this.$el.addClass('hide');
+  close: function () {
+    this.closeCover();
+    this.$content.addClass('hide');
   }
 });

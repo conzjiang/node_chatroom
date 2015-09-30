@@ -8,12 +8,12 @@ HelloWorldChat.ModalView = HelloWorldChat.View.extend({
     this.$content = this.$(this.contentTemplate);
   },
 
-  openModal: function () {
+  openCover: function () {
     $('body').addClass('static');
     this.$modal.removeClass('hide');
   },
 
-  fadeOutModal: function (callback) {
+  fadeOutCover: function (callback) {
     $('body').removeClass('static');
     this.$modal.addClass('fade-out');
 
@@ -24,7 +24,7 @@ HelloWorldChat.ModalView = HelloWorldChat.View.extend({
     }.bind(this));
   },
 
-  clearModal: function () {
+  closeCover: function () {
     $('body').removeClass('static');
     this.$modal.addClass('hide');
   }

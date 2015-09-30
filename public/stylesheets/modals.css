@@ -68,7 +68,7 @@
   opacity: 0;
 }
 
-.main-header .nickname-form {
+.nickname-form.entered {
   top: 20px;
 }
 
