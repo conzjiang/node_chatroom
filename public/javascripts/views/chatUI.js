@@ -6,7 +6,9 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
     this.initializeViews();
 
     this.listenTo(this.socket, 'change:nickname', this.changeNickname);
-    this.listenTo(this.nicknameForm, 'enteredRoom', this.fadeOutModal);
+    this.listenTo(this.socket, 'success', this.clearModal);
+
+    this.listenToOnce(this.nicknameForm, 'enteredRoom', this.fadeOutModal);
   },
 
   initializeViews: function () {
@@ -28,7 +30,7 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
     this.$('#modal').addClass('fade-out');
 
     this.$('#modal').one('transitionend', function () {
-      this.$('#modal').removeClass('opaque').addClass('hide');
+      this.$('#modal').removeClass('fade-out opaque').addClass('hide');
       this._moveForm();
     }.bind(this));
   },
@@ -39,7 +41,11 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
 
   editNickname: function () {
     this.$('#modal').removeClass('hide');
-    this.nicknameForm.toggleEdit();
+    this.nicknameForm.edit();
+  },
+
+  clearModal: function () {
+    this.$('#modal').addClass('hide');
   }
 });
 

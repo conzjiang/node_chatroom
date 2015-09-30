@@ -5,7 +5,7 @@ HelloWorldChat.Views.NicknameForm = Backbone.View.extend({
     this.listenToOnce(this.socket, 'connected', this.fillInTempNick);
     this.listenToOnce(this.socket, 'enterRoom', this.enterRoom);
     this.listenTo(this.socket, 'error', this.renderError);
-    this.listenTo(this.socket, 'success', this.toggleEdit);
+    this.listenTo(this.socket, 'success', this.success);
   },
 
   events: {
@@ -37,6 +37,7 @@ HelloWorldChat.Views.NicknameForm = Backbone.View.extend({
   enterRoom: function () {
     this.$el.addClass('enter-room');
     this.$('input').blur();
+    this._submitting = false; // because blur above triggers event
 
     this.$el.one('transitionend', function () {
       this._fadeOutInput();
@@ -54,8 +55,12 @@ HelloWorldChat.Views.NicknameForm = Backbone.View.extend({
     }.bind(this));
   },
 
-  toggleEdit: function () {
+  edit: function () {
+    this.$el.removeClass('hide');
+  },
+
+  success: function () {
     this._submitting = false;
-    this.$el.toggleClass('hide');
+    this.$el.addClass('hide');
   }
 });
