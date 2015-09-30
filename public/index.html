@@ -9,6 +9,7 @@
     <script src="javascripts/carousel.js"></script>
     <script src="javascripts/helloWorld.js"></script>
     <script src="javascripts/models/socket.js"></script>
+    <script src="javascripts/views/modal.js"></script>
     <script src="javascripts/views/nicknameForm.js"></script>
     <script src="javascripts/views/chatters.js"></script>
     <script src="javascripts/views/chat.js"></script>
@@ -48,8 +49,21 @@
         <button class="nav help-button fa fa-question-circle"></button>
         <button class="nav right inactive fa fa-arrow-circle-right"></button>
       </footer>
+    </main>
 
+    <script type="text/template" id="modal-template">
       <div id="modal" class="modal-cover opaque"></div>
+    </script>
+
+    <script type="text/template" id="nickname-form-template">
+      <form id="nickname-form" class="nickname-form">
+        <h2>You can call me</h2>
+        <input type="text">
+        <strong class="error"></strong>
+      </form>
+    </script>
+
+    <script type="text/template" id="help-info">
       <article class="help-info">
         <h2>hello world!</h2>
         <ul>
@@ -58,14 +72,10 @@
           <li>Click someone's name in the sidebar to have a private chat.</li>
           <li>Click the left and right buttons to switch between chats.</li>
         </ul>
-      </article>
 
-      <form id="nickname-form" class="nickname-form">
-        <h2>You can call me</h2>
-        <input type="text">
-        <strong class="error"></strong>
-      </form>
-    </main>
+        <button class="x fa fa-times"></button>
+      </article>
+    </script>
 
     <script type="text/template" id="private-chat">
       <li class="chat">

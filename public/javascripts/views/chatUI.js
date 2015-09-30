@@ -40,17 +40,6 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     this.$('#nickname').text(this.socket.get('nickname'));
   },
 
-  fadeOutModal: function (callback) {
-    $('body').removeClass('static');
-    this.$('#modal').addClass('fade-out');
-
-    this.$('#modal').one('transitionend', function () {
-      this.$('#modal').removeClass('fade-out opaque').addClass('hide');
-
-      if (typeof callback === 'function') { callback(); }
-    }.bind(this));
-  },
-
   _moveForm: function () {
     this.$('.main-header').append(this.nicknameForm.$el);
   },
@@ -60,18 +49,8 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     this.nicknameForm.edit();
   },
 
-  clearModal: function () {
-    $('body').removeClass('static');
-    this.$('#modal').addClass('hide');
-  },
-
   changeAll: function (guest) {
     this.$('.' + guest.id).text(guest.nickname);
-  },
-
-  openModal: function () {
-    $('body').addClass('static');
-    this.$('#modal').removeClass('hide');
   },
 
   openHelp: function () {
@@ -81,7 +60,6 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
   },
 
   closeHelp: function () {
-    this.fadeOutModal();
     this.helpView.close();
   }
 });
