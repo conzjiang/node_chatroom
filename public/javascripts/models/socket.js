@@ -33,7 +33,8 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
   },
 
   broadcastedEvents: function () {
-    this.listenFor('newGuest', this.trigger.bind(this, 'newGuest'));
+    this.listenFor('newGuest');
+    this.listenFor('newNickname');
   },
 
   emit: function (event, data) {
@@ -41,7 +42,11 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
   },
 
   listenFor: function (event, callback) {
-    this.socket.on(event, callback.bind(this));
+    if (callback) {
+      this.socket.on(event, callback.bind(this));
+    } else {
+      this.socket.on(event, this.trigger.bind(this, event));
+    }
   },
 
   changeNickname: function (newNickname) {
