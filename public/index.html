@@ -6,88 +6,89 @@
     <script src="vendor/javascripts/underscore.js"></script>
     <script src="vendor/javascripts/backbone.js"></script>
     <script src="javascripts/utils.js"></script>
-    <script src="javascripts/nodeFun.js"></script>
+    <script src="javascripts/helloWorld.js"></script>
     <script src="javascripts/models/socket.js"></script>
-    <script src="javascripts/views/topBar.js"></script>
+    <script src="javascripts/views/nicknameForm.js"></script>
     <script src="javascripts/views/chat.js"></script>
     <script src="javascripts/views/allChats.js"></script>
     <script src="javascripts/views/mainChat.js"></script>
     <script src="javascripts/views/privateChat.js"></script>
     <script src="javascripts/views/help.js"></script>
     <script src="javascripts/carousel.js"></script>
-    <script src="javascripts/chat_ui.js"></script>
+    <script src="javascripts/chatUI.js"></script>
 
     <link rel="stylesheet" href="font-awesome-4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="stylesheets/app.css">
-    <link rel="stylesheet" href="stylesheets/footer.css">
-    <link rel="stylesheet" href="stylesheets/private_chats.css">
+    <link rel="stylesheet" href="stylesheets/modals.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
+    <link rel="stylesheet" href="stylesheets/chats.css">
 
-    <title>for pizza & bunny</title>
+    <title>hello world!</title>
   </head>
   <body>
-    <header class="edit connected">
-      <h1 class="nickname"></h1>
-      <form class="change-nickname">
-        <h2>You can call me</h2>
-        <input type="text">
-        <p class="error"></p>
-      </form>
-      <div id="header-modal" class="modal"></div>
-    </header>
+    <main>
+      <div class="main-container">
+        <section class="main-header">
+          <h2 id="nickname"></h2>
+        </section>
 
-    <ul data-controls="#carousel-controls" class="all-chats group">
-      <li class="chat main-chat active">
-        <article class="chat-box"></article>
-        <form id="chat-form">
-          <textarea name="message"></textarea>
-        </form>
+        <ul class="all-chats group">
+          <li class="chat main-chat active group">
+            <form id="message-form">
+              <article class="chatroom main-chatroom"></article>
+              <textarea class="message-input main-input"></textarea>
+            </form>
 
-        <ul class="chatters"></ul>
-      </li>
-    </ul>
+            <ul class="chatters"></ul>
+          </li>
+        </ul>
 
-    <footer>
-      <ul id="carousel-controls" class="buttons group">
-        <li class="right inactive"><i class="fa fa-arrow-left"></i></li>
-        <li class="help"><i class="fa fa-cog"></i></li>
-        <li class="left inactive"><i class="fa fa-arrow-right"></i></li>
-      </ul>
+        <footer>
+          <button class="left inactive fa fa-arrow-circle-left"></button>
+          <button class="help-button fa fa-question-circle"></button>
+          <button class="right inactive fa fa-arrow-circle-right"></button>
+        </footer>
+      </div>
 
-      <article class='help-info'>
-        <h3>for pizza & bunny</h3>
+      <div id="modal" class="modal-cover opaque"></div>
+      <article class="help-info">
+        <h2>hello world!</h2>
         <ul>
           <li>This is a chatroom.</li>
-          <li>Double click your name at the top to change it.</li>
-          <li>Click on someone's name in the sidebar to have a private chat.</li>
-          <li>Click the left and right buttons below to switch between chats.</li>
+          <li>Click your name on the left to change it.</li>
+          <li>Click someone's name in the sidebar to have a private chat.</li>
+          <li>Click the left and right buttons to switch between chats.</li>
         </ul>
       </article>
-      <div id="help-modal" class="modal"></div>
-    </footer>
+
+      <form id="nickname-form" class="nickname-form">
+        <h2>You can call me</h2>
+        <input type="text">
+        <strong class="errors"></strong>
+      </form>
+    </main>
+
+
 
     <script type="text/template" id="private-chat">
-      <h3>.
-        <strong class="nickname" data-id="<%= id %>"><%= nickname %></strong>
-      </h3>
-      <article class="convo"></article>
-
-      <form class="private">
-        <textarea></textarea>
-      </form>
-
-      <strong class="x"><i class="fa fa-times"></i></strong>
-    </script>
-
-    <script type="text/template" id="nota-bene">
-      <strong class="nota-bene">
-        <%= message %>
-        <i class="fa fa-times x"></i>
-      </strong>
+      <li class="chat">
+        <form id="message-form" class="private-chat">
+          <h2>
+            <%= nickname %>
+            <button type="button" class="x fa fa-times"></button>
+          </h2>
+          <article class="chatroom private-chatroom"></article>
+          <textarea class="message-input private-input"></textarea>
+        </form>
+      </li>
     </script>
 
     <script>
     $(function () {
-      HelloWorldChat.initialize({ socket: io() });
+      HelloWorldChat.initialize({
+        rootEl: 'main',
+        socket: io()
+      });
     });
     </script>
   </body>
