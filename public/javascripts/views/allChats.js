@@ -1,13 +1,13 @@
-NodeFun.Views.AllChats = Backbone.View.extend({
+HelloWorldChat.Views.AllChats = Backbone.View.extend({
   initialize: function () {
-    this.mainChatView = new NodeFun.Views.MainChat({
+    this.mainChatView = new HelloWorldChat.Views.MainChat({
       el: this.$el.find("li.main-chat")
     });
 
     this.privateChatViews = [];
-    this.listenTo(NodeFun.socket, "newChat", this.createNewChat);
-    this.listenTo(NodeFun.socket, "remove", this.removeChat);
-    this.listenTo(NodeFun.socket, "guestLeft", this.removeGuest);
+    this.listenTo(HelloWorldChat.socket, "newChat", this.createNewChat);
+    this.listenTo(HelloWorldChat.socket, "remove", this.removeChat);
+    this.listenTo(HelloWorldChat.socket, "guestLeft", this.removeGuest);
   },
 
   events: {
@@ -18,7 +18,7 @@ NodeFun.Views.AllChats = Backbone.View.extend({
   createNewChat: function (id, nickname) {
     this.$el.css({ width: "+=500px" });
 
-    var view = new NodeFun.Views.PrivateChat({
+    var view = new HelloWorldChat.Views.PrivateChat({
       chatId: id,
       nickname: nickname
     });
@@ -26,8 +26,8 @@ NodeFun.Views.AllChats = Backbone.View.extend({
     this.$el.append(view.render().$el);
     this.privateChatViews.push(view);
 
-    NodeFun.$chatCarousel.updateItems();
-    NodeFun.$chatCarousel.scrollTo(this.$el.children().length - 1);
+    HelloWorldChat.$chatCarousel.updateItems();
+    HelloWorldChat.$chatCarousel.scrollTo(this.$el.children().length - 1);
   },
 
   removeChat: function (id, active) {
@@ -37,8 +37,8 @@ NodeFun.Views.AllChats = Backbone.View.extend({
     chatView.remove();
     this.privateChatViews.splice(chatIndex, 1);
 
-    NodeFun.$chatCarousel.updateItems();
-    if (active) NodeFun.$chatCarousel.slideRight(chatIndex);
+    HelloWorldChat.$chatCarousel.updateItems();
+    if (active) HelloWorldChat.$chatCarousel.slideRight(chatIndex);
   },
 
   removeGuest: function (data) {
@@ -51,7 +51,7 @@ NodeFun.Views.AllChats = Backbone.View.extend({
       var $privateChat = this.$el.children().eq(privateIndex + 1);
       var removeChat = function () {
         var active = false;
-        if (NodeFun.$chatCarousel.activeIdx === privateIndex + 1) active = true;
+        if (HelloWorldChat.$chatCarousel.activeIdx === privateIndex + 1) active = true;
         view.removeChat(data.id, active);
       };
 
@@ -76,7 +76,7 @@ NodeFun.Views.AllChats = Backbone.View.extend({
       if (index === -1) {
         this.createNewChat(id, chatter);
       } else {
-        NodeFun.$chatCarousel.scrollTo(index + 1);
+        HelloWorldChat.$chatCarousel.scrollTo(index + 1);
       }
     }
   },
@@ -86,7 +86,7 @@ NodeFun.Views.AllChats = Backbone.View.extend({
 
     if (!$chat.hasClass("active")) {
       var chatIndex = this.$el.children().index($chat);
-      NodeFun.$chatCarousel.scrollTo(chatIndex);
+      HelloWorldChat.$chatCarousel.scrollTo(chatIndex);
     }
   },
 

@@ -1,9 +1,9 @@
 (function (root) {
-  var NodeFun = root.NodeFun = (root.NodeFun || {});
+  var HelloWorldChat = root.HelloWorldChat = (root.HelloWorldChat || {});
 
-  var ChatUI = NodeFun.ChatUI = function () {
-    this.socket = NodeFun.socket.socket;
-    this.$chatCarousel = NodeFun.$chatCarousel;
+  var ChatUI = HelloWorldChat.ChatUI = function () {
+    this.socket = HelloWorldChat.socket.socket;
+    this.$chatCarousel = HelloWorldChat.$chatCarousel;
     this.nicknames = {};
 
     this.initializeViews();
@@ -11,10 +11,10 @@
   };
 
   ChatUI.prototype.initializeViews = function () {
-    this.topBarView = new NodeFun.Views.TopBar({ el: $("header") });
-    this.allChatsView = new NodeFun.Views.AllChats({ el: $("ul.all-chats") });
+    this.topBarView = new HelloWorldChat.Views.TopBar({ el: $("header") });
+    this.allChatsView = new HelloWorldChat.Views.AllChats({ el: $("ul.all-chats") });
     this.mainChatView = this.allChatsView.mainChatView;
-    this.footerView = new NodeFun.Views.Help({ el: $('footer') });
+    this.footerView = new HelloWorldChat.Views.Help({ el: $('footer') });
   };
 
   ChatUI.prototype.bindEvents = function () {
@@ -28,7 +28,7 @@
       $input.val(data.tempNick);
       $input.focus().select();
 
-      NodeFun.socket.id = data.id;
+      HelloWorldChat.socket.id = data.id;
     });
 
     this.socket.on("chatReady", this.enterRoom.bind(this));
@@ -58,7 +58,7 @@
     });
 
     function removeInlineStyles() {
-      NodeFun.socket.set("nickname", nickname);
+      HelloWorldChat.socket.set("nickname", nickname);
       $("header").removeClass();
 
       var els = [
@@ -76,11 +76,11 @@
 
     this.socket.on("newGuest", function (data) {
       var guest = ui.nicknames[data.id] = data.nickname;
-      NodeFun.socket.trigger("newGuest", guest);
+      HelloWorldChat.socket.trigger("newGuest", guest);
     });
 
     this.socket.on("sendMessage", function (data) {
-      NodeFun.socket.trigger("newMessage", {
+      HelloWorldChat.socket.trigger("newMessage", {
         id: data.senderId,
         nickname: ui.nicknames[data.senderId],
         message: data.text
@@ -93,10 +93,10 @@
       var nickname = ui.nicknames[data.senderId];
 
       if (!isSelf && newChat) {
-        NodeFun.socket.trigger("newChat", data.senderId, nickname);
+        HelloWorldChat.socket.trigger("newChat", data.senderId, nickname);
       }
 
-      NodeFun.socket.trigger(data.chatId, {
+      HelloWorldChat.socket.trigger(data.chatId, {
         id: data.senderId,
         nickname: nickname,
         message: data.text
@@ -104,20 +104,20 @@
     });
 
     this.socket.on("nicknameAdded", function (data) {
-      NodeFun.socket.set("nickname", data.nickname);
+      HelloWorldChat.socket.set("nickname", data.nickname);
     });
 
     this.socket.on("displayNicks", function (data) {
       var $nickname = $(".nickname").findByDataId(data.changedId);
-      $nickname.html(NodeFun.socket.get("nickname"));
+      $nickname.html(HelloWorldChat.socket.get("nickname"));
 
       ui.nicknames = data.nicknames;
-      NodeFun.socket.trigger("newNickname", ui.nicknames);
+      HelloWorldChat.socket.trigger("newNickname", ui.nicknames);
     });
 
     this.socket.on("guestLeft", function (data) {
       var nickname = ui.nicknames[data.id];
-      NodeFun.socket.trigger("guestLeft", { id: data.id, nickname: nickname });
+      HelloWorldChat.socket.trigger("guestLeft", { id: data.id, nickname: nickname });
       delete ui.nicknames[data.id];
     });
   };
@@ -128,13 +128,13 @@
     this.socket.on("isTyping", function (data) {
       var nickname = ui.nicknames[data.id];
 
-      NodeFun.socket.trigger(data.id + "typing", {
+      HelloWorldChat.socket.trigger(data.id + "typing", {
         nickname: nickname
       });
     });
 
     this.socket.on("stoppedTyping", function (data) {
-      NodeFun.socket.trigger(data.id + "doneTyping");
+      HelloWorldChat.socket.trigger(data.id + "doneTyping");
     });
   };
 
@@ -143,6 +143,6 @@
   };
 
   ChatUI.prototype.isSelf = function (id) {
-    return NodeFun.socket.id === id;
+    return HelloWorldChat.socket.id === id;
   };
 })(window);

@@ -1,4 +1,4 @@
-NodeFun.Views.Help = Backbone.View.extend({
+HelloWorldChat.Views.Help = Backbone.View.extend({
   events: {
     "click .help": "showModal",
     'click #help-modal': 'hideModal'

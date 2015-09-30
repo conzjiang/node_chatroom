@@ -1,4 +1,4 @@
-NodeFun.Models.Socket = Backbone.Model.extend({
+HelloWorldChat.Models.Socket = Backbone.Model.extend({
   initialize: function (options) {
     this.socket = options.socket;
     this.lastKeypress = Date.now();

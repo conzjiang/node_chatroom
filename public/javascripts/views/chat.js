@@ -1,4 +1,4 @@
-NodeFun.Views.Chat = Backbone.View.extend({
+HelloWorldChat.Views.Chat = Backbone.View.extend({
   events: {
     "keydown form": "sendMessage"
   },
@@ -12,7 +12,7 @@ NodeFun.Views.Chat = Backbone.View.extend({
       var receiverId = $(e.currentTarget).closest("li.chat").data("id");
 
       if (message) {
-        NodeFun.socket.sendMessage(message, receiverId);
+        HelloWorldChat.socket.sendMessage(message, receiverId);
         $textarea.val("");
       }
     }

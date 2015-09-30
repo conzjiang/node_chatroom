@@ -1,6 +1,6 @@
-NodeFun.Views.TopBar = Backbone.View.extend({
+HelloWorldChat.Views.TopBar = Backbone.View.extend({
   initialize: function () {
-    this.listenTo(NodeFun.socket, "change:nickname", this.changeNickname);
+    this.listenTo(HelloWorldChat.socket, "change:nickname", this.changeNickname);
   },
 
   events: {
@@ -14,8 +14,8 @@ NodeFun.Views.TopBar = Backbone.View.extend({
     var nickname = this.$("input").val().clean();
     this.$("p.error").empty();
 
-    if (nickname && NodeFun.socket.get("nickname") !== nickname) {
-      NodeFun.socket.changeNickname(nickname);
+    if (nickname && HelloWorldChat.socket.get("nickname") !== nickname) {
+      HelloWorldChat.socket.changeNickname(nickname);
     } else if (!this.$el.hasClass("connected")) {
       this.$el.removeClass("edit");
     }
@@ -23,14 +23,14 @@ NodeFun.Views.TopBar = Backbone.View.extend({
 
   editNickname: function () {
     this.$el.addClass("edit");
-    this.$("input").val(NodeFun.socket.get("nickname"));
+    this.$("input").val(HelloWorldChat.socket.get("nickname"));
     this.$("input").focus().select();
   },
 
   changeNickname: function () {
-    console.log(NodeFun.socket.get("nickname"))
+    console.log(HelloWorldChat.socket.get("nickname"))
     this.$el.removeClass("edit");
-    this.$("h1").html(NodeFun.socket.escape("nickname"));
-    this.$("input[type=text]").val(NodeFun.socket.escape("nickname"));
+    this.$("h1").html(HelloWorldChat.socket.escape("nickname"));
+    this.$("input[type=text]").val(HelloWorldChat.socket.escape("nickname"));
   }
 });
