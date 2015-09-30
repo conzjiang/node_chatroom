@@ -57,6 +57,7 @@ HelloWorldChat.Views.NicknameForm = HelloWorldChat.View.extend({
 
   edit: function () {
     this.$el.removeClass('hide');
+    this.$('input').focus().select();
   },
 
   success: function () {
