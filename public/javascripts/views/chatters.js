@@ -2,6 +2,7 @@ HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
   initialize: function () {
     this.listenForOnce('enterRoom', this.render);
     this.listenFor('newGuest', this.addToList);
+    this.listenFor('guestLeft', this.removeFromList);
   },
 
   template: _.template('\
@@ -28,5 +29,9 @@ HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
     }
 
     this.$el.append($li);
+  },
+
+  removeFromList: function (guest) {
+    this.$('.' + guest.id).remove();
   }
 });
