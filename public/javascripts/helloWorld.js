@@ -2,9 +2,15 @@ window.HelloWorldChat = {
   Models: {},
   Views: {},
   initialize: function (options) {
-    HelloWorldChat.socket = new HelloWorldChat.Models.Socket(options);
-    HelloWorldChat.$chatCarousel = $(".all-chats").carousel();
-    new HelloWorldChat.ChatUI();
+    var socket = new HelloWorldChat.Models.Socket({
+      socket: options.socket
+    });
+
+    new HelloWorldChat.Views.ChatUI({
+      el: options.rootEl,
+      socket: socket,
+      $chatCarousel: $(".all-chats").carousel()
+    });
   }
 };
 

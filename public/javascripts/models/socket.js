@@ -8,6 +8,10 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
     this.socket.emit(event, data);
   },
 
+  listenFor: function (event, callback) {
+    this.socket.on(event, callback.bind(this));
+  },
+
   changeNickname: function (newNickname) {
     this.socket.emit("nicknameChange", { nickname: newNickname });
   },

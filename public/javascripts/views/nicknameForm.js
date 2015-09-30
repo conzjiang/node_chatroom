@@ -1,6 +1,7 @@
-HelloWorldChat.Views.TopBar = Backbone.View.extend({
-  initialize: function () {
-    this.listenTo(HelloWorldChat.socket, "change:nickname", this.changeNickname);
+HelloWorldChat.Views.NicknameForm = Backbone.View.extend({
+  initialize: function (options) {
+    this.socket = options.socket;
+    this.listenTo(this.socket, "change:nickname", this.changeNickname);
   },
 
   events: {
