@@ -40,7 +40,12 @@
 }
 
 .chatroom strong {
+  margin-right: 5px;
   font-weight: 600;
+}
+
+.chatroom strong:after {
+  content: ":";
 }
 
 .message-input {

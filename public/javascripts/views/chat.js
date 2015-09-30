@@ -1,6 +1,6 @@
 HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
   events: {
-    "keydown form": "sendMessage"
+    "keydown .message-input": "sendMessage"
   },
 
   appendToChat: function (content) {
@@ -9,34 +9,34 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
   },
 
   sendMessage: function (e) {
-    var $textarea = this.$el.find("textarea");
+    if (e.which !== HWCConstants.ENTER) { return; }
 
-    if (e.which === 13) {
-      e.preventDefault();
-      var message = $textarea.val().clean();
-      var receiverId = $(e.currentTarget).closest("li.chat").data("id");
+    e.preventDefault();
+    var $input = $(e.currentTarget);
+    var message = $input.val().trim();
 
-      if (message) {
-        HelloWorldChat.socket.sendMessage(message, receiverId);
-        $textarea.val("");
-      }
+    if (message) {
+      this.socket.sendMessage(message, this.chatId);
+      $input.val("");
     }
   },
 
-  template: function (data) {
-    var $templateCode = $("<p>");
-    var $nickname = $("<strong class='nickname'>");
+  template: function (options) {
+    var guest = options.guest;
+    var $template = $("<p>");
+    var $nickname = $("<strong>");
 
-    $nickname.data("id", data.id);
-    $nickname.html(data.nickname);
-    $templateCode.append($nickname).append(": " + data.message);
+    $nickname.addClass(guest.senderId).text(guest.nickname);
+    $template.text(guest.message).prepend($nickname);
 
-    return $templateCode;
+    return $template;
   },
 
-  appendMessage: function (data) {
-    var content = this.template(data);
-    this.$chat.find(".typing").remove();
-    this.appendToChat(content);
+  appendMessage: function (guest) {
+    this.$('.typing').remove();
+
+    this.appendToChat(this.template({
+      guest: guest
+    }));
   }
 });

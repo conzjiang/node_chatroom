@@ -36,6 +36,8 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
     this.listenFor('newGuest');
     this.listenFor('newNickname');
     this.listenFor('guestLeft');
+    this.listenFor('publicMessage');
+    this.listenFor('privateMessage');
   },
 
   emit: function (event, data) {
@@ -55,6 +57,14 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
       this.emit('changeNickname', { nickname: newNickname });
     } else {
       this.trigger('success');
+    }
+  },
+
+  sendMessage: function (message, id) {
+    if (id) {
+      this.emit("sendPrivateMessage", { id: id, message: message });
+    } else {
+      this.emit("sendPublicMessage", { message: message });
     }
   },
 
@@ -79,14 +89,6 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
           }
         };
       }
-    }
-  },
-
-  sendMessage: function (message, receiverId) {
-    if (receiverId) {
-      this.emit("privateMessage", { id: receiverId, text: message });
-    } else {
-      this.emit("message", { text: message });
     }
   }
 });

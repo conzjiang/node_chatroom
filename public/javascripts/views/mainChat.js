@@ -4,6 +4,7 @@ HelloWorldChat.Views.MainChat = HelloWorldChat.Views.Chat.extend({
 
     this.listenFor('newGuest', this.announceNewGuest);
     this.listenFor('guestLeft', this.announceGuestLeft);
+    this.listenFor('publicMessage', this.appendMessage);
   },
 
   notification: _.template('\
