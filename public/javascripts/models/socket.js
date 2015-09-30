@@ -35,6 +35,7 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
   broadcastedEvents: function () {
     this.listenFor('newGuest');
     this.listenFor('newNickname');
+    this.listenFor('guestLeft');
   },
 
   emit: function (event, data) {

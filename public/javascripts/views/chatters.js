@@ -1,7 +1,5 @@
 HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
-  initialize: function (options) {
-    this.socket = options.socket;
-
+  initialize: function () {
     this.listenForOnce('enterRoom', this.render);
     this.listenFor('newGuest', this.addToList);
   },

@@ -3,6 +3,11 @@ HelloWorldChat.Views.Chat = Backbone.View.extend({
     "keydown form": "sendMessage"
   },
 
+  appendToChat: function (content) {
+    this.$chat.append(content);
+    this.$chat.scrollToBottom();
+  },
+
   sendMessage: function (e) {
     var $textarea = this.$el.find("textarea");
 
@@ -33,10 +38,5 @@ HelloWorldChat.Views.Chat = Backbone.View.extend({
     var content = this.template(data);
     this.$chat.find(".typing").remove();
     this.appendToChat(content);
-  },
-
-  appendToChat: function (content) {
-    this.$chat.append(content);
-    this.$chat.scrollToBottom();
   }
 });

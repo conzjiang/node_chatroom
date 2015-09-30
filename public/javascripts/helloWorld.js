@@ -6,9 +6,10 @@ window.HelloWorldChat = {
       socket: options.socket
     });
 
+    HelloWorldChat.View.assignSocket(socket);
+
     new HelloWorldChat.Views.ChatUI({
       el: options.rootEl,
-      socket: socket,
       $chatCarousel: $(".all-chats").carousel()
     });
   }
@@ -23,3 +24,7 @@ HelloWorldChat.View = Backbone.View.extend({
     this.listenToOnce(this.socket, event, callback);
   }
 });
+
+HelloWorldChat.View.assignSocket = function (socket) {
+  this.prototype.socket = socket;
+};

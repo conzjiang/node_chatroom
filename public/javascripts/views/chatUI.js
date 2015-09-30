@@ -1,6 +1,5 @@
 HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
   initialize: function (options) {
-    this.socket = options.socket;
     this.$chatCarousel = options.$chatCarousel;
 
     this.initializeViews();
@@ -14,13 +13,15 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
 
   initializeViews: function () {
     this.nicknameForm = new HelloWorldChat.Views.NicknameForm({
-      el: '#nickname-form',
-      socket: this.socket
+      el: '#nickname-form'
     });
 
     new HelloWorldChat.Views.Chatters({
-      el: '.chatters',
-      socket: this.socket
+      el: '.chatters'
+    });
+
+    new HelloWorldChat.Views.MainChat({
+      el: '.main-chat'
     });
   },
 
