@@ -49,6 +49,10 @@
 }
 
 /* Main chat */
+.main-chat {
+  margin-right: 15px;
+}
+
 .main-chat > form {
   float: left;
 }
@@ -116,12 +120,24 @@
 }
 
 .private-chatroom {
+  position: relative;
+  z-index: 1;
   padding: 15px;
   height: 200px;
   background: pink;
 }
 
 .private-input {
+  position: relative;
+  top: -40px;
+  z-index: 0;
+
   width: calc(100% - 20px);
   padding: 10px;
+
+  transition: top 1s;
+}
+
+.active .private-input {
+  top: 0;
 }
