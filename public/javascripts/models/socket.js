@@ -7,6 +7,11 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
   },
 
   beginListening: function () {
+    this.individualEvents();
+    this.broadcastedEvents();
+  },
+
+  individualEvents: function () {
     this.listenFor('connected', function (data) {
       this.id = data.id;
       this.trigger('connected', data.tempNick);
@@ -25,6 +30,10 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
       this.set('nickname', data.nickname);
       this.trigger('success');
     });
+  },
+
+  broadcastedEvents: function () {
+    this.listenFor('newGuest', this.trigger.bind(this, 'newGuest'));
   },
 
   emit: function (event, data) {
