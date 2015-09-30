@@ -7,6 +7,7 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
 
     this.listenFor('change:nickname', this.changeNickname);
     this.listenFor('success', this.clearModal);
+    this.listenFor('newNickname', this.changeAll);
 
     this.listenToOnce(this.nicknameForm, 'enteredRoom', this.fadeOutModal);
   },
@@ -51,6 +52,10 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
 
   clearModal: function () {
     this.$('#modal').addClass('hide');
+  },
+
+  changeAll: function (guest) {
+    this.$('.' + guest.id).text(guest.nickname);
   }
 });
 
