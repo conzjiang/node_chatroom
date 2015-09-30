@@ -1,10 +1,16 @@
 HelloWorldChat.Views.MainChat = HelloWorldChat.Views.Chat.extend({
   initialize: function () {
     this.$chat = this.$('.chatroom');
+    this.$input = this.$('.message-input');
 
+    this.listenFor('enterRoom', this.focus);
     this.listenFor('newGuest', this.announceNewGuest);
     this.listenFor('guestLeft', this.announceGuestLeft);
     this.listenFor('publicMessage', this.appendMessage);
+  },
+
+  focus: function () {
+    this.$input.focus();
   },
 
   notification: _.template('\

@@ -12,12 +12,11 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
     if (e.which !== HWCConstants.ENTER) { return; }
 
     e.preventDefault();
-    var $input = $(e.currentTarget);
-    var message = $input.val().trim();
+    var message = this.$input.val().trim();
 
     if (message) {
       this.socket.sendMessage(message, this.chatId);
-      $input.val("");
+      this.$input.val("");
     }
   },
 
