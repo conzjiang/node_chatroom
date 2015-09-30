@@ -1,8 +1,11 @@
 {
-  "name": "for_pizza_and_bunny",
+  "name": "hello_world_chat",
   "version": "0.0.0",
   "description": "practicing node by making a chatroom",
   "main": "app.js",
+  "scripts": {
+    "start": "node lib/app.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/conzjiang/node_chatroom.git"
