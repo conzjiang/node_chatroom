@@ -1,4 +1,4 @@
-HelloWorldChat.Views.NicknameForm = Backbone.View.extend({
+HelloWorldChat.Views.NicknameForm = HelloWorldChat.View.extend({
   initialize: function (options) {
     this.socket = options.socket;
 

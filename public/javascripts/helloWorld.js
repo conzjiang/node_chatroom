@@ -14,3 +14,12 @@ window.HelloWorldChat = {
   }
 };
 
+HelloWorldChat.View = Backbone.View.extend({
+  listenFor: function (event, callback) {
+    this.listenTo(this.socket, event, callback);
+  },
+
+  listenForOnce: function (event, callback) {
+    this.listenToOnce(this.socket, event, callback);
+  }
+});

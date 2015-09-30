@@ -1,4 +1,4 @@
-HelloWorldChat.Views.ChatUI = Backbone.View.extend({
+HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
   initialize: function (options) {
     this.socket = options.socket;
     this.$chatCarousel = options.$chatCarousel;
