@@ -20,6 +20,11 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
     this.listenFor('errorMessage', function (data) {
       this.trigger('error', data.message);
     });
+
+    this.listenFor('nicknameSuccess', function (data) {
+      this.set('nickname', data.nickname);
+      this.trigger('success');
+    });
   },
 
   emit: function (event, data) {
@@ -32,7 +37,9 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
 
   changeNickname: function (newNickname) {
     if (this.get('nickname') !== newNickname) {
-      this.emit("nicknameChange", { nickname: newNickname });
+      this.emit('changeNickname', { nickname: newNickname });
+    } else {
+      this.trigger('success');
     }
   },
 

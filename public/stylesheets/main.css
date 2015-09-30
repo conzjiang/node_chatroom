@@ -11,6 +11,10 @@ main {
   font-size: 40px;
 }
 
+.main-header > h1 {
+  cursor: pointer;
+}
+
 /* Footer */
 footer {
   padding: 30px 0;

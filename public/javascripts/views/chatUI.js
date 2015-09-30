@@ -16,6 +16,10 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
     });
   },
 
+  events: {
+    'click #nickname': 'editNickname'
+  },
+
   changeNickname: function () {
     this.$('#nickname').text(this.socket.get('nickname'));
   },
@@ -25,12 +29,17 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
 
     this.$('#modal').one('transitionend', function () {
       this.$('#modal').removeClass('opaque').addClass('hide');
-      this.moveForm();
+      this._moveForm();
     }.bind(this));
   },
 
-  moveForm: function () {
+  _moveForm: function () {
     this.$('.main-header').append(this.nicknameForm.$el);
+  },
+
+  editNickname: function () {
+    this.$('#modal').removeClass('hide');
+    this.nicknameForm.toggleEdit();
   }
 });
 

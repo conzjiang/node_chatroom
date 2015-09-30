@@ -27,7 +27,7 @@
   text-align: center;
   z-index: 200;
 
-  transition: top 1s, opacity 1s;
+  transition: top 1s;
 }
 
 .nickname-form > h2 {
