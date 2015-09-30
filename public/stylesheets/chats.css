@@ -48,6 +48,10 @@
   background: #eee;
 }
 
+.notification {
+  font-style: italic;
+}
+
 /* Main chat */
 .main-chat {
   width: 490px;

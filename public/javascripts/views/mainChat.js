@@ -1,13 +1,14 @@
 HelloWorldChat.Views.MainChat = HelloWorldChat.Views.Chat.extend({
   initialize: function () {
-    this.$chat = this.$el.find(".chat-box");
-    this.listenTo(HelloWorldChat.socket, "newGuest", this.newGuest);
-    this.listenTo(HelloWorldChat.socket, "newMessage", this.appendMessage);
-    this.listenTo(HelloWorldChat.socket, "newNickname", this.displayNicknames);
+    this.$chat = this.$('.chatroom');
+    this.listenFor('newGuest', this.announceNewGuest);
   },
 
-  newGuest: function (guest) {
-    this.appendToChat("<p class='notif'>" + guest + " has joined the room</p>");
+  newGuestTemplate: _.template('\
+    <p class="notification"><%= guest.nickname %> has joined the room</p>'),
+
+  announceNewGuest: function (guest) {
+    this.appendToChat(this.newGuestTemplate({ guest: guest }));
   },
 
   displayNicknames: function (nicknames) {

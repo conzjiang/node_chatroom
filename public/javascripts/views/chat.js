@@ -1,4 +1,4 @@
-HelloWorldChat.Views.Chat = Backbone.View.extend({
+HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
   events: {
     "keydown form": "sendMessage"
   },
