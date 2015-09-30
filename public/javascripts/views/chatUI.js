@@ -16,6 +16,11 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
       el: '#nickname-form',
       socket: this.socket
     });
+
+    new HelloWorldChat.Views.Chatters({
+      el: '.chatters',
+      socket: this.socket
+    });
   },
 
   events: {
