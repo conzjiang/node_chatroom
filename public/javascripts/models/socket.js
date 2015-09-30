@@ -16,6 +16,10 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
       this.set('nickname', data.nickname);
       this.trigger('enterRoom');
     });
+
+    this.listenFor('errorMessage', function (data) {
+      this.trigger('error', data.message);
+    });
   },
 
   emit: function (event, data) {
