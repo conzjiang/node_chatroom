@@ -6,10 +6,11 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
     this.initializeViews();
 
     this.listenTo(this.socket, 'change:nickname', this.changeNickname);
+    this.listenTo(this.nicknameForm, 'enteredRoom', this.fadeOutModal);
   },
 
   initializeViews: function () {
-    new HelloWorldChat.Views.NicknameForm({
+    this.nicknameForm = new HelloWorldChat.Views.NicknameForm({
       el: '#nickname-form',
       socket: this.socket
     });
@@ -17,6 +18,19 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
 
   changeNickname: function () {
     this.$('#nickname').text(this.socket.get('nickname'));
+  },
+
+  fadeOutModal: function () {
+    this.$('#modal').addClass('fade-out');
+
+    this.$('#modal').one('transitionend', function () {
+      this.$('#modal').removeClass('opaque').addClass('hide');
+      this.moveForm();
+    }.bind(this));
+  },
+
+  moveForm: function () {
+    this.$('.main-header').append(this.nicknameForm.$el);
   }
 });
 
@@ -47,44 +61,7 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
 //     this.displayMessages();
 //     this.checkTyping();
 //
-//     this.socket.on("chatReady", this.enterRoom.bind(this));
-//
-//     this.socket.on("errorMessage", function (data) {
-//       $("p.error").html(data.message);
-//     });
-//   };
-//
-//   ChatUI.prototype.enterRoom = function () {
-//     var $form = $("form.change-nickname").blur();
-//     var nickname = $form.find("input").val().clean();
-//     var $h2 = $form.find("h2");
-//     var $modal = $('#header-modal');
-//     var $nicknameHeader = $('h1.nickname');
-//
-//     $("p.error").empty();
-//     $h2.fadeOut(1000, $.fn.remove.bind($h2));
-//     $form.animate({ top: "-26px" }, 1000, function () {
-//       // adjust position after h2 fades out
-//       $form.css({ top: "20px" }).addClass("ready");
-//       $nicknameHeader.css({ display: "block" }).html(nickname);
-//
-//       setTimeout(function () {
-//         $modal.fadeOut(removeInlineStyles);
-//       }, 500);
-//     });
-//
-//     function removeInlineStyles() {
-//       HelloWorldChat.socket.set("nickname", nickname);
-//       $("header").removeClass();
-//
-//       var els = [
-//         $modal,
-//         $form.removeClass("ready"),
-//         $nicknameHeader
-//       ];
-//
-//       _(els).each(function ($el) { $el.removeAttr("style"); });
-//     };
+
 //   };
 //
 //   ChatUI.prototype.displayMessages = function () {

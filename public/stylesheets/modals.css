@@ -8,10 +8,15 @@
   background: lightblue;
   opacity: 0.7;
   z-index: 100;
+  transition: opacity 1s;
 }
 
 .opaque {
   opacity: 1;
+}
+
+.modal-cover.fade-out {
+  opacity: 0;
 }
 
 /* Nickname form */
@@ -21,10 +26,14 @@
   width: 100%;
   text-align: center;
   z-index: 200;
+
+  transition: top 1s, opacity 1s;
 }
 
 .nickname-form > h2 {
   font-size: 40px;
+  opacity: 1;
+  transition: opacity 1s;
 }
 
 .nickname-form > input {
@@ -37,11 +46,31 @@
   font-size: 40px;
   background: #fff;
   border-bottom: 1px solid #000;
+  opacity: 1;
+  transition: opacity 1s;
 }
 
 .nickname-form > .error {
   font-size: 18px;
   color: #990000;
+}
+
+/* Nickname form transitions */
+.nickname-form.enter-room {
+  top: -27px;
+}
+
+.enter-room > h2 {
+  opacity: 0;
+}
+
+.enter-room > input.fade-away {
+  opacity: 0;
+}
+
+.main-header .nickname-form {
+  display: none;
+  top: 20px;
 }
 
 /* Help */
