@@ -1,6 +1,6 @@
 /* Modal */
 .modal-cover {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -76,8 +76,8 @@
 .help-info {
   display: none;
 
-  position: absolute;
-  top: 40%;
+  position: fixed;
+  top: 0;
   left: 50%;
   -webkit-transform: translateY(-50%) translateX(-50%);
   -ms-transform: translateY(-50%) translateX(-50%);
@@ -88,10 +88,19 @@
   background: #fff;
   box-shadow: 2px 2px 5px lightblue;
   z-index: 200;
+  transition: top 1s, opacity 1s;
+}
+
+.help-info.enter {
+  top: 40%;
+}
+
+.help-info.leave {
+  opacity: 0;
 }
 
 .help-info > h2 {
-  font-family: 'Petit Formal Script';
+  font-weight: 600;
   font-size: 24px;
   margin-bottom: 5px;
 }

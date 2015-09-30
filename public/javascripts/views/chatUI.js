@@ -8,7 +8,9 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     this.listenFor('success', this.clearModal);
     this.listenFor('newNickname', this.changeAll);
 
-    this.listenToOnce(this.nicknameForm, 'enteredRoom', this.fadeOutModal);
+    this.listenToOnce(this.nicknameForm, 'enteredRoom', function () {
+      this.fadeOutModal(this._moveForm.bind(this));
+    });
   },
 
   initializeViews: function () {
@@ -23,22 +25,29 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     new HelloWorldChat.Views.MainChat({
       el: '.main-chat'
     });
+
+    this.helpView = new HelloWorldChat.Views.HelpView({
+      el: '.help-info'
+    });
   },
 
   events: {
-    'click #nickname': 'editNickname'
+    'click #nickname': 'editNickname',
+    'click .help-button': 'openHelp',
   },
 
   changeNickname: function () {
     this.$('#nickname').text(this.socket.get('nickname'));
   },
 
-  fadeOutModal: function () {
+  fadeOutModal: function (callback) {
+    $('body').removeClass('static');
     this.$('#modal').addClass('fade-out');
 
     this.$('#modal').one('transitionend', function () {
       this.$('#modal').removeClass('fade-out opaque').addClass('hide');
-      this._moveForm();
+
+      if (typeof callback === 'function') { callback(); }
     }.bind(this));
   },
 
@@ -47,16 +56,33 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
   },
 
   editNickname: function () {
-    this.$('#modal').removeClass('hide');
+    this.openModal();
     this.nicknameForm.edit();
   },
 
   clearModal: function () {
+    $('body').removeClass('static');
     this.$('#modal').addClass('hide');
   },
 
   changeAll: function (guest) {
     this.$('.' + guest.id).text(guest.nickname);
+  },
+
+  openModal: function () {
+    $('body').addClass('static');
+    this.$('#modal').removeClass('hide');
+  },
+
+  openHelp: function () {
+    this.openModal();
+    this.helpView.open();
+    this.$('#modal').one('click', this.closeHelp.bind(this));
+  },
+
+  closeHelp: function () {
+    this.fadeOutModal();
+    this.helpView.close();
   }
 });
 
@@ -120,24 +146,6 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
 //         nickname: nickname,
 //         message: data.text
 //       });
-//     });
-//
-//     this.socket.on("nicknameAdded", function (data) {
-//       HelloWorldChat.socket.set("nickname", data.nickname);
-//     });
-//
-//     this.socket.on("displayNicks", function (data) {
-//       var $nickname = $(".nickname").findByDataId(data.changedId);
-//       $nickname.html(HelloWorldChat.socket.get("nickname"));
-//
-//       ui.nicknames = data.nicknames;
-//       HelloWorldChat.socket.trigger("newNickname", ui.nicknames);
-//     });
-//
-//     this.socket.on("guestLeft", function (data) {
-//       var nickname = ui.nicknames[data.id];
-//       HelloWorldChat.socket.trigger("guestLeft", { id: data.id, nickname: nickname });
-//       delete ui.nicknames[data.id];
 //     });
 //   };
 //

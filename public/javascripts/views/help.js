@@ -1,33 +1,27 @@
-HelloWorldChat.Views.Help = Backbone.View.extend({
+HelloWorldChat.Views.HelpView = HelloWorldChat.View.extend({
+  initialize: function () {
+    this.stopListening();
+  },
+
   events: {
-    "click .help": "showModal",
-    'click #help-modal': 'hideModal'
+    "click .x": "close"
   },
 
-  showModal: function () {
-    var $modal = this.$('.help-info');
-    this.$el.addClass('help');
+  open: function () {
+    this.delegateEvents();
+    this.$el.addClass('show');
+
     setTimeout(function () {
-      $modal.addClass('slide-in');
-    }, 0);
+      this.$el.addClass('enter');
+    }.bind(this), 0);
   },
 
-  hideModal: function () {
-    var $footer = this.$el;
-    var $modal = this.$('.help-info');
-    var $modalBg = this.$('#help-modal');
-    var els = [$modal, $modalBg];
+  close: function () {
+    this.stopListening();
+    this.$el.addClass('leave');
 
-    _(els).each(function($el) { $el.addClass('fade-out'); });
-
-    setTimeout(function () {
-      _(els).each(function($el) { $el.addClass('fading-out'); });
-
-      $modalBg.one('transitionend', function () {
-        $footer.removeClass('help');
-        $modal.removeClass('slide-in');
-        _(els).each(function($el) { $el.removeClass('fade-out fading-out'); });
-      });
-    }, 0);
+    this.$el.one('transitionend', function () {
+      $(this).removeClass('show enter leave');
+    });
   }
 });

@@ -52,6 +52,10 @@ body {
   overflow-x: hidden;
 }
 
+body.static {
+  overflow: hidden;
+}
+
 ul {
   list-style: none;
 }
