@@ -27,28 +27,26 @@
   </head>
   <body>
     <main>
-      <div class="main-container">
-        <section class="main-header">
-          <h2 id="nickname"></h2>
-        </section>
+      <section class="main-header">
+        <h2 id="nickname"></h2>
+      </section>
 
-        <ul class="all-chats group">
-          <li class="chat main-chat active group">
-            <form id="message-form">
-              <article class="chatroom main-chatroom"></article>
-              <textarea class="message-input main-input"></textarea>
-            </form>
+      <ul class="all-chats group">
+        <li class="chat main-chat active group">
+          <form id="message-form">
+            <article class="chatroom main-chatroom"></article>
+            <textarea class="message-input main-input"></textarea>
+          </form>
 
-            <ul class="chatters"></ul>
-          </li>
-        </ul>
+          <ul class="chatters"></ul>
+        </li>
+      </ul>
 
-        <footer>
-          <button class="left inactive fa fa-arrow-circle-left"></button>
-          <button class="help-button fa fa-question-circle"></button>
-          <button class="right inactive fa fa-arrow-circle-right"></button>
-        </footer>
-      </div>
+      <footer>
+        <button class="nav left inactive fa fa-arrow-circle-left"></button>
+        <button class="nav help-button fa fa-question-circle"></button>
+        <button class="nav right inactive fa fa-arrow-circle-right"></button>
+      </footer>
 
       <div id="modal" class="modal-cover opaque"></div>
       <article class="help-info">
@@ -67,8 +65,6 @@
         <strong class="errors"></strong>
       </form>
     </main>
-
-
 
     <script type="text/template" id="private-chat">
       <li class="chat">

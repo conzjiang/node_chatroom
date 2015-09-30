@@ -1,0 +1,127 @@
+/* Chats container */
+.all-chats {
+  position: relative;
+  left: 50%;
+  margin-left: -180px;
+
+  width: 50%;
+  transition: left 1s;
+}
+
+.all-chats > li {
+  float: left;
+}
+
+.all-chats > li:not(.main-chat) {
+  width: 360px;
+  margin: 0 15px;
+}
+
+.all-chats > li:not(.active) {
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.all-chats > li:not(.active):hover {
+  opacity: 0.7;
+}
+
+/* Chats */
+.chatroom {
+  overflow: auto;
+}
+
+.chatroom p {
+  line-height: 1.2;
+}
+
+.chatroom p:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.chatroom strong {
+  font-weight: 600;
+}
+
+.message-input {
+  height: 20px;
+  background: #eee;
+}
+
+/* Main chat */
+.main-chat > form {
+  float: left;
+}
+
+.main-chatroom {
+  width: 300px;
+  height: 300px;
+  padding: 30px;
+  background: lightblue;
+}
+
+.main-input {
+  width: 330px;
+  padding: 15px;
+}
+
+/* Chatters */
+.chatters {
+  position: relative;
+  top: 30px;
+  float: left;
+  min-width: 100px;
+  padding: 10px 15px;
+  background: #eee;
+}
+
+.chatters > li {
+  margin: 5px 0;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.chatters > li:not(.me):hover {
+  background: lightgreen;
+}
+
+.chatters > li.me {
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Private chats */
+.private-chat {
+  width: 280px;
+  margin: 50px auto;
+}
+
+.private-chat > h2 {
+  position: relative;
+  font-size: 36px;
+  line-height: 1;
+  background: lavender;
+}
+
+.x {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 20px;
+  opacity: 0.5;
+}
+
+.x:hover {
+  opacity: 1;
+}
+
+.private-chatroom {
+  padding: 15px;
+  height: 200px;
+  background: pink;
+}
+
+.private-input {
+  width: calc(100% - 20px);
+  padding: 10px;
+}
