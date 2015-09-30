@@ -2,10 +2,10 @@ HelloWorldChat.Views.NicknameForm = HelloWorldChat.View.extend({
   initialize: function (options) {
     this.socket = options.socket;
 
-    this.listenToOnce(this.socket, 'connected', this.fillInTempNick);
-    this.listenToOnce(this.socket, 'enterRoom', this.enterRoom);
-    this.listenTo(this.socket, 'error', this.renderError);
-    this.listenTo(this.socket, 'success', this.success);
+    this.listenForOnce('connected', this.fillInTempNick);
+    this.listenForOnce('enterRoom', this.enterRoom);
+    this.listenFor('error', this.renderError);
+    this.listenFor('success', this.success);
   },
 
   events: {

@@ -5,8 +5,8 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
 
     this.initializeViews();
 
-    this.listenTo(this.socket, 'change:nickname', this.changeNickname);
-    this.listenTo(this.socket, 'success', this.clearModal);
+    this.listenFor('change:nickname', this.changeNickname);
+    this.listenFor('success', this.clearModal);
 
     this.listenToOnce(this.nicknameForm, 'enteredRoom', this.fadeOutModal);
   },
