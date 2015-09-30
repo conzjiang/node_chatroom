@@ -1,13 +1,17 @@
 HelloWorldChat.Views.NicknameForm = Backbone.View.extend({
   initialize: function (options) {
     this.socket = options.socket;
-    this.listenTo(this.socket, "change:nickname", this.changeNickname);
+    this.listenTo(this.socket, 'connected', this.fillInTempNick);
   },
 
   events: {
     "submit form": "submitNickname",
     "click #header-modal": "submitNickname",
     "dblclick h1": "editNickname"
+  },
+
+  fillInTempNick: function (tempNick) {
+    this.$('input').val(tempNick).focus().select();
   },
 
   submitNickname: function (event) {

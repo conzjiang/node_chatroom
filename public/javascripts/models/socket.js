@@ -2,6 +2,15 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
   initialize: function (options) {
     this.socket = options.socket;
     this.lastKeypress = Date.now();
+
+    this.beginListening();
+  },
+
+  beginListening: function () {
+    this.listenFor('connected', function (data) {
+      this.id = data.id;
+      this.trigger('connected', data.tempNick);
+    });
   },
 
   emit: function (event, data) {

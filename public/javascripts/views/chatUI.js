@@ -8,7 +8,8 @@ HelloWorldChat.Views.ChatUI = Backbone.View.extend({
 
   initializeViews: function () {
     new HelloWorldChat.Views.NicknameForm({
-      el: '#nickname-form'
+      el: '#nickname-form',
+      socket: this.socket
     });
   }
 });
