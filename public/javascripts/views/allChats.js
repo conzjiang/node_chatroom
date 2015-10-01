@@ -1,13 +1,10 @@
-HelloWorldChat.Views.AllChats = Backbone.View.extend({
+HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
   initialize: function () {
-    this.mainChatView = new HelloWorldChat.Views.MainChat({
-      el: this.$el.find("li.main-chat")
-    });
+    this.$el.carousel();
+    this.privateChats = {};
 
-    this.privateChatViews = [];
-    this.listenTo(HelloWorldChat.socket, "newChat", this.createNewChat);
-    this.listenTo(HelloWorldChat.socket, "remove", this.removeChat);
-    this.listenTo(HelloWorldChat.socket, "guestLeft", this.removeGuest);
+    this.initializeViews();
+    this.listenFor('privateChat', this.getChat);
   },
 
   events: {
@@ -15,19 +12,46 @@ HelloWorldChat.Views.AllChats = Backbone.View.extend({
     "click li.chat": "switchChat"
   },
 
-  createNewChat: function (id, nickname) {
-    this.$el.css({ width: "+=500px" });
-
-    var view = new HelloWorldChat.Views.PrivateChat({
-      chatId: id,
-      nickname: nickname
+  initializeViews: function () {
+    this.mainChatView = new HelloWorldChat.Views.MainChat({
+      el: '.main-chat'
     });
 
-    this.$el.append(view.render().$el);
-    this.privateChatViews.push(view);
+    new HelloWorldChat.Views.Chatters({
+      el: '.chatters'
+    });
+  },
 
-    HelloWorldChat.$chatCarousel.updateItems();
-    HelloWorldChat.$chatCarousel.scrollTo(this.$el.children().length - 1);
+  getChat: function (socket) {
+    if (this.privateChats[socket.id]) {
+      this.goToChat(socket.id);
+    } else {
+      this.createNewChat(socket);
+    }
+  },
+
+  goToChat: function (id) {
+
+  },
+
+  createNewChat: function (socket) {
+    this.$el.css({ width: '+=390px' });
+
+    var chat = new HelloWorldChat.Views.PrivateChat({
+      chatId: socket.id,
+      nickname: socket.nickname
+    });
+
+    this.$el.append(view.$el);
+    view.render();
+
+    this.storeChat(socket, chat);
+    this.scrollTo()
+  },
+
+  storeChat: function (socket, chat) {
+    this.privateChats[socket.id] = chat;
+    this.$el.addKey(socket.id);
   },
 
   removeChat: function (id, active) {

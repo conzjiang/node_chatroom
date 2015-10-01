@@ -5,6 +5,10 @@ HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
     this.listenFor('guestLeft', this.removeFromList);
   },
 
+  events: {
+    'click li': 'beginPrivateChat'
+  },
+
   template: _.template('\
     <li class="<%= guest.id %>"><%= guest.nickname %></li>'),
 
@@ -33,5 +37,12 @@ HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
 
   removeFromList: function (guest) {
     this.$('.' + guest.id).remove();
+  },
+
+  beginPrivateChat: function (e) {
+    this.socket.beginPrivateChat({
+      id: $(e.currentTarget).data('id'),
+      nickname: $(e.currentTarget).text()
+    });
   }
 });

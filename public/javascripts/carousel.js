@@ -1,64 +1,51 @@
-$.Carousel = function ($el) {
-  this.$el = $el;
-  this.$items = this.$el.children();
-  this.activeIdx = 0;
+(function (root) {
+  $.Carousel = function (el) {
+    this.$el = $(el);
+    this.activeIdx = 0;
+  };
 
-  this.$buttons = $(this.$el.data("controls"));
+  var PRIVATE_CHAT_WIDTH = 390;
+  var MAIN_CHAT_WIDTH = 505;
 
-  this.$buttons.on("click", ".left", this.slideLeft.bind(this));
-  this.$buttons.on("click", ".right", this.slideRight.bind(this));
-};
+  $.Carousel.prototype.slideLeft = function (e) {
+    this.slide(1);
+  };
 
-var setButtons = function (carousel) {
-  this.$buttons.children().each(function () {
-    $(this).removeClass("inactive");
-  });
+  $.Carousel.prototype.slideRight = function (e) {
+    this.slide(-1);
+  };
 
-  if (carousel.activeIdx === 0) {
-    this.$buttons.find(".right").addClass("inactive");
-  }
+  $.Carousel.prototype.slide = function (dir) {
+    var leftShift, $items, $currentItem, $nextItem, operator;
 
-  if (carousel.activeIdx === carousel.$items.length - 1) {
-    this.$buttons.find(".left").addClass("inactive");
-  }
-};
+    if (this.activeIdx === 0 || this.activeIdx + dir === 0) {
+      leftShift = MAIN_CHAT_WIDTH;
+    } else {
+      leftShift = PRIVATE_CHAT_WIDTH;
+    }
 
-$.Carousel.prototype.slide = function (dir) {
-  var operator = dir < 0 ? "+" : "-";
-  var $currentItem = this.$items.eq(this.activeIdx);
-  var leftPos, $nextItem;
+    $items = this.$el.children();
+    $currentItem = $items.eq(this.activeIdx);
+    this.activeIdx = (this.activeIdx + dir + $items.length) % $items.length;
+    $nextItem = $items.eq(this.activeIdx);
+    operator = dir < 0 ? "+" : "-";
 
-  this.activeIdx =
-    (this.activeIdx + dir + this.$items.length) % this.$items.length;
+    this.$el.css({
+      left: operator + '=' + leftShift + 'px'
+    });
 
-  $nextItem = this.$items.eq(this.activeIdx);
-  leftPos = Math.abs(dir) * 400;
-  if ($currentItem.hasClass("main-chat") || $nextItem.hasClass("main-chat")) {
-    leftPos += 200;
-  }
+    $currentItem.removeClass('active');
+    $nextItem.addClass('active');
+  };
 
-  this.$el.animate({ "margin-left": operator + "=" + leftPos + "px" });
-  $nextItem.addClass("active");
-  $currentItem.removeClass("active");
-  setButtons(this);
-};
+  $.Carousel.prototype.scrollTo = function (index) {
+    this.slide(index - this.activeIdx);
+  };
 
-$.Carousel.prototype.slideLeft = function (e) {
-  if (!$(e.currentTarget).hasClass("inactive")) { this.slide(1); }
-};
+  $.fn.carousel = function () {
+    return this.each(function () {
+      new $.Carousel(this);
+    });
+  };
 
-$.Carousel.prototype.slideRight = function (e) {
-  if (!$(e.currentTarget).hasClass("inactive")) { this.slide(-1); }
-};
-
-$.Carousel.prototype.updateItems = function () {
-  this.$items = this.$el.children();
-};
-
-$.Carousel.prototype.scrollTo = function (index) {
-  this.slide(index - this.activeIdx);
-};
-
-$.fn.carousel = function () {
-  return new $.Carousel($(this));
-};
+})(window);

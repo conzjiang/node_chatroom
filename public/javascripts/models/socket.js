@@ -68,6 +68,10 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
     }
   },
 
+  beginPrivateChat: function (socket) {
+    this.trigger('privateChat', socket);
+  },
+
   type: function (id) {
     var oneSecondAgo = Date.now() - 1000;
 

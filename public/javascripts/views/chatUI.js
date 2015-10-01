@@ -1,7 +1,5 @@
 HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
   initialize: function (options) {
-    this.$chatCarousel = options.$chatCarousel;
-
     this.initializeViews();
 
     this.listenFor('change:nickname', this.changeNickname);
@@ -21,12 +19,8 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
 
     this.$el.append(this.nicknameForm.$el);
 
-    new HelloWorldChat.Views.Chatters({
-      el: '.chatters'
-    });
-
-    new HelloWorldChat.Views.MainChat({
-      el: '.main-chat'
+    new HelloWorldChat.Views.ChatCarousel({
+      el: '.all-chats'
     });
   },
 

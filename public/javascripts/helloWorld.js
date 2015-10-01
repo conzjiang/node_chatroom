@@ -9,8 +9,7 @@ window.HelloWorldChat = {
     HelloWorldChat.View.assignSocket(socket);
 
     new HelloWorldChat.Views.ChatUI({
-      el: options.rootEl,
-      $chatCarousel: $(".all-chats").carousel()
+      el: options.rootEl
     });
   }
 };

@@ -39,7 +39,7 @@ button.nav:not(.inactive):hover {
   color: pink;
 }
 
-button.inactive {
+button:disabled {
   color: #ccc;
   cursor: default;
 }
