@@ -1,11 +1,26 @@
 (function (root) {
+  var PRIVATE_CHAT_WIDTH = 390;
+  var MAIN_CHAT_WIDTH = 505;
+  var CAROUSEL_HELPERS = {
+    items: [],
+
+    addKey: function (key) {
+      this.items.push(key);
+    },
+
+    scrollTo: function (key) {
+      this.$carousel.scrollTo(this.items.indexOf(key));
+    },
+
+    removeKey: function (key) {
+      this.items.splice(this.items.indexOf(key), 1);
+    }
+  };
+
   $.Carousel = function (el) {
     this.$el = $(el);
     this.activeIdx = 0;
   };
-
-  var PRIVATE_CHAT_WIDTH = 390;
-  var MAIN_CHAT_WIDTH = 505;
 
   $.Carousel.prototype.slideLeft = function (e) {
     this.slide(1);
@@ -43,8 +58,11 @@
   };
 
   $.fn.carousel = function () {
+    var that = this;
+    $.extend(this, CAROUSEL_HELPERS);
+
     return this.each(function () {
-      new $.Carousel(this);
+      that.$carousel = new $.Carousel(this);
     });
   };
 

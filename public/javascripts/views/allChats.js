@@ -1,6 +1,7 @@
 HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
   initialize: function () {
     this.$el.carousel();
+    this.$el.addKey(null); // main chat is first item in carousel
     this.privateChats = {};
 
     this.initializeViews();
