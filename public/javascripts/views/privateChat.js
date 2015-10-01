@@ -5,12 +5,15 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.lastKeypress = Date.now();
 
     this.listenFor('privateMessage', this.appendMessage);
+    this.listenFor('isTyping:' + this.chatId, this.showTyping);
+    this.listenFor('stoppedTyping:' + this.chatId, this.stopTyping);
   },
 
   events: {
     'transitionend': 'focus',
     'click .x': 'closeChat',
-    'click': 'go'
+    'click': 'go',
+    'keydown': 'type'
   },
 
   tagName: 'li',
@@ -27,8 +30,9 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     return this;
   },
 
-  focus: function () {
-    this.$input.focus();
+  appendMessage: function () {
+    this.stopTyping();
+    HelloWorldChat.Views.Chat.prototype.appendMessage.apply(this, arguments);
   },
 
   closeChat: function () {
@@ -41,15 +45,29 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.trigger('go', this.chatId);
   },
 
-  type: function () {
-    HelloWorldChat.socket.type(this.chatId);
+  type: function (id) {
+    if (this.typing || this.lastKeypress > HWCConstants.ONE_SECOND_AGO()) {
+      return;
+    }
+
+    this.lastKeypress = Date.now();
+    this.socket.type(this.chatId);
+    this.typing = setInterval(this.checkStopTyping.bind(this), 1000);
   },
 
-  showTyping: function (data) {
-    this.appendToChat("<p class='typing notif'>" + data.nickname + " is typing</p>");
+  checkStopTyping: function () {
+    if (this.lastKeypress > HWCConstants.ONE_SECOND_AGO()) { return; }
+
+    this.socket.stopTyping(this.chatId);
+    clearInterval(this.typing);
+    this.typing = null;
+  },
+
+  showTyping: function () {
+    this.notify(this.nickname + ' is typing', { className: 'typing' });
   },
 
   stopTyping: function () {
-    this.$chat.find(".typing").remove();
+    this.$(".typing").remove();
   }
 });

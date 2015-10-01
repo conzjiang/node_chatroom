@@ -30,6 +30,16 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
       this.set('nickname', data.nickname);
       this.trigger('success');
     });
+
+    this.listenFor('privateMessage');
+
+    this.listenFor('isTyping', function (data) {
+      this.trigger('isTyping:' + data.id);
+    });
+
+    this.listenFor('stoppedTyping', function (data) {
+      this.trigger('stoppedTyping:' + data.id);
+    });
   },
 
   broadcastedEvents: function () {
@@ -37,7 +47,6 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
     this.listenFor('newNickname');
     this.listenFor('guestLeft');
     this.listenFor('publicMessage');
-    this.listenFor('privateMessage');
   },
 
   emit: function (event, data) {
@@ -72,27 +81,11 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
     this.trigger('privateChat', socket);
   },
 
-  type: function (id) {
-    var oneSecondAgo = Date.now() - 1000;
+  type: function (receiverId) {
+    this.emit('typing', { receiverId: receiverId });
+  },
 
-    if (this.lastKeypress < oneSecondAgo) {
-      this.lastKeypress = Date.now();
-
-      if (!this.typingInterval) {
-        var that = this;
-        this.emit("typing", { receiverId: id });
-        this.typingInterval = setInterval(stopTyping, 1000);
-
-        function stopTyping() {
-          var oneSecondAgo = Date.now() - 1000;
-
-          if (that.lastKeypress < oneSecondAgo) {
-            that.emit("stopTyping", { receiverId: id });
-            clearInterval(that.typingInterval);
-            that.typingInterval = null;
-          }
-        };
-      }
-    }
+  stopTyping: function (receiverId) {
+    this.emit('stopTyping', { receiverId: receiverId });
   }
 });

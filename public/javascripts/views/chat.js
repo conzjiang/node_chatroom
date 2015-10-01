@@ -11,9 +11,26 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
     "keydown .message-input": "sendMessage"
   },
 
+  focus: function () {
+    this.$input.focus();
+  },
+
   appendToChat: function (content) {
     this.$chat.append(content);
     this.$chat.scrollToBottom();
+  },
+
+  notification: _.template('\
+    <p class="notification"><%= notification %></p>'),
+
+  notify: function (message, options) {
+    this.appendToChat(this.notification({
+      notification: message
+    }));
+
+    if (options) {
+      this.$('.notification').last().addClass(options.className);
+    }
   },
 
   sendMessage: function (e) {
@@ -40,8 +57,6 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
   },
 
   appendMessage: function (guest) {
-    this.$('.typing').remove();
-
     this.appendToChat(this.messageTemplate({
       guest: guest
     }));
