@@ -47,12 +47,16 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
     view.render();
 
     this.storeChat(socket, chat);
-    this.scrollTo()
+    this.scrollTo(socket.id);
   },
 
   storeChat: function (socket, chat) {
     this.privateChats[socket.id] = chat;
     this.$el.addKey(socket.id);
+  },
+
+  scrollTo: function (id) {
+    this.$el.scrollTo(id);
   },
 
   removeChat: function (id, active) {

@@ -17,9 +17,14 @@
     }
   };
 
-  $.Carousel = function (el) {
-    this.$el = $(el);
+  $.Carousel = function ($el) {
+    this.$el = $el;
+    this.$left = $(this.$el.data('left-button'));
+    this.$right = $(this.$el.data('right-button'));
     this.activeIdx = 0;
+
+    this.$left.on('click', this.slideLeft.bind(this));
+    this.$right.on('click', this.slideRight.bind(this));
   };
 
   $.Carousel.prototype.slideLeft = function (e) {
@@ -51,6 +56,12 @@
 
     $currentItem.removeClass('active');
     $nextItem.addClass('active');
+    this.updateButtons();
+  };
+
+  $.Carousel.prototype.updateButtons = function () {
+    this.$left.prop('disabled', this.activeIdx === 0);
+    this.$right.prop('disabled', this.activeIdx === this.$el.items.length - 1);
   };
 
   $.Carousel.prototype.scrollTo = function (index) {
@@ -58,12 +69,10 @@
   };
 
   $.fn.carousel = function () {
-    var that = this;
     $.extend(this, CAROUSEL_HELPERS);
+    new $.Carousel(this);
 
-    return this.each(function () {
-      that.$carousel = new $.Carousel(this);
-    });
+    return this;
   };
 
 })(window);
