@@ -32,10 +32,6 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     new HelloWorldChat.Views.MainChat({
       el: '.main-chat'
     });
-
-    this.helpView = new HelloWorldChat.Views.HelpView({
-      el: '.help-info'
-    });
   },
 
   changeNickname: function () {
@@ -47,13 +43,13 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
   },
 
   openHelp: function () {
-    this.openModal();
-    this.helpView.open();
-    this.$('#modal').one('click', this.closeHelp.bind(this));
-  },
+    var helpView = new HelloWorldChat.Views.HelpView({
+      contentTemplate: '#help-info-template',
+      content: '.help-info'
+    });
 
-  closeHelp: function () {
-    this.helpView.close();
+    this.$el.append(helpView.$el);
+    helpView.render();
   }
 });
 

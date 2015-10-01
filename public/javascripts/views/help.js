@@ -1,27 +1,27 @@
-HelloWorldChat.Views.HelpView = HelloWorldChat.View.extend({
-  initialize: function () {
-    this.stopListening();
+HelloWorldChat.Views.HelpView = HelloWorldChat.ModalView.extend({
+  initialize: function (options) {
+    this._setContent(options);
   },
 
   events: {
-    "click .x": "close"
+    'click .x': 'close',
+    'click #modal': 'close'
   },
 
-  open: function () {
-    this.delegateEvents();
-    this.$el.addClass('show');
+  render: function () {
+    this.openCover();
 
     setTimeout(function () {
-      this.$el.addClass('enter');
+      this.$content.addClass('enter');
     }.bind(this), 0);
+
+    return this;
   },
 
   close: function () {
-    this.stopListening();
-    this.$el.addClass('leave');
+    this.$content.addClass('leave');
+    this.fadeOutCover();
 
-    this.$el.one('transitionend', function () {
-      $(this).removeClass('show enter leave');
-    });
+    this.$content.one('transitionend', this.remove.bind(this));
   }
 });
