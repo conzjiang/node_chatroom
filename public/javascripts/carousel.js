@@ -9,12 +9,20 @@
       this.items.push(key);
     },
 
+    hasKey: function (key) {
+      return this.indexOf(key) !== -1;
+    },
+
     scrollTo: function (key) {
-      this.$carousel.scrollTo(this.items.indexOf(key));
+      this.$carousel.scrollTo(this.indexOf(key));
     },
 
     removeKey: function (key) {
-      this.items.splice(this.items.indexOf(key), 1);
+      this.items.splice(this.indexOf(key), 1);
+    },
+
+    indexOf: function (key) {
+      return this.items.indexOf(key);
     }
   };
 

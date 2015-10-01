@@ -10,7 +10,8 @@ HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
   },
 
   template: _.template('\
-    <li class="<%= guest.id %>"><%= guest.nickname %></li>'),
+    <li class="<%= guest.id %>" data-id="<%= guest.id %>">\
+      <%= guest.nickname %></li>'),
 
   render: function (nicknames) {
     this.$el.empty();

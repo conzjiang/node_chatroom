@@ -3,8 +3,6 @@
   position: relative;
   left: 50%;
   margin-left: -180px;
-
-  min-width: 50%;
   transition: left 1s;
 }
 

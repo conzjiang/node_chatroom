@@ -29,9 +29,12 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.$input.focus();
   },
 
-  closeChat: function (e) {
-    e.stopPropagation();
-    HelloWorldChat.socket.trigger("remove", this.chatId, true);
+  closeChat: function () {
+    this.trigger('end', this);
+  },
+
+  isActive: function () {
+    return this.$el.hasClass('active');
   },
 
   type: function () {
