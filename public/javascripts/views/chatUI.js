@@ -13,10 +13,6 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     'click .help-button': 'openHelp',
   },
 
-  editNickname: function () {
-    this.nicknameForm.edit();
-  },
-
   initializeViews: function () {
     this.nicknameForm = new HelloWorldChat.Views.NicknameForm({
       contentTemplate: '#nickname-form-template',
@@ -42,6 +38,10 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     this.$('.' + guest.id).text(guest.nickname);
   },
 
+  editNickname: function () {
+    this.nicknameForm.edit();
+  },
+
   openHelp: function () {
     var helpView = new HelloWorldChat.Views.HelpView({
       contentTemplate: '#help-info-template',
@@ -53,26 +53,6 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
   }
 });
 
-
-
-// (function (root) {
-//   var HelloWorldChat = root.HelloWorldChat = (root.HelloWorldChat || {});
-//
-//   var ChatUI = HelloWorldChat.ChatUI = function () {
-//     this.socket = HelloWorldChat.socket.socket;
-//     this.$chatCarousel = HelloWorldChat.$chatCarousel;
-//     this.nicknames = {};
-//
-//     this.initializeViews();
-//     this.bindEvents();
-//   };
-//
-//   ChatUI.prototype.initializeViews = function () {
-//     this.topBarView = new HelloWorldChat.Views.TopBar({ el: $("header") });
-//     this.allChatsView = new HelloWorldChat.Views.AllChats({ el: $("ul.all-chats") });
-//     this.mainChatView = this.allChatsView.mainChatView;
-//     this.footerView = new HelloWorldChat.Views.Help({ el: $('footer') });
-//   };
 //
 //   ChatUI.prototype.bindEvents = function () {
 //     var ui = this;
@@ -86,18 +66,6 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
 //   ChatUI.prototype.displayMessages = function () {
 //     var ui = this;
 //
-//     this.socket.on("newGuest", function (data) {
-//       var guest = ui.nicknames[data.id] = data.nickname;
-//       HelloWorldChat.socket.trigger("newGuest", guest);
-//     });
-//
-//     this.socket.on("sendMessage", function (data) {
-//       HelloWorldChat.socket.trigger("newMessage", {
-//         id: data.senderId,
-//         nickname: ui.nicknames[data.senderId],
-//         message: data.text
-//       });
-//     });
 //
 //     this.socket.on("sendPrivateMessage", function (data) {
 //       var isSelf = ui.isSelf(data.senderId);
