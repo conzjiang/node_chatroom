@@ -44,5 +44,9 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
     this.appendToChat(this.template({
       guest: guest
     }));
+  },
+
+  isActive: function () {
+    return this.$el.hasClass('active');
   }
 });

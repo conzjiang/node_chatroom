@@ -6,9 +6,9 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
   },
 
   events: {
-    "transitionend": "focus",
-    "click .x": "closeChat",
-    "keypress form": "type"
+    'transitionend': 'focus',
+    'click .x': 'closeChat',
+    'click': 'go'
   },
 
   tagName: 'li',
@@ -33,8 +33,10 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.trigger('end', this);
   },
 
-  isActive: function () {
-    return this.$el.hasClass('active');
+  go: function () {
+    if (this.isActive()) { return; }
+
+    this.trigger('go', this.chatId);
   },
 
   type: function () {

@@ -26,7 +26,7 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
   },
 
   goToChat: function (id) {
-
+    this.scrollTo(id);
   },
 
   createNewChat: function (socket) {
@@ -46,6 +46,8 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
 
   storeChat: function (socket, chat) {
     this.$el.addKey(socket.id);
+
+    this.listenTo(chat, 'go', this.goToChat);
     this.listenToOnce(chat, 'end', this.removeChat);
   },
 
