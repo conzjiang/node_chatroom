@@ -13,7 +13,7 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     'transitionend': 'focus',
     'click .x': 'closeChat',
     'click': 'go',
-    'keydown': 'type'
+    'keypress': 'type'
   },
 
   tagName: 'li',
@@ -69,5 +69,10 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
 
   stopTyping: function () {
     this.$(".typing").remove();
+  },
+
+  disconnect: function () {
+    this.$el.html('<strong class="disconnect">' +
+      this.nickname + ' has left the building</strong>');
   }
 });

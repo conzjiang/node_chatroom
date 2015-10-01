@@ -2,10 +2,12 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
   initialize: function () {
     this.$el.carousel();
     this.$el.addKey(null); // main chat is first item in carousel
+    this.chats = {};
 
     this.initializeViews();
     this.listenFor('privateChat', this.getChat);
     this.listenFor('privateMessage', this.newPrivateMessage);
+    this.listenFor('guestLeft', this.maybeRemoveChat);
   },
 
   initializeViews: function () {
@@ -19,7 +21,7 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
   },
 
   getChat: function (socket) {
-    if (this.$el.hasKey(socket.id)) {
+    if (this.chats[socket.id]) {
       this.goToChat(socket.id);
     } else {
       this.createNewChat(socket);
@@ -47,6 +49,7 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
 
   storeChat: function (socket, chat) {
     this.$el.addKey(socket.id);
+    this.chats[socket.id] = chat;
 
     this.listenTo(chat, 'go', this.goToChat);
     this.listenToOnce(chat, 'end', this.removeChat);
@@ -67,10 +70,20 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
 
   removeChat: function (chat) {
     chat.remove();
+    delete this.chats[chat.chatId];
     this.$el.removeKey(chat.chatId);
 
     if (chat.isActive()) {
       this.scrollTo(null);
+    }
+  },
+
+  maybeRemoveChat: function (socket) {
+    var chat;
+
+    if (chat = this.chats[socket.id]) {
+      chat.disconnect();
+      setTimeout(this.removeChat.bind(this, chat), 2000);
     }
   }
 });

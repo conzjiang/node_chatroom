@@ -152,3 +152,10 @@
 .active .private-input {
   top: 0;
 }
+
+.disconnect {
+  display: block;
+  margin-top: 50px;
+  text-align: center;
+  font-size: 36px;
+}
