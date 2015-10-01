@@ -26,12 +26,17 @@ button.nav {
   opacity: 0.5;
 }
 
+button.left,
+button.right {
+  color: lightgreen;
+}
+
 button.nav:nth-child(2) {
   margin-left: 5px;
   margin-right: 3px;
 }
 
-button.nav:not(.inactive):hover {
+button.nav:not(:disabled):hover {
   opacity: 1;
 }
 

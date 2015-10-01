@@ -1,4 +1,11 @@
 HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
+  _setup: function () {
+    this.$chat = this.$('.chatroom');
+    this.$input = this.$('.message-input');
+
+    _.extend(this.events, HelloWorldChat.Views.Chat.prototype.events);
+  },
+
   events: {
     "keydown .message-input": "sendMessage"
   },

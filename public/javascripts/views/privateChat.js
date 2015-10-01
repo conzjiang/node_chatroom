@@ -3,28 +3,30 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.chatId = options.chatId;
     this.nickname = options.nickname;
     this.lastKeypress = Date.now();
-    this.typingInterval;
-
-    this.$el.data("id", this.chatId);
-    this.listenTo(HelloWorldChat.socket, this.chatId, this.appendMessage);
-    this.listenTo(HelloWorldChat.socket, this.chatId + "typing", this.showTyping);
-    this.listenTo(HelloWorldChat.socket, this.chatId + "doneTyping", this.stopTyping);
-
-    _.extend(this.events, HelloWorldChat.Views.Chat.prototype.events);
   },
 
-  tagName: "li",
-
-  className: "chat",
-
   events: {
-    "transitionend": "focusTextarea",
+    "transitionend": "focus",
     "click .x": "closeChat",
     "keypress form": "type"
   },
 
-  focusTextarea: function () {
-    this.$("textarea").focus();
+  tagName: 'li',
+  className: 'chat',
+
+  template: function (options) {
+    return _.template($('#private-chat-template').html())(options);
+  },
+
+  render: function () {
+    this.$el.html(this.template({ nickname: this.nickname }));
+    this._setup();
+
+    return this;
+  },
+
+  focus: function () {
+    this.$input.focus();
   },
 
   closeChat: function (e) {
@@ -42,14 +44,5 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
 
   stopTyping: function () {
     this.$chat.find(".typing").remove();
-  },
-
-  render: function () {
-    var privateChat = _.template($("#private-chat").html());
-    var content = privateChat({ id: this.chatId, nickname: this.nickname });
-    this.$el.append(content);
-    this.$chat = this.$(".convo");
-
-    return this;
   }
 });

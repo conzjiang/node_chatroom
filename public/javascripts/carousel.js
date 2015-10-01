@@ -24,8 +24,8 @@
     this.$right = $(this.$el.data('right-button'));
     this.activeIdx = 0;
 
-    this.$left.on('click', this.slideLeft.bind(this));
-    this.$right.on('click', this.slideRight.bind(this));
+    this.$left.on('click', this.slideRight.bind(this));
+    this.$right.on('click', this.slideLeft.bind(this));
   };
 
   $.Carousel.prototype.slideLeft = function (e) {

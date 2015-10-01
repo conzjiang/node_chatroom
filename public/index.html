@@ -6,8 +6,9 @@
     <script src="vendor/javascripts/underscore.js"></script>
     <script src="vendor/javascripts/backbone.js"></script>
     <script src="javascripts/utils.js"></script>
-    <script src="javascripts/carousel.js"></script>
     <script src="javascripts/helloWorld.js"></script>
+    <script src="javascripts/constants.js"></script>
+    <script src="javascripts/carousel.js"></script>
     <script src="javascripts/models/socket.js"></script>
     <script src="javascripts/views/modal.js"></script>
     <script src="javascripts/views/nicknameForm.js"></script>
@@ -80,16 +81,14 @@
     </script>
 
     <script type="text/template" id="private-chat-template">
-      <li class="chat">
-        <form id="message-form" class="private-chat">
-          <h2>
-            <%= nickname %>
-            <button type="button" class="x fa fa-times"></button>
-          </h2>
-          <article class="chatroom private-chatroom"></article>
-          <textarea class="message-input private-input"></textarea>
-        </form>
-      </li>
+      <form id="message-form" class="private-chat">
+        <h2>
+          <%= nickname %>
+          <button type="button" class="x fa fa-times"></button>
+        </h2>
+        <article class="chatroom private-chatroom"></article>
+        <textarea class="message-input private-input"></textarea>
+      </form>
     </script>
 
     <script>

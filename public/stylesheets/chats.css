@@ -4,7 +4,7 @@
   left: 50%;
   margin-left: -180px;
 
-  width: 50%;
+  min-width: 50%;
   transition: left 1s;
 }
 
@@ -112,6 +112,8 @@
 
 .private-chat > h2 {
   position: relative;
+  z-index: 2;
+
   font-size: 36px;
   line-height: 1;
   background: lavender;
@@ -132,6 +134,7 @@
 .private-chatroom {
   position: relative;
   z-index: 1;
+
   padding: 15px;
   height: 200px;
   background: pink;

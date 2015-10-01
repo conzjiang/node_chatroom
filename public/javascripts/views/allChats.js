@@ -8,11 +8,6 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
     this.listenFor('privateChat', this.getChat);
   },
 
-  events: {
-    "click li.nickname": "newPrivateChat",
-    "click li.chat": "switchChat"
-  },
-
   initializeViews: function () {
     this.mainChatView = new HelloWorldChat.Views.MainChat({
       el: '.main-chat'
@@ -36,15 +31,15 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
   },
 
   createNewChat: function (socket) {
-    this.$el.css({ width: '+=390px' });
+    this.$el.css({ width: '+=' + HWCConstants.PRIVATE_CHAT_WIDTH + 'px' });
 
     var chat = new HelloWorldChat.Views.PrivateChat({
       chatId: socket.id,
       nickname: socket.nickname
     });
 
-    this.$el.append(view.$el);
-    view.render();
+    this.$el.append(chat.$el);
+    chat.render();
 
     this.storeChat(socket, chat);
     this.scrollTo(socket.id);
