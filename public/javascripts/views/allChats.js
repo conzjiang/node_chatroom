@@ -10,6 +10,11 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
     this.listenFor('guestLeft', this.maybeRemoveChat);
   },
 
+  events: {
+    'click .chat': 'go',
+    'click .x': 'closeChat'
+  },
+
   initializeViews: function () {
     this.mainChatView = new HelloWorldChat.Views.MainChat({
       el: '.main-chat'
@@ -50,9 +55,6 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
   storeChat: function (socket, chat) {
     this.$el.addKey(socket.id);
     this.chats[socket.id] = chat;
-
-    this.listenTo(chat, 'go', this.goToChat);
-    this.listenToOnce(chat, 'end', this.removeChat);
   },
 
   scrollTo: function (id) {
@@ -68,16 +70,6 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
     });
   },
 
-  removeChat: function (chat) {
-    chat.remove();
-    delete this.chats[chat.chatId];
-    this.$el.removeKey(chat.chatId);
-
-    if (chat.isActive()) {
-      this.scrollTo(null);
-    }
-  },
-
   maybeRemoveChat: function (socket) {
     var chat;
 
@@ -85,5 +77,27 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
       chat.disconnect();
       setTimeout(this.removeChat.bind(this, chat), 2000);
     }
+  },
+
+  removeChat: function (id) {
+    var chat = this.chats[id];
+
+    chat.remove();
+    delete this.chats[id];
+    this.$el.removeKey(id);
+
+    if (chat.isActive()) {
+      this.scrollTo(null);
+    }
+  },
+
+  go: function (e) {
+    if ($(e.currentTarget).hasClass('active')) { return; }
+    this.goToChat($(e.currentTarget).data('id') || null);
+  },
+
+  closeChat: function (e) {
+    var chatId = $(e.currentTarget).closest('.chat').data('id');
+    this.removeChat(chatId);
   }
 });

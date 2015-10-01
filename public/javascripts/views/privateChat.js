@@ -4,6 +4,8 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.nickname = options.nickname;
     this.lastKeypress = Date.now();
 
+    this.$el.data('id', this.chatId);
+
     this.listenFor('privateMessage:' + this.chatId, this.appendMessage);
     this.listenFor('isTyping:' + this.chatId, this.showTyping);
     this.listenFor('stoppedTyping:' + this.chatId, this.stopTyping);
@@ -11,8 +13,6 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
 
   events: {
     'transitionend': 'focus',
-    'click .x': 'closeChat',
-    'click': 'go',
     'keypress': 'type'
   },
 
@@ -37,16 +37,6 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
   appendMessage: function () {
     this.stopTyping();
     HelloWorldChat.Views.Chat.prototype.appendMessage.apply(this, arguments);
-  },
-
-  closeChat: function () {
-    this.trigger('end', this);
-  },
-
-  go: function () {
-    if (this.isActive()) { return; }
-
-    this.trigger('go', this.chatId);
   },
 
   type: function (id) {

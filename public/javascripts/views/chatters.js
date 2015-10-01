@@ -41,6 +41,9 @@ HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
   },
 
   beginPrivateChat: function (e) {
+    e.stopPropagation();
+    // triggers `click .chat` event in ChatCarousel
+
     if ($(e.currentTarget).hasClass('me')) { return; }
 
     this.socket.beginPrivateChat({
