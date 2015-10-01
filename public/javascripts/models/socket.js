@@ -31,7 +31,10 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
       this.trigger('success');
     });
 
-    this.listenFor('privateMessage');
+    this.listenFor('privateMessage', function (data) {
+      this.trigger('privateMessage', data);
+      this.message(data);
+    });
 
     this.listenFor('isTyping', function (data) {
       this.trigger('isTyping:' + data.id);
@@ -40,6 +43,10 @@ HelloWorldChat.Models.Socket = Backbone.Model.extend({
     this.listenFor('stoppedTyping', function (data) {
       this.trigger('stoppedTyping:' + data.id);
     });
+  },
+
+  message: function (data) {
+    this.trigger('privateMessage:' + data.chatId, data);
   },
 
   broadcastedEvents: function () {

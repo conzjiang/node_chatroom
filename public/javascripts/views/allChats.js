@@ -5,6 +5,7 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
 
     this.initializeViews();
     this.listenFor('privateChat', this.getChat);
+    this.listenFor('privateMessage', this.newPrivateMessage);
   },
 
   initializeViews: function () {
@@ -53,6 +54,17 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
 
   scrollTo: function (id) {
     this.$el.scrollTo(id);
+  },
+
+  newPrivateMessage: function (data) {
+    if (this.$el.hasKey(data.chatId)) { return; }
+
+    this.createNewChat({
+      id: data.receiverId,
+      nickname: data.nickname
+    });
+
+    this.socket.message(data);
   },
 
   removeChat: function (chat) {

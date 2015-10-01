@@ -4,7 +4,7 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.nickname = options.nickname;
     this.lastKeypress = Date.now();
 
-    this.listenFor('privateMessage', this.appendMessage);
+    this.listenFor('privateMessage:' + this.chatId, this.appendMessage);
     this.listenFor('isTyping:' + this.chatId, this.showTyping);
     this.listenFor('stoppedTyping:' + this.chatId, this.stopTyping);
   },
