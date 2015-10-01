@@ -33,6 +33,7 @@ HelloWorldChat.Views.NicknameForm = HelloWorldChat.ModalView.extend({
 
   renderError: function (error) {
     this.$('.error').text(error);
+    this.$('input').focus().select();
   },
 
   enterRoom: function () {
