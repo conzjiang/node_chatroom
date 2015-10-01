@@ -1,6 +1,7 @@
 (function (root) {
-  var PRIVATE_CHAT_WIDTH = 390;
-  var MAIN_CHAT_WIDTH = 505;
+  var PRIVATE_CHAT_WIDTH = HWCConstants.PRIVATE_CHAT_WIDTH;
+  var MAIN_CHAT_WIDTH = HWCConstants.MAIN_CHAT_WIDTH;
+
   var CAROUSEL_HELPERS = {
     items: [],
 
@@ -70,7 +71,7 @@
 
   $.fn.carousel = function () {
     $.extend(this, CAROUSEL_HELPERS);
-    new $.Carousel(this);
+    this.$carousel = new $.Carousel(this);
 
     return this;
   };

@@ -27,7 +27,3 @@ HelloWorldChat.View = Backbone.View.extend({
 HelloWorldChat.View.assignSocket = function (socket) {
   this.prototype.socket = socket;
 };
-
-window.HWCConstants = {
-  ENTER: 13
-};
