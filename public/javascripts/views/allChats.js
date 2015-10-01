@@ -60,11 +60,9 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
     if (this.$el.hasKey(data.chatId)) { return; }
 
     this.createNewChat({
-      id: data.receiverId,
+      id: data.chatId,
       nickname: data.nickname
     });
-
-    this.socket.message(data);
   },
 
   removeChat: function (chat) {
