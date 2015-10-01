@@ -24,7 +24,11 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
   },
 
   render: function () {
-    this.$el.html(this.template({ nickname: this.nickname }));
+    this.$el.html(this.template({
+      id: this.chatId,
+      nickname: this.nickname
+    }));
+
     this._setup();
 
     return this;
