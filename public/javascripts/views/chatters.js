@@ -41,6 +41,8 @@ HelloWorldChat.Views.Chatters = HelloWorldChat.View.extend({
   },
 
   beginPrivateChat: function (e) {
+    if ($(e.currentTarget).hasClass('me')) { return; }
+
     this.socket.beginPrivateChat({
       id: $(e.currentTarget).data('id'),
       nickname: $(e.currentTarget).text()
