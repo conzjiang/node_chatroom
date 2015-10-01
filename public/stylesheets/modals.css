@@ -13,6 +13,7 @@
 
 .opaque {
   opacity: 1;
+  transition: opacity 1s;
 }
 
 .modal-cover.fade-out {
@@ -22,12 +23,16 @@
 /* Nickname form */
 .nickname-form {
   position: absolute;
-  top: 30%;
+  top: 21px;
   width: 100%;
   text-align: center;
   z-index: 200;
 
   transition: top 1s;
+}
+
+.nickname-form.initial {
+  top: 30%;
 }
 
 .nickname-form > h2 {
@@ -66,10 +71,6 @@
 
 .enter-room > input.fade-away {
   opacity: 0;
-}
-
-.nickname-form.entered {
-  top: 20px;
 }
 
 /* Help */

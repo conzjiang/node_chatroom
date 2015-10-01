@@ -8,10 +8,22 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     this.listenFor('newNickname', this.changeAll);
   },
 
+  events: {
+    'click #nickname': 'editNickname',
+    'click .help-button': 'openHelp',
+  },
+
+  editNickname: function () {
+    this.nicknameForm.edit();
+  },
+
   initializeViews: function () {
     this.nicknameForm = new HelloWorldChat.Views.NicknameForm({
-      el: '#nickname-form'
+      contentTemplate: '#nickname-form-template',
+      content: '#nickname-form'
     });
+
+    this.$el.append(this.nicknameForm.$el);
 
     new HelloWorldChat.Views.Chatters({
       el: '.chatters'
@@ -26,21 +38,8 @@ HelloWorldChat.Views.ChatUI = HelloWorldChat.View.extend({
     });
   },
 
-  events: {
-    'click #nickname': 'editNickname',
-    'click .help-button': 'openHelp',
-  },
-
   changeNickname: function () {
     this.$('#nickname').text(this.socket.get('nickname'));
-  },
-
-  _moveForm: function () {
-    this.$('.main-header').append(this.nicknameForm.$el);
-  },
-
-  editNickname: function () {
-    this.nicknameForm.edit();
   },
 
   changeAll: function (guest) {

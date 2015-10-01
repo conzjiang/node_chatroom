@@ -2,10 +2,12 @@ HelloWorldChat.ModalView = HelloWorldChat.View.extend({
   _ensureElement: function () {
     Backbone.View.prototype._ensureElement.call(this);
     this.$el.html($('#modal-template').html());
-    this.$el.append($(this.contentTemplate).html());
-
     this.$modal = this.$('#modal');
-    this.$content = this.$(this.contentTemplate);
+  },
+
+  _setContent: function (options) {
+    this.$el.append($(options.contentTemplate).html());
+    this.$content = this.$(options.content);
   },
 
   openCover: function () {
@@ -18,7 +20,7 @@ HelloWorldChat.ModalView = HelloWorldChat.View.extend({
     this.$modal.addClass('fade-out');
 
     this.$modal.one('transitionend', function () {
-      this.$modal.removeClass('fade-out opaque').addClass('hide');
+      this.$modal.removeClass('fade-out').addClass('hide');
 
       if (typeof callback === 'function') { callback(); }
     }.bind(this));
