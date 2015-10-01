@@ -3,6 +3,8 @@ HelloWorldChat.Views.PrivateChat = HelloWorldChat.Views.Chat.extend({
     this.chatId = options.chatId;
     this.nickname = options.nickname;
     this.lastKeypress = Date.now();
+
+    this.listenFor('privateMessage', this.appendMessage);
   },
 
   events: {

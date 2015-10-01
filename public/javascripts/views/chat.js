@@ -4,6 +4,7 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
     this.$input = this.$('.message-input');
 
     _.extend(this.events, HelloWorldChat.Views.Chat.prototype.events);
+    this.delegateEvents();
   },
 
   events: {
@@ -27,7 +28,7 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
     }
   },
 
-  template: function (options) {
+  messageTemplate: function (options) {
     var guest = options.guest;
     var $template = $("<p>");
     var $nickname = $("<strong>");
@@ -41,7 +42,7 @@ HelloWorldChat.Views.Chat = HelloWorldChat.View.extend({
   appendMessage: function (guest) {
     this.$('.typing').remove();
 
-    this.appendToChat(this.template({
+    this.appendToChat(this.messageTemplate({
       guest: guest
     }));
   },
