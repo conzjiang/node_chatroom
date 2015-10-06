@@ -75,7 +75,7 @@ HelloWorldChat.Views.ChatCarousel = HelloWorldChat.View.extend({
 
     if (chat = this.chats[socket.id]) {
       chat.disconnect();
-      setTimeout(this.removeChat.bind(this, chat), 2000);
+      setTimeout(this.removeChat.bind(this, socket.id), 2000);
     }
   },
 
